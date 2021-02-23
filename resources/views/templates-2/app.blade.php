@@ -303,7 +303,7 @@
                             </li>
                         </ul>
                     </li>
-                    <lia>
+                    <li>
                         <a href="javascript:;" class="side-menu">
                             <div class="side-menu__icon"> <i data-feather="trello"></i> </div>
                             <div class="side-menu__title"> Profile <i data-feather="chevron-down" class="side-menu__sub-icon"></i> </div>
@@ -328,7 +328,7 @@
                                 </a>
                             </li>
                         </ul>
-                    </lia>
+                    </li>
                     <li>
                         <a href="javascript:;" class="side-menu">
                             <div class="side-menu__icon"> <i data-feather="layout"></i> </div>
