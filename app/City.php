@@ -10,9 +10,6 @@ class City extends Model
     public    $incrementing = false;
     protected $primaryKey   = 'code';
     protected $fillable     = ['name', 'status', 'province_code', 'code'];
-    public const PROVINCE_CODE = '166800000';
-
-
 
      /**
      * The "booted" method of the model.

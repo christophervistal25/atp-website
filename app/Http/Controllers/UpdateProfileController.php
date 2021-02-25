@@ -15,9 +15,11 @@ class UpdateProfileController extends Controller
     public function edit()
     {
         $user = Auth::user();
+        
         $provinces = Cache::rememberForever('provinces', function () {
             return Province::get();
         });
+        
         $civil_status = PersonnelRepository::CIVIL_STATUS;
         return view('user.update-profile', compact('user', 'provinces', 'civil_status'));
     }

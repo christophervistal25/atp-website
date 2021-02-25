@@ -16,23 +16,6 @@ class PersonnelRepository
     public const GENDER = ['Male', 'Female'];
     public const CIVIL_STATUS = ['Single', 'Single Parent', 'Married', 'Separated', 'Widow', 'Widowed', 'Annuled'];
 
-    public static function generateQR(Person $person)
-    {
-        $renderer = new ImageRenderer(
-            new RendererStyle(400),
-            new ImagickImageBackEnd()
-        );
-
-        $QR_NAME = time() . '_' . md5(time() . '_' . $person->firstname) . '_qr.png';
-
-        $QR_CODE_PATH = storage_path('/app/public/qr_images/' . $QR_NAME);
-
-        $writer = new Writer($renderer);
-        $data = $writer->writeFile(self::generateQRbyData($person), $QR_CODE_PATH);
-
-        return $QR_NAME;
-    }
-
     public static function generateQRbyData(Person $person)
     {
         $person->suffix = $person->suffix ?? '*';

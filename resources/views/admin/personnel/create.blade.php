@@ -100,7 +100,7 @@
                                                 <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                                             </label>
                                             <div class=" p-1 bg-white flex">
-                                                <select value="{{  old('province') }}" class="input border {{ $errors->has('date_of_birth')  ? 'border-red-500' : '' }} p-2 px-2 appearance-none outline-none w-full text-gray-800" name="province" id="province">
+                                                <select value="{{  old('province') }}" class="select2 input border {{ $errors->has('date_of_birth')  ? 'border-red-500' : '' }} p-2 px-2 appearance-none outline-none w-full text-gray-800" name="province" id="province">
                                                     @foreach($provinces as $province)
                                                     @if(old('province'))
                                                         <option {{ old('province') == $province->code ? 'selected' : '' }} value="{{ $province->code }}"> {{ $province->name }}</option>
@@ -118,7 +118,7 @@
                                                 <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                                             </label>
                                             <div class="p-1 bg-white flex ">
-                                                <select class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('city') ? 'border-red-500' : '' }}" name="city" id="cities">
+                                                <select class="select2 input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('city') ? 'border-red-500' : '' }}" name="city" id="cities">
                                                     <option selected disable>Please Select Province</option>
                                                 </select>
                                             </div>
@@ -130,7 +130,7 @@
                                                 <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                                             </label>
                                             <div class="p-1 bg-white">
-                                                <select class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('barangay') ? 'border-red-500' : '' }}" name="barangay" id="barangay">
+                                                <select class="select2 input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('barangay') ? 'border-red-500' : '' }}" name="barangay" id="barangay">
                                                     <option selected disable>Please Select City</option>
                                                 </select>
                                             </div>
@@ -275,6 +275,7 @@
         // User Select Province then populate all data for province.
         $('#province').change((e) => {
             let provinceCode = e.target.value;
+            console.log(provinceCode);
             let elementCities = $('#cities');
             // Make an AJAX request to get all city filtered by selected province.
             $.ajax({

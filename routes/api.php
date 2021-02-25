@@ -13,6 +13,10 @@ Route::get('/person/{id}/profile', 'Api\PersonnelController@show');
 
 
 // Routes for cities and barangays.
+Route::get('/provinces', 'Api\ProvinceController@province');
+Route::get('/municipals', 'Api\MunicipalController@city');
+Route::get('/barangay', 'Api\BarangayController@barangay');
+
 Route::get('/province/municipal/{province_code}', 'Api\ProvinceController@municipals');
 Route::get('/province/barangay/{province_code}', 'Api\ProvinceController@barangays');
 

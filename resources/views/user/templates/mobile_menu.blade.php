@@ -22,11 +22,11 @@
         </li>
 
         <li>
-            <a href="javascript::" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="menu">
+            <a href="javascript::" onclick="event.preventDefault(); document.getElementById('mobile-logout-form').submit();" class="menu">
                 <div class="menu__icon"> <i data-feather="toggle-right"></i> </div>
                 <div class="menu__title"> 
                     <span>Logout</span>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    <form id="mobile-logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                      {{ csrf_field() }}
                      </form>
                  </div>

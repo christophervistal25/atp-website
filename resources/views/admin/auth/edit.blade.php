@@ -27,18 +27,18 @@
               </h2>
           </div>
           <div class="p-5">
-              <form action="{{ route('admin.profile.update.account', $admin->id) }}" method="POST">
+              <form action="{{ route('admin.profile.update.account', $admin->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="grid grid-cols-12 gap-5">
                     <div class="col-span-12 xl:col-span-4">
                         <div class="border border-gray-200 rounded-md p-5">
-                            <div class="w-40 h-40 relative image-fit cursor-pointer zoom-in mx-auto">
-                                <img class="rounded-md" alt="Administrator Image" src="{{  asset('storage/images/' . $admin->profile) }}">
+                            <div class="w-40 h-40 relative image-fit  zoom-in mx-auto">
+                                <img class="rounded-md" alt="Administrator Image" src="{{  asset('storage/images/' . $admin->profile) }}" id="profile">
                             </div>
                             <div class="w-40 mx-auto cursor-pointer relative mt-5">
-                                <button type="button" class="button w-full bg-theme-1 text-white">Change Photo</button>
-                                <input type="file" class="w-full h-full top-0 left-0 absolute opacity-0">
+                                <button type="button" class="button w-full bg-theme-1 text-white ">Change Photo</button>
+                                <input type="file" accept="image/*" name="profile" class="w-full h-full top-0 left-0 absolute opacity-0">
                             </div>
                         </div>
                     </div>
@@ -128,4 +128,11 @@
           </div>
       </div>
       <!-- END: Personal Information -->
+@push('page-scripts')
+<script>
+    $('#changeProfile').click(function () {
+        $('#changeProfile').trigger('click');
+    });
+</script>
+@endpush
 @endsection

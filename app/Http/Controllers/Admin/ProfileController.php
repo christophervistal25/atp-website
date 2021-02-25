@@ -36,9 +36,15 @@ class ProfileController extends Controller
 			$wantToChangePassword = true;
 		}
 
-		$this->validate($request, $rules);
+		if($request->has('profile')) {
+            $imageName = $request->file('profile')->getClientOriginalName();
+            // Process of storing image.
+            $request->file('profile')->storeAs('/public/images', $imageName);
+        }
 
+		$this->validate($request, $rules);
 		$admin->username = $request->username;
+		$admin->profile = $imageName ?? $admin->profile; 
 
          if ($wantToChangePassword) {
          	$admin->password = bcrypt($request->password);

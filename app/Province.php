@@ -7,6 +7,7 @@ use App\Scopes\ProvinceScope;
 
 class Province extends Model
 {
+    public $incrementing = false;
     public    $primaryKey = 'code';
     protected $fillable   = ['code', 'name', 'income_classification', 'population'];
 
@@ -22,7 +23,7 @@ class Province extends Model
 
     public function cities()
     {
-        return $this->hasMany('App\City');
+        return $this->hasMany('App\City', 'province_code', 'code');
     }
 
     public function barangay()

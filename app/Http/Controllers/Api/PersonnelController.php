@@ -53,7 +53,8 @@ class PersonnelController extends Controller
                 'suffix'            => strtoupper($request->suffix),
                 'date_of_birth'     => $birthdate,
             ]
-            ,[
+            ,
+            [
             'firstname'         => $request->firstname,
             'middlename'        => $request->middlename,
             'lastname'          => $request->lastname,

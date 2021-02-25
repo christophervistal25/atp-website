@@ -56,10 +56,8 @@ class PersonnelController extends Controller
     public function create()
     {
 
-        $provinces = Cache::rememberForever('provinces', function () {
-            return Province::orderBy('name')->get();
-        });
-
+        
+        $provinces =  Province::get(['code', 'name']);
         $civil_status = PersonnelRepository::CIVIL_STATUS;
 
         return view('admin.personnel.create', compact('civil_status', 'provinces'));

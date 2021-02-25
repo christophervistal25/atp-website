@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Municipal;
 use App\City;
 use Freshbitsweb\Laratables\Laratables;
+use Illuminate\Support\Facades\Cache;
 
 class MunicipalController extends Controller
 {
@@ -20,6 +21,18 @@ class MunicipalController extends Controller
     public function list()
     {
         return Laratables::recordsOf(City::class);
+    }
+
+    public function city()
+    {
+        if(Cache::has('municipals')) {
+            return Cache::get('municipals');
+        } else {
+            return Cache::rememberForever('municipals', function () {
+                return City::get(['code', 'name']);
+            });
+        }
+        
     }
 
     public function filterByName(string $name)
