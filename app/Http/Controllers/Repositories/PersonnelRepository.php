@@ -39,7 +39,7 @@ class PersonnelRepository
                     . ucfirst($person->gender) . self::QR_SEPERATOR
                     . $person->person_id . self::QR_SEPERATOR
                     . $person->address . self::QR_SEPERATOR
-                    . "WEBSITE";
+                    . $person->registered_from;
 
 
         return Encryptor::process($user_information);

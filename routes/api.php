@@ -1,5 +1,6 @@
 <?php
 Route::post('/checker/login', 'Api\CheckerController@login');
+Route::post('/checker/register', 'Api\CheckerController@register');
 Route::get('/checker/{id}/qr/scanned', 'Api\CheckerController@countQRScanned');
 
 Route::post('/person/scanned/', 'Api\PersonLogController@scanned');

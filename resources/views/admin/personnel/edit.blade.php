@@ -165,7 +165,7 @@
                                             <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                                         </label>
                                         <div class="p-1 bg-white flex border {{  $errors->has('temporary_address') ? 'border-red-500' : '' }} rounded rounded">
-                                            <textarea placeholder="e.g. Purok Paradise 950" class="p-1 px-2 appearance-none outline-none w-full text-gray-800" rows="5" name="temporary_address">{{  old('temporary_address') ?? $personnel->temporary_address }}"</textarea>
+                                            <textarea placeholder="e.g. Purok Paradise 950" class="p-1 px-2 appearance-none outline-none w-full text-gray-800" rows="5" name="temporary_address">{{  old('temporary_address') ?? $personnel->temporary_address }}</textarea>
                                         </div>
                                         
                                         <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
@@ -185,7 +185,7 @@
                                             <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                                         </label>
                                         <div class="p-1 bg-white flex border {{  $errors->has('address') ? 'border-red-500' : '' }} rounded">
-                                            <textarea placeholder="e.g. Purok Paradise 950"  class="p-1 px-2 appearance-none outline-none w-full text-gray-800" rows="5" name="address">{{  old('address') ?? $personnel->address }}"</textarea>
+                                            <textarea placeholder="e.g. Purok Paradise 950"  class="p-1 px-2 appearance-none outline-none w-full text-gray-800" rows="5" name="address">{{  old('address') ?? $personnel->address }}</textarea>
                                         </div>
                                         <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
                                             @if($errors->has('address'))
