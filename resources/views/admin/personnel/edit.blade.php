@@ -126,9 +126,13 @@
                                                 <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                                             </label>
                                             <div class=" p-1 bg-white flex">
-                                                <select value="{{  old('province') }}" class="input border {{ $errors->has('date_of_birth')  ? 'border-red-500' : '' }} p-2 px-2 appearance-none outline-none w-full text-gray-800" name="province" id="province">
+                                                <select 
+                                                class="input border {{ $errors->has('province')  ? 'border-red-500' : '' }} p-2 px-2 appearance-none outline-none w-full text-gray-800" name="province" id="province">
                                                     @foreach($provinces as $province)
-                                                        <option value="{{ $province->code }}"> {{ $province->name }}</option>
+                                                        <option 
+                                                            {{ $personnel->province_code == $province->code ? 'selected' : '' }}
+                                                            value="{{ $province->code }}"> {{ $province->name }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>
