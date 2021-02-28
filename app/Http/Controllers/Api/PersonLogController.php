@@ -74,9 +74,8 @@ class PersonLogController extends Controller
                     $person = Person::find($log['person_second_id']);
                     // if($person->address === '*' || $person->address ===  '' || $person->civil_status === '*' || $person->civil-status === '') {
                         // Update the address of the user
-                        $address = $log['purok'] . ' ' . $log['barangay'] . ' ' . $log['municipality'] . ' ' . $log['province'];
-                        $person->address           = $address;
-                        $person->temporary_address = $address;
+                        $person->address           = $log['address'];
+                        $person->temporary_address = $log['address'];
                         $person->civil_status      = $log['civil_status'];
                         $person->save();
                     // }

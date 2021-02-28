@@ -11,7 +11,7 @@ use Carbon\Carbon;
 
 class PersonnelRepository
 {
-    public const QR_SEPERATOR = '|';
+    public const QR_SEPARATOR = '|';
     public const ID_SEPERATOR = '-';
     public const GENDER = ['Male', 'Female'];
     public const CIVIL_STATUS = ['Single', 'Single Parent', 'Married', 'Separated', 'Widow', 'Widowed', 'Annuled'];
@@ -21,28 +21,51 @@ class PersonnelRepository
         $person->suffix = $person->suffix ?? '*';
         $person->landline_number = $person->landline_number ?? '*';
         $person->email = $person->email ?? '*';
+        
+        
+        if($person->registered_from === 'MOBILE') {
+            if($person->address == '' || $person->address == '*') {
+                $address = $person->barangay->name . ' ' . $person->city->name . ' ' . $person->province->name;
+            } else {
+                $address = $person->address;
+            }
 
-        $user_information =   $person->id . self::QR_SEPERATOR
-                    . $person->firstname . self::QR_SEPERATOR
-                    . $person->middlename .  self::QR_SEPERATOR
-                    . $person->lastname . self::QR_SEPERATOR
-                    . $person->suffix . self::QR_SEPERATOR
-                    . $person->age . self::QR_SEPERATOR
-                    . $person->civil_status . self::QR_SEPERATOR
-                    . $person->phone_number . self::QR_SEPERATOR
-                    . $person->email . self::QR_SEPERATOR
-                    . $person->province->name . self::QR_SEPERATOR
-                    . $person->city->name . self::QR_SEPERATOR
-                    . $person->barangay->name . self::QR_SEPERATOR
-                    . $person->date_of_birth . self::QR_SEPERATOR
-                    . $person->landline_number . self::QR_SEPERATOR
-                    . ucfirst($person->gender) . self::QR_SEPERATOR
-                    . $person->person_id . self::QR_SEPERATOR
-                    . $person->address . self::QR_SEPERATOR
+            $user_information = $person->lastname . self::QR_SEPARATOR
+            . $person->firstname .  self::QR_SEPARATOR
+            . $person->middlename . self::QR_SEPARATOR
+            . $person->suffix . self::QR_SEPARATOR
+            . $person->age . self::QR_SEPARATOR
+            . $person->civil_status . self::QR_SEPARATOR
+            . $person->phone_number . self::QR_SEPARATOR
+            . $person->email . self::QR_SEPARATOR
+            . $address . self::QR_SEPARATOR 
+            . $person->date_of_birth . self::QR_SEPARATOR
+            . $person->landline_number . self::QR_SEPARATOR
+            . ucfirst($person->gender) . self::QR_SEPARATOR
+            . $person->person_id . self::QR_SEPARATOR
+            . $person->registered_from;
+            return Encryptor::process($user_information);
+        } else {
+            $user_information =   $person->id . self::QR_SEPARATOR
+                    . $person->firstname . self::QR_SEPARATOR
+                    . $person->middlename .  self::QR_SEPARATOR
+                    . $person->lastname . self::QR_SEPARATOR
+                    . $person->suffix . self::QR_SEPARATOR
+                    . $person->age . self::QR_SEPARATOR
+                    . $person->civil_status . self::QR_SEPARATOR
+                    . $person->phone_number . self::QR_SEPARATOR
+                    . $person->email . self::QR_SEPARATOR
+                    . $person->province->name . self::QR_SEPARATOR
+                    . $person->city->name . self::QR_SEPARATOR
+                    . $person->barangay->name . self::QR_SEPARATOR
+                    . $person->date_of_birth . self::QR_SEPARATOR
+                    . $person->landline_number . self::QR_SEPARATOR
+                    . ucfirst($person->gender) . self::QR_SEPARATOR
+                    . $person->person_id . self::QR_SEPARATOR
+                    . $person->address . self::QR_SEPARATOR
                     . $person->registered_from;
-
-
-        return Encryptor::process($user_information);
+            return Encryptor::process($user_information);
+        }
     }
 
     public function isUnique(array $data) :bool
