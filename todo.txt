@@ -1,29 +1,25 @@
 
 Android App User Features need to add :
-    // Step 2 Registration must wait first if the account information already exists.
-    // Submit or Proceed button to submit the OTP code.
+
+    * Step 2 Registration must wait first if the account information already exists.
+    * Submit or Proceed button to submit the OTP code.
     // Forgot MPIN
     // Update image in profile section of user
 
 
 Android App Gateway Features need to be add :
-    // Registration of the user include barangay.
-    // Validation of the account in registration.
+    * Registration of the user include barangay.
+    * Validation of the account in registration.
     // Look up database first if user already exists.
-    
+
 
 Android App Reader Features need to be add :
-    // Include address in sending data using internet connection.
-    // Include address in sending list of data in local storage.
+    * Include address in sending data using internet connection.
+    * Include address in sending list of data in local storage.
+    * Re-code the process of 1 to 1 scanned of user then send using internet connection.
+    // Re-code the process of uploading data from local storage to website storage.
 
 
-
-
-
-
-// Replace the barangay to code in sending data to API.
-// Re-code the process of uploading data from local storage to website storage.
-// Re-code the process of 1 to 1 scanned of user then send using internet connection.
 
 
  // Bug in edit personnel in website province not setting the current province of person.

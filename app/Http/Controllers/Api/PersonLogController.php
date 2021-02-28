@@ -27,8 +27,17 @@ class PersonLogController extends Controller
             // Update the temporary address and permanent address of the user.
             DB::beginTransaction();
             try {
+                $person = Person::find($request->user_id);
+                if($person->address === '*' || $person->address ===  '' || $person->civil_status === '*' || $person->civil_status === '') {
+                    // Update the address of the user
+                    $person->address           = $request->address;
+                    $person->temporary_address = $request->address;
+                    $person->civil_status      = $request->civil_status;
+                    $person->save();
+                }
+
                 PersonLog::create([
-                    'person_id'        => $request->user_id,
+                    'person_id'        => $person->id,
                     'location'         => $request->location,
                     'checker_id'       => $request->checker_id,
                     'purpose'          => $request->purpose,
@@ -62,6 +71,16 @@ class PersonLogController extends Controller
             if(strtoupper($log['registered_from']) === 'MOBILE') {
                 // Update the temporary address and permanent address of the user.
                 try {
+                    $person = Person::find($log['person_second_id']);
+                    // if($person->address === '*' || $person->address ===  '' || $person->civil_status === '*' || $person->civil-status === '') {
+                        // Update the address of the user
+                        $address = $log['purok'] . ' ' . $log['barangay'] . ' ' . $log['municipality'] . ' ' . $log['province'];
+                        $person->address           = $address;
+                        $person->temporary_address = $address;
+                        $person->civil_status      = $log['civil_status'];
+                        $person->save();
+                    // }
+
                     PersonLog::create([
                         'person_id'        => $log['person_second_id'],
                         'location'         => $log['location'],
