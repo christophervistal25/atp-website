@@ -8,7 +8,6 @@ Route::post('/bulk/person/log', 'Api\PersonLogController@addMultiple');
 
 Route::post('/person/id/generate', 'Api\PersonnelController@make');
 Route::post('/person/register', 'Api\PersonnelController@register');
-Route::post('/person/update/profile', 'Api\PersonnelController@updateProfile');
 
 Route::get('/person/{id}/profile', 'Api\PersonnelController@show');
 

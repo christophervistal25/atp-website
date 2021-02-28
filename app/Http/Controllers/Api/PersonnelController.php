@@ -31,7 +31,12 @@ class PersonnelController extends Controller
 
     public function make(Request $request)
     {
-        // Validate the user if already exists or not.
+        $isExists = $this->personnelRepository->isUnique($request->all());
+        
+        if($isExists) {
+            return response()->json(['code' => 422, 'message' => 'This user is already exists.']);
+        }
+
         $personId = $this->personnelRepository->makeIDForMobile($request->all());
         return response()->json(
             [
@@ -42,58 +47,4 @@ class PersonnelController extends Controller
         );
     }
 
-    public function register(Request $request)
-    {
-        $barangay = Barangay::where('name', $request->barangay)->first();
-        $birthdate = Carbon::parse($request->date_of_birth)->format('Y-m-d');
-        $person = Person::firstOrCreate(
-            [
-                'firstname'         => strtoupper($request->firstname),
-                'middlename'        => strtoupper($request->middlename),
-                'lastname'          => strtoupper($request->lastname),
-                'suffix'            => strtoupper($request->suffix),
-                'date_of_birth'     => $birthdate,
-            ]
-            ,
-            [
-            'firstname'         => $request->firstname,
-            'middlename'        => $request->middlename,
-            'lastname'          => $request->lastname,
-            'suffix'            => $request->suffix,
-            'temporary_address' => $request->street . ' ' . $request->purok . ' ' . $request->barangay . ' ' . $request->city . ' ' . $request->province,
-            'address'           => $request->street . ' ' . $request->purok . ' ' . $request->barangay . ' ' . $request->city . ' ' . $request->province,
-            'date_of_birth'     => $birthdate,
-            'gender'            => $request->gender,
-            'province_code'     => $barangay->province_code,
-            'city_code'         => $barangay->city_code,
-            'barangay_code'     => $barangay->code,
-            'image'             => 'default.png',
-            'age'               => $this->personnelRepository->getAge($request->date_of_birth),
-            'civil_status'      => $request->civil_status,
-            'phone_number'      => $request->mobile_number,
-            'landline_number'   => $request->landline_number,
-            'email'             => $request->email,
-            'registered_from'   => $request->registered_from,
-        ]);
-
-        return response()->json([
-            'code' => 200,
-            'message' => 'Account successfully create.',
-            'person_id' => $person->person_id,
-        ]);
-    }
-
-    public function updateProfile(Request $request)
-    {
-        $person = Person::where('person_id', $request->person_id)->first();
-
-        $imageName = $request->file('image')->getClientOriginalName();
-        // Process of storing image.
-        $request->file('image')->storeAs('/public/images', $imageName);
-        $person->image = $imageName;
-        $person->save();
-
-        return response()->json(['message' => 'Success!'], 201);
-
-    }
 }

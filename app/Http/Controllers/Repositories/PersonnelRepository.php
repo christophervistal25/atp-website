@@ -45,18 +45,29 @@ class PersonnelRepository
         return Encryptor::process($user_information);
     }
 
+    public function isUnique(array $data) :bool
+    {
+        $birthdate = Carbon::parse($data['date_of_birth'])->format('Y-m-d');
+        
+        $person = Person::where(
+            [
+                'firstname'         => strtoupper($data['firstname']),
+                'middlename'        => strtoupper($data['middlename']),
+                'lastname'          => strtoupper($data['lastname']),
+                'suffix'            => strtoupper($data['suffix']),
+                'date_of_birth'     => $birthdate,
+            ]
+        )->exists();
+        
+        return $person;
+    }
+
     public function temporaryStore(array $data = []) :Person
     {
         $birthdate = Carbon::parse($data['date_of_birth'])->format('Y-m-d');
+        $barangay = Barangay::find($data['barangay']);
 
         $person = Person::create(
-            [
-                'firstname'     => strtoupper($data['firstname']),
-                'middlename'    => strtoupper($data['middlename']),
-                'lastname'      => strtoupper($data['lastname']),
-                'suffix'        => strtoupper($data['suffix']),
-                'date_of_birth' => $birthdate,
-            ],
             [
             'firstname'         => $data['firstname'],
             'middlename'        => $data['middlename'],

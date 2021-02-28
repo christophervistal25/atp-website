@@ -22,6 +22,10 @@ class Barangay extends Model
         static::addGlobalScope(new BarangayScope);
     }
 
+    public function province()
+    {
+        return $this->belongsTo('App\Province');
+    }
 
     public function city()
     {

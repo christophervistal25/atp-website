@@ -24,11 +24,9 @@ class PersonLogController extends Controller
     {
         // Check if user is registered from mobile or website.
         if(strtoupper($request->registered_from) === 'MOBILE') {
-            // Process for insertion of the user.
-            // Add the user first in the database.
+            // Update the temporary address and permanent address of the user.
             DB::beginTransaction();
             try {
-                // $barangay = Barangay::where(['name' => $request->barangay])->first();
                 PersonLog::create([
                     'person_id'        => $request->user_id,
                     'location'         => $request->location,
@@ -62,9 +60,10 @@ class PersonLogController extends Controller
         $records = json_decode($request->data, true);
         foreach($records as $log) {
             if(strtoupper($log['registered_from']) === 'MOBILE') {
+                // Update the temporary address and permanent address of the user.
                 try {
                     PersonLog::create([
-                        'person_id'        => $log['person_id'],
+                        'person_id'        => $log['person_second_id'],
                         'location'         => $log['location'],
                         'checker_id'       => $log['checker_id'],
                         'purpose'          => $log['purpose'],
