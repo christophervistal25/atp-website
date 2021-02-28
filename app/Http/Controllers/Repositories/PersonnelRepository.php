@@ -47,10 +47,9 @@ class PersonnelRepository
 
     public function temporaryStore(array $data = []) :Person
     {
-        $barangay = Barangay::where('code', $data['barangay'])->first();
         $birthdate = Carbon::parse($data['date_of_birth'])->format('Y-m-d');
 
-        $person = Person::firstOrCreate(
+        $person = Person::create(
             [
                 'firstname'     => strtoupper($data['firstname']),
                 'middlename'    => strtoupper($data['middlename']),

@@ -8,6 +8,7 @@ use App\Http\Controllers\Repositories\PersonnelRepository;
 use App\Barangay;
 use App\Person;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class PersonnelController extends Controller
 {
@@ -30,8 +31,8 @@ class PersonnelController extends Controller
 
     public function make(Request $request)
     {
+        // Validate the user if already exists or not.
         $personId = $this->personnelRepository->makeIDForMobile($request->all());
-        list($barangay, $personId) = explode('-', $personId);
         return response()->json(
             [
                 'code' => 200,
