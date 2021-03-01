@@ -9,12 +9,65 @@ use App\Barangay;
 use App\Person;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Auth;
+use App\User;
+use Illuminate\Support\Facades\Hash;
 
 class PersonnelController extends Controller
 {
     public function __construct(PersonnelRepository $personnelRepository)
     {
         $this->personnelRepository = $personnelRepository;
+    }
+
+
+    public function login(Request $request)
+    {
+        if($request->has('phone_number')) {
+            $validator = Validator::make($request->all(), [
+                'phone_number' => 'exists:people,phone_number',
+            ]);
+
+            if($validator->fails()) {
+                return response()->json(['success' => false, 'message' => 'Please check your account credentials.']);
+            }
+
+            $person = Person::where('phone_number', $request->phone_number)->first();
+
+
+            if(Hash::check($request->mpin, $person->account->mpin)) {
+                return response()->json(['success' => true]);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Please check your account credentials.']);
+            }
+
+
+
+            return $person;
+
+        } else {
+            $validator = Validator::make($request->all(), [
+                'username' => 'exists:users,username',
+            ]);
+
+            if($validator->fails()) {
+                return response()->json(['success' => false, 'message' => 'Please check your account credentials.']);
+            }
+
+
+            $user = User::where('username', $request->username)->first();
+
+            if(Hash::check($request->mpin, $user->mpin)) {
+                return response()->json(['success' => true]);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Please check your account credentials.']);
+            }
+
+
+        }
+
+
+
     }
 
     public function show(int $id) :Person
@@ -32,7 +85,7 @@ class PersonnelController extends Controller
     public function make(Request $request)
     {
         $isExists = $this->personnelRepository->isUnique($request->all());
-        
+
         if($isExists) {
             return response()->json(['code' => 422, 'message' => 'This user is already exists.']);
         }

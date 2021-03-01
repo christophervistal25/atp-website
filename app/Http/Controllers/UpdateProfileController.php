@@ -9,17 +9,18 @@ use App\Person;
 use Carbon\Carbon;
 use App\Http\Controllers\Repositories\PersonnelRepository;
 use Illuminate\Support\Facades\Cache;
+use DB;
 
 class UpdateProfileController extends Controller
 {
     public function edit()
     {
         $user = Auth::user();
-        
+
         $provinces = Cache::rememberForever('provinces', function () {
             return Province::get();
         });
-        
+
         $civil_status = PersonnelRepository::CIVIL_STATUS;
         return view('user.update-profile', compact('user', 'provinces', 'civil_status'));
     }
@@ -27,6 +28,8 @@ class UpdateProfileController extends Controller
     public function update(Request $request)
     {
         $this->validate($request, [
+            'mpin'              => 'required|max:4|same:confirm_mpin',
+            'confirm_mpin'      => 'required|max:4|same:mpin',
             'gender'            => 'required|in:' . implode(',', PersonnelRepository::GENDER),
             'temporary_address' => 'required',
             'address'           => 'required',
@@ -42,20 +45,38 @@ class UpdateProfileController extends Controller
             $request->file('image')->storeAs('/public/images', $imageName);
         }
 
-        $person = Person::find(Auth::user()->person_id);
 
-        $person->temporary_address = $request->temporary_address;
-        $person->address           = $request->address;
-        $person->image             = $imageName ?? $person->image;
-        $person->gender            = $request->gender;
-        $person->province_code     = $request->province;
-        $person->city_code         = $request->city;
-        $person->barangay_code     = $request->barangay;
-        $person->civil_status      = $request->status;
-        $person->email             = $request->email;
-        $person->landline_number   = $request->landline_number;
-        $person->save();
-        
-        return redirect()->route('home');
+        DB::beginTransaction();
+
+        try {
+
+            $person = Person::find(Auth::user()->person_id);
+
+            $person->temporary_address = $request->temporary_address;
+            $person->address           = $request->address;
+            $person->image             = $imageName ?? $person->image;
+            $person->gender            = $request->gender;
+            $person->province_code     = $request->province;
+            $person->city_code         = $request->city;
+            $person->barangay_code     = $request->barangay;
+            $person->civil_status      = $request->status;
+            $person->email             = $request->email;
+            $person->landline_number   = $request->landline_number;
+
+            $account = $person->account;
+            $account->mpin = bcrypt($request->mpin);
+
+            $account->save();
+            $account->info()->save($person);
+
+            DB::commit();
+
+            return redirect()->route('home');
+        } catch(\Exception $e) {
+            abort(404);
+            DB::rollback();
+        }
+
+
     }
 }

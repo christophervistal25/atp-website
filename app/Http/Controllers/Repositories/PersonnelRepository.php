@@ -21,8 +21,8 @@ class PersonnelRepository
         $person->suffix = $person->suffix ?? '*';
         $person->landline_number = $person->landline_number ?? '*';
         $person->email = $person->email ?? '*';
-        
-        
+
+
         if($person->registered_from === 'MOBILE') {
             if($person->address == '' || $person->address == '*') {
                 $address = $person->barangay->name . ' ' . $person->city->name . ' ' . $person->province->name;
@@ -38,7 +38,7 @@ class PersonnelRepository
             . $person->civil_status . self::QR_SEPARATOR
             . $person->phone_number . self::QR_SEPARATOR
             . $person->email . self::QR_SEPARATOR
-            . $address . self::QR_SEPARATOR 
+            . $address . self::QR_SEPARATOR
             . $person->date_of_birth . self::QR_SEPARATOR
             . $person->landline_number . self::QR_SEPARATOR
             . ucfirst($person->gender) . self::QR_SEPARATOR
@@ -71,7 +71,7 @@ class PersonnelRepository
     public function isUnique(array $data) :bool
     {
         $birthdate = Carbon::parse($data['date_of_birth'])->format('Y-m-d');
-        
+
         $person = Person::where(
             [
                 'firstname'         => strtoupper($data['firstname']),
@@ -81,7 +81,7 @@ class PersonnelRepository
                 'date_of_birth'     => $birthdate,
             ]
         )->exists();
-        
+
         return $person;
     }
 

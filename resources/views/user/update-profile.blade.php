@@ -16,13 +16,13 @@
                           <div class="box">
                               <div class="flex flex-col lg:flex-row items-center p-5 bg-theme-9 rounded mb-2">
                                   <div class="lg:ml-2 lg:mr-auto text-center lg:text-left mt-3 lg:mt-0">
-                                      <p class="font-medium text-white">Successfully update your profile you can now view other sections </p> 
+                                      <p class="font-medium text-white">Successfully update your profile you can now view other sections </p>
                                   </div>
                               </div>
                           </div>
                       </div>
                   @else
-                      <div class="rounded-md flex items-center px-5 py-4 mb-2 bg-theme-6"> 
+                      <div class="rounded-md flex items-center px-5 py-4 mb-2 bg-theme-6">
                           <i data-feather="alert-circle" class="w-6 h-6 mr-2 text-white"></i>
                           <span class="text-white font-medium">All fields with * mark are required.</span>
                       </div>
@@ -55,7 +55,7 @@
                                               @endforeach --}}
                                           </select>
                                       </div>
-                                      
+
                                   </div>
                                   <div class="w-full flex-1 mx-2">
                                       <label for="">
@@ -88,7 +88,7 @@
                                       <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                                   </label>
                                   <div class="p-1 bg-white flex border {{  $errors->has('temporary_address') ? 'border-red-500' : '' }} rounded rounded">
-                                      <textarea placeholder="e.g. Purok Paradise 950" class="p-1 px-2 appearance-none outline-none w-full text-gray-800" rows="5" name="temporary_address"></textarea>
+                                      <textarea placeholder="e.g. Purok Paradise 950" class="p-1 px-2 appearance-none outline-none w-full text-gray-800" rows="5" name="temporary_address">{{  old('temporary_address') }}</textarea>
                                   </div>
                                   <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
                                       Required, atleast 5 characters
@@ -97,23 +97,60 @@
                               </div>
 
                               <div class="w-full flex-1 mx-2">
-                                  
+
                                   <label for="">
                                       Permanent Address
                                       <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                                   </label>
                                   <div class="p-1 bg-white flex border {{  $errors->has('address') ? 'border-red-500' : '' }} rounded">
-                                      <textarea placeholder="e.g. Purok Paradise 950"  class="p-1 px-2 appearance-none outline-none w-full text-gray-800" rows="5" name="address"></textarea>
+                                      <textarea placeholder="e.g. Purok Paradise 950"  class="p-1 px-2 appearance-none outline-none w-full text-gray-800" rows="5" name="address">{{ old('address') }}</textarea>
                                   </div>
                                   <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
                                       Required, atleast 5 characters
                                   </span>
                                   <div class="mb-2"></div>
                               </div>
-                              
+
+
+                              <div class="mb-2 flex-1 flex flex-col md:flex-row">
+                                <div class="w-full flex-1 mx-2">
+                                    <label>MPIN
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            *
+                                        </span>
+                                    </label>
+                                    <div class=" p-1 bg-white flex">
+                                        <input
+                                            type="text"
+                                            class="input w-full border px-2 p-2 appearance-none outline-none {{  $errors->has('m_pin') ? 'border-red-500' : '' }}"
+                                            name="mpin"
+                                            placeholder="Enter your MPIN"
+                                            value="{{ old('mpin') }}">
+                                    </div>
+                                </div>
+                                <div class="w-full flex-1 mx-2">
+                                    <label>Re-type MPIN
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            *
+                                        </span>
+                                    </label>
+                                    <div class=" p-1 bg-white flex">
+                                        <input
+                                            type="text"
+                                            class="input w-full border px-2 p-2 appearance-none outline-none {{  $errors->has('confirm_mpin') ? 'border-red-500' : '' }}"
+                                            name="confirm_mpin"
+                                            placeholder="Re-type your MPIN"
+                                            value="{{ old('confirm_mpin') }}">
+                                    </div>
+                                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                        {{  $errors->first('confirm_mpin') }}
+                                    </span>
+                                </div>
+                            </div>
+
                               <div class="mb-2 flex-1 flex flex-col md:flex-row">
                                   <div class="w-full flex-1 mx-2">
-                                      <label>                                                Sex
+                                      <label>  Sex
                                           <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
                                               *
                                           </span>
@@ -174,9 +211,9 @@
                                       Required, attach only image file
                                   </span>
                               </div>
-                              
+
                               <div class="flex lg:justify-end">
-                                  <button type="submit" class="button bg-theme-1 text-white w-auto">Update your profile</button>    
+                                  <button type="submit" class="button bg-theme-1 text-white w-auto">Update your profile</button>
                               </div>
 
                           </form>
@@ -214,7 +251,7 @@
                 success : (response) => {
                     // Clear all option of cities select element
                     elementCities.find('option').remove();
-                    
+
                     // Iterate to all city by province code and display to select
                     response.municipals.forEach((municipal) => {
                         elementCities.append(`<option value="${municipal.code}">${municipal.name}</option>`);

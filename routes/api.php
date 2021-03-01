@@ -6,6 +6,7 @@ Route::get('/checker/{id}/qr/scanned', 'Api\CheckerController@countQRScanned');
 Route::post('/person/scanned/', 'Api\PersonLogController@scanned');
 Route::post('/bulk/person/log', 'Api\PersonLogController@addMultiple');
 
+Route::post('/person/login', 'Api\PersonnelController@login');
 Route::post('/person/id/generate', 'Api\PersonnelController@make');
 Route::post('/person/register', 'Api\PersonnelController@register');
 

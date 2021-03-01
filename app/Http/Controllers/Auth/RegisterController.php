@@ -79,28 +79,36 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $person = Person::create([
-            'firstname'         => $data['firstname'],
-            'middlename'        => $data['middlename'],
-            'lastname'          => $data['lastname'],
-            'date_of_birth'     => Carbon::parse($data['date_of_birth'])->format('Y-m-d'),
-            'phone_number'      => $data['phone_number'],
-            'province_code'     => '*',
-            'city_code'         => '*',
-            'barangay_code'     => '*',
-            'temporary_address' => '*',
-            'address'           => '*',
-            'age'               => $this->personnelRepository->getAge($data['date_of_birth']),
-            'civil_status'      => '*'
-        ]);
+        DB::beginTransaction();
+        try {
+            $person = Person::create([
+                'firstname'         => $data['firstname'],
+                'middlename'        => $data['middlename'],
+                'lastname'          => $data['lastname'],
+                'date_of_birth'     => Carbon::parse($data['date_of_birth'])->format('Y-m-d'),
+                'phone_number'      => $data['phone_number'],
+                'province_code'     => '*',
+                'city_code'         => '*',
+                'barangay_code'     => '*',
+                'temporary_address' => '*',
+                'address'           => '*',
+                'age'               => $this->personnelRepository->getAge($data['date_of_birth']),
+                'civil_status'      => '*',
+            ]);
 
-        
-        return User::create([
-            'username'  => $data['username'],
-            'password'  => Hash::make($data['password']),
-            'person_id' => $person->id,
-        ]);
-        
-       
+
+            $user = User::create([
+                'username'  => $data['username'],
+                'password'  => Hash::make($data['password']),
+                'person_id' => $person->id,
+                'mpin'              => '*',
+            ]);
+
+            DB::commit();
+            return $user;
+        } catch(\Exception $e) {
+            DB::rollback();
+        }
+
     }
 }
