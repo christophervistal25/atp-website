@@ -187,6 +187,12 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="{{ route('setting.index') }}" class="side-menu">
+                            <div class="side-menu__icon"> <i data-feather="settings"></i> </div>
+                            <div class="side-menu__title"> Settings </div>
+                        </a>
+                    </li>
 
 
                 </ul>

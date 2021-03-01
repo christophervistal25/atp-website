@@ -42,6 +42,10 @@ class Person extends Model
 
 
 
+    public function account()
+    {
+        return $this->belongsTo('App\User', 'id', 'person_id');
+    }
     /**
      * Returns truncated name for the datatables.
      *
@@ -55,7 +59,7 @@ class Person extends Model
 
     public static function laratablesCustomPersonLogs($person)
     {
-        return 
+        return
         "
         <div class='text-center font-medium'>
             <span class='px-2 py-1 bg-theme-1 rounded text-xs text-white rounded-full'>
@@ -64,7 +68,7 @@ class Person extends Model
         </div>
         ";
     }
-    
+
     public static function laratablesGender($person)
     {
         return ucfirst($person->gender);

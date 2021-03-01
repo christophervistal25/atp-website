@@ -24,7 +24,7 @@ Route::group(['prefix' => 'admin'] , function () {
         Route::get('/persons/track/others/{log}', 'Admin\TrackController@track');
 
         Route::get('/persons/track', 'Admin\TrackController@find');
-		
+
         Route::resource('track', 'Admin\TrackController');
 
 
@@ -42,7 +42,7 @@ Route::group(['prefix' => 'admin'] , function () {
 
 		Route::get('list/barangay', 'Admin\BarangayController@list');
 		Route::resource('barangay', 'Admin\BarangayController');
-		
+
 		Route::get('province/list', 'Admin\ProvinceController@list');
 		Route::resource('province', 'Admin\ProvinceController');
 
@@ -52,14 +52,7 @@ Route::group(['prefix' => 'admin'] , function () {
 
 		Route::resource('municipal-account', 'Admin\MunicipalAccountController');
 
-		// Route::get('/setting', 'Admin\SettingController@index')->name('setting.index');
-		// Route::post('/setting/add/city', 'Admin\SettingController@addMunicipal')->name('setting.store.city');
-		// Route::post('/setting/create/city/account', 'Admin\SettingController@addMunicipalAccount')->name('setting.store.city.account');
-		// Route::post('/setting/city/update', 'Admin\SettingController@updateMunicipal')->name('setting.update.city');
-		// Route::post('/setting/city/remove', 'Admin\SettingController@removeMunicipal')->name('setting.remove.city');
-		// Route::post('/setting/admin/account/update', 'Admin\SettingController@adminAccountUpdate')->name('setting.admin.account.update');
-
-		// Route::post('/setting/municipal/account/update', 'Admin\SettingController@updateMunicipalAccount')->name('admin.setting.municipal.account.update');
+        Route::resource('setting', 'Admin\SettingController');
 
 		Route::resource('/checker', 'Admin\CheckerController');
 
@@ -117,7 +110,7 @@ Route::group(['prefix' => 'municipal'] , function () {
 
 
 
-	
+
 Auth::routes();
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('auth.register');
 Route::group(['middleware' => ['auth']], function () {
@@ -125,12 +118,12 @@ Route::group(['middleware' => ['auth']], function () {
 			Route::get('/my/profile', 'UpdateProfileController@edit')->name('user.update.profile');
 			Route::put('/my/profile', 'UpdateProfileController@update')->name('user.update.profile.submit');
 		});
-	
+
 	Route::group(['middleware' => 'check.update.profile'], function () {
 		Route::get('/home', 'HomeController@index')->name('home');
 		Route::get('/my/id', 'QRController@index')->name('user-id');
 	});
-	
+
 });
 
 

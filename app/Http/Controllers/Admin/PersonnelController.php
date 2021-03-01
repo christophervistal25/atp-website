@@ -12,7 +12,9 @@ use App\City;
 use App\Barangay;
 use App\Province;
 use Carbon\Carbon;
+use App\User;
 use Illuminate\Support\Facades\Cache;
+use DB;
 
 class PersonnelController extends Controller
 {
@@ -56,7 +58,7 @@ class PersonnelController extends Controller
     public function create()
     {
 
-        
+
         $provinces =  Province::get(['code', 'name']);
         $civil_status = PersonnelRepository::CIVIL_STATUS;
 
@@ -72,7 +74,11 @@ class PersonnelController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request, [
+            'username'          => 'required|unique:users,username',
+            'password'          => 'required|min:8|max:20',
+            'mpin'              => 'required|max:4',
             'firstname'         => 'required|regex:/^[A-Za-z ]+$/u',
             'middlename'        => 'required|regex:/^[A-Za-z ]+$/u',
             'lastname'          => 'required|regex:/^[A-Za-z ]+$/u',
@@ -94,26 +100,48 @@ class PersonnelController extends Controller
             $request->file('image')->storeAs('/public/images', $imageName);
         }
 
-        $person = Person::create([
-            'firstname'         => $request->firstname,
-            'middlename'        => $request->middlename,
-            'lastname'          => $request->lastname,
-            'temporary_address' => $request->temporary_address,
-            'address'           => $request->address,
-            'suffix'            => $request->suffix,
-            'date_of_birth'     => Carbon::parse($request->date_of_birth)->format('Y-m-d'),
-            'image'             => $imageName ?? 'default.png',
-            'gender'            => $request->gender,
-            'province_code'     => $request->province,
-            'city_code'         => $request->city,
-            'barangay_code'     => $request->barangay,
-            'civil_status'      => $request->status,
-            'phone_number'      => $request->phone_number,
-            'landline_number'   => $request->landline_number,
-            'age'               => $this->personnelRepository->getAge($request->date_of_birth),
-        ]);
 
-        return back()->with('success', $person->id);
+        DB::beginTransaction();
+
+        try {
+            $person = Person::create([
+                'firstname'         => $request->firstname,
+                'middlename'        => $request->middlename,
+                'lastname'          => $request->lastname,
+                'temporary_address' => $request->temporary_address,
+                'address'           => $request->address,
+                'suffix'            => $request->suffix,
+                'date_of_birth'     => Carbon::parse($request->date_of_birth)->format('Y-m-d'),
+                'image'             => $imageName ?? 'default.png',
+                'gender'            => $request->gender,
+                'province_code'     => $request->province,
+                'city_code'         => $request->city,
+                'barangay_code'     => $request->barangay,
+                'civil_status'      => $request->status,
+                'phone_number'      => $request->phone_number,
+                'landline_number'   => $request->landline_number,
+                'age'               => $this->personnelRepository->getAge($request->date_of_birth),
+            ]);
+
+
+            // Check if the administrator choose to use a default password and mpin for new registered personne;.
+            if($request->has('use_default')) {
+
+            } else {
+                User::create([
+                    'username'  => $request->username,
+                    'password'  => bcrypt($request->password),
+                    'person_id' => $person->id,
+                    'mpin'      => bcrypt($request->mpin),
+
+                ]);
+            }
+            DB::commit();
+            return back()->with('success', $person->id);
+        } catch(\Exception $e) {
+            abort(404);
+            DB::rollback();
+        }
     }
 
     /**
@@ -154,6 +182,7 @@ class PersonnelController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
+            'username'          => 'required|unique:users,username,' . $id,
             'firstname'         => 'required|regex:/^[A-Za-z ]+$/u',
             'middlename'        => 'required|regex:/^[A-Za-z ]+$/u',
             'lastname'          => 'required|regex:/^[A-Za-z ]+$/u',
@@ -174,27 +203,55 @@ class PersonnelController extends Controller
             $request->file('image')->storeAs('/public/images', $imageName);
         }
 
-        $person = Person::find($id);
+        DB::beginTransaction();
 
-        $person->firstname         = $request->firstname;
-        $person->middlename        = $request->middlename;
-        $person->lastname          = $request->lastname;
-        $person->temporary_address = $request->temporary_address;
-        $person->address           = $request->address;
-        $person->suffix            = $request->suffix;
-        $person->date_of_birth     = Carbon::parse($request->date_of_birth)->format('Y-m-d');
-        $person->image             = $imageName ?? $person->image;
-        $person->gender            = $request->gender;
-        $person->province_code     = $request->province;
-        $person->city_code         = $request->city;
-        $person->barangay_code     = $request->barangay;
-        $person->civil_status      = $request->status;
-        $person->phone_number      = $request->phone_number;
-        $person->landline_number   = $request->landline_number;
-        $person->age               = $this->personnelRepository->getAge($request->date_of_birth);
-        $person->save();
+        try {
+            $person = Person::with('account')->find($id);
 
-        return back()->with('success', $person->id);
+            $person->firstname         = $request->firstname;
+            $person->middlename        = $request->middlename;
+            $person->lastname          = $request->lastname;
+            $person->temporary_address = $request->temporary_address;
+            $person->address           = $request->address;
+            $person->suffix            = $request->suffix;
+            $person->date_of_birth     = Carbon::parse($request->date_of_birth)->format('Y-m-d');
+            $person->image             = $imageName ?? $person->image;
+            $person->gender            = $request->gender;
+            $person->province_code     = $request->province;
+            $person->city_code         = $request->city;
+            $person->barangay_code     = $request->barangay;
+            $person->civil_status      = $request->status;
+            $person->phone_number      = $request->phone_number;
+            $person->landline_number   = $request->landline_number;
+            $person->age               = $this->personnelRepository->getAge($request->date_of_birth);
+
+            $account = $person->account;
+
+            if(!is_null($request->username)) {
+                $account->username = $request->username;
+            }
+
+            if(!is_null($request->password)) {
+                $account->password = bcrypt($request->password);
+            }
+
+            if(!is_null($request->mpin)) {
+                $account->mpin = bcrypt($request->mpin);
+            }
+
+            $account->save();
+            $account->info()->save($person);
+
+            DB::commit();
+
+            return back()->with('success', $person->id);
+        } catch(\Exception $e) {
+            dd($e->getMessage());
+            abort(404);
+            DB::rollback();
+        }
+
+
     }
 
     /**

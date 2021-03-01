@@ -26,7 +26,7 @@
  <!-- BEGIN: Content -->
  <div class="flex h-screen base ">
   <div class="m-auto">
-        <img id="qr-image" class="img-fit mt-40 mx-auto rounded border-4 border-color shadow p-2 bg-white" src="{{ asset('/storage/images/test-qr.png') }}">
+        <img id="qr-image" class="img-fit mt-40 mx-auto rounded border-4 border-color shadow p-2 bg-white" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={{ $personnel_repository->generateQRbyData($person) }}">
 
         <img id="person_image" class="w-40 h-40 mx-auto mt-5 img-fit mx-auto rounded border-4 border-color border-white border-2 shadow p-2 bg-white" src="{{ asset('/storage/images/' . $person->image) }}">
 

@@ -48,12 +48,12 @@
                             @csrf
                             <div class="intro-x mt-8">
                                 <div class="text-theme-6">
-                                    @if($errors->count() >= 1)   
+                                    @if($errors->count() >= 1)
                                         Please check your username / password.
                                     @endif
-                                   
+
                                 </div>
-                                <input type="text" class="intro-x login__input input input--lg border border-gray-300 block {{ $errors->count() >= 1 ? 'border-theme-6' : '' }}" placeholder="Username" name="username">
+                                <input type="text" class="intro-x login__input input input--lg border border-gray-300 block {{ $errors->count() >= 1 ? 'border-theme-6' : '' }}" placeholder="Username" name="username" value="{{ old('username') }}">
                                 <input type="password" class="intro-x login__input input input--lg border border-gray-300 block mt-4 {{ $errors->count() ? 'border-theme-6' : '' }}" placeholder="Password" name="password">
                             </div>
                             <div class="intro-x flex text-gray-700 text-xs sm:text-sm mt-4">

@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             // Information of the user.
             $table->string('person_id');
+            $table->string('mpin');
             $table->rememberToken();
             $table->timestamps();
         });

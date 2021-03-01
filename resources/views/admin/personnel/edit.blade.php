@@ -19,10 +19,10 @@
                         <div class="box">
                             <div class="flex flex-col lg:flex-row items-center p-5 bg-theme-9 rounded">
                                 <div class="lg:ml-2 lg:mr-auto text-center lg:text-left mt-3 lg:mt-0">
-                                    <p class="font-medium mb-2 text-white">Information of 
+                                    <p class="font-medium mb-2 text-white">Information of
                                         <span class="capitalize">
                                             {{ strtolower($personnel->firstname) }}
-                                        </span> successfully update</p> 
+                                        </span> successfully update</p>
                                     <div class="text-gray-600 text-xs">
                                         <a target="_blank" href="{{ route('admin.print.qr', Session::get('success')) }}" class="button button--md text-white bg-theme-1 mr-2">View Personnel I.D</a>
                                     </div>
@@ -48,10 +48,10 @@
                                         <div class="flex-1 flex flex-col md:flex-row">
                                             <div class="w-full flex-1 mx-2">
                                                 <label>
-                                                    Firstname   
+                                                    Firstname
                                                     <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                                                 </label>
-                                                
+
                                                 <div class="p-1 bg-white flex border rounded  {{ $errors->has('firstname')  ? 'border-red-500' : '' }}">
                                                     <input class="p-1 px-2 appearance-none outline-none w-full text-gray-800" type="text" placeholder="e.g. Christopher" aria-invalid="true" name="firstname" value="{{  old('firstname') ?? $personnel->firstname }}">
                                                 </div>
@@ -79,7 +79,7 @@
                                                     </span>
                                                 </span>
                                             </div>
-                                            
+
                                             <div class="w-full flex-1 mx-2">
                                                 Lastname
                                                 <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
@@ -126,17 +126,17 @@
                                                 <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                                             </label>
                                             <div class=" p-1 bg-white flex">
-                                                <select 
+                                                <select
                                                 class="input border {{ $errors->has('province')  ? 'border-red-500' : '' }} p-2 px-2 appearance-none outline-none w-full text-gray-800" name="province" id="province">
                                                     @foreach($provinces as $province)
-                                                        <option 
+                                                        <option
                                                             {{ $personnel->province_code == $province->code ? 'selected' : '' }}
                                                             value="{{ $province->code }}"> {{ $province->name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            
+
                                         </div>
                                         <div class="w-full flex-1 mx-2">
                                             <label for="">
@@ -171,7 +171,7 @@
                                         <div class="p-1 bg-white flex border {{  $errors->has('temporary_address') ? 'border-red-500' : '' }} rounded rounded">
                                             <textarea placeholder="e.g. Purok Paradise 950" class="p-1 px-2 appearance-none outline-none w-full text-gray-800" rows="5" name="temporary_address">{{  old('temporary_address') ?? $personnel->temporary_address }}</textarea>
                                         </div>
-                                        
+
                                         <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
                                             @if($errors->has('temporary_address'))
                                                 {{  $errors->first('temporary_address') }}
@@ -183,7 +183,7 @@
                                     </div>
 
                                     <div class="w-full flex-1 mx-2">
-                                        
+
                                         <label for="">
                                             Permanent Address
                                             <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
@@ -200,7 +200,7 @@
                                         </span>
                                         <div class="mb-2"></div>
                                     </div>
-                                    
+
                                     <div class="mb-2 flex-1 flex flex-col md:flex-row">
                                         <div class="w-full flex-1 mx-2">
                                             <label>                                                Sex
@@ -258,7 +258,7 @@
                                                     Required, Please include country code e.g. +639
                                                 @endif
                                             </span>
-                                            
+
                                         </div>
 
                                         <div class="w-full flex-1 mx-2">
@@ -268,6 +268,85 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <hr>
+
+                                <div class="mt-2 flex-1 flex flex-col md:flex-row">
+
+                                    <div class="w-full flex-1 mx-2">
+                                        Username
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            *
+                                        </span>
+                                        <div class=" p-1 bg-white flex">
+                                            <input
+                                                class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('username') ? 'border-red-500' : '' }}"
+                                                type="text" placeholder="Enter username" name="username" value="{{  old('username') ?? $personnel->account->username }}">
+                                        </div>
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            {{ $errors->first('username') }}
+                                        </span>
+                                    </div>
+                                    <div class="w-full flex-1 mx-2">
+                                        <label>
+                                            Password
+                                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                                *
+                                            </span>
+                                        </label>
+                                        <div class="p-1 bg-white flex ">
+                                            <input
+                                                class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('password') ? 'border-red-500' : '' }}"
+                                                type="password" name="password" value="{{ old('password') }}" placeholder="Enter password">
+                                        </div>
+
+                                        @if($errors->has('password'))
+                                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                                {{ $errors->first('password') }}
+                                            </span>
+                                        @else
+                                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-theme-1">
+                                                Optional
+                                            </span>
+                                        @endif
+
+                                    </div>
+
+                                    <div class="w-full flex-1 mx-2">
+                                        MPIN
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            *
+                                        </span>
+                                        <div class="p-1 bg-white">
+                                            <input
+                                                class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('mpin') ? 'border-red-500' : '' }}"
+                                                placeholder="Enter MPIN"
+                                                name="mpin"
+                                                value="{{ old('mpin') }}"
+                                                maxlength="4"
+                                                type="password">
+                                        </div>
+                                        @if($errors->has('mpin'))
+                                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                                {{ $errors->first('mpin') }}
+                                            </span>
+                                        @else
+                                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-theme-1">
+                                                Optional
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="w-full flex-1">
+                                    <div class="mx-2 my-2">
+                                        <div class="mt-2">
+                                            <input type="checkbox" class="input input--switch border" name="use_default">
+                                        </div>
+                                        <label class="text-theme-3 font-medium">Use default Passwod and MPIN for this account</label>
+
+                                    </div>
+                                </div>
 
 
                                     <div class="w-full flex-1 mx-2">
@@ -285,9 +364,9 @@
                                             Required, attach only image file
                                         </span>
                                     </div>
-                                    
+
                                     <div class="flex lg:justify-end">
-                                        <button type="submit" class="button bg-theme-9 shadow text-white w-auto">Update <span class="capitalize">{{ strtolower($personnel->firstname) }}</span>'s Information</button>    
+                                        <button type="submit" class="button bg-theme-9 shadow text-white w-auto">Update <span class="capitalize">{{ strtolower($personnel->firstname) }}</span>'s Information</button>
                                         @if(Session::has('success'))
                                             <a href="{{ route('admin.print.qr', Session::get('success')) }}" class="ml-2 button bg-green-500 text-white btn--md">View Generated QR</a>
                                         @endif
@@ -323,7 +402,7 @@
                 success : (response) => {
                     // Clear all option of cities select element
                     elementCities.find('option').remove();
-                    
+
                     // Iterate to all city by province code and display to select
                     response.municipals.forEach((municipal) => {
                         elementCities.append(`<option value="${municipal.code}">${municipal.name}</option>`);

@@ -164,7 +164,7 @@
                                         <select class="select2 w-full input border" name="city">
                                             @foreach($cities as $city)
                                                 <option value="{{ $city->code }}">
-                                                    {{  @$city->province->name }} - {{ $city->name }}
+                                                    {{ $city->province->name }} - {{ $city->name }}
                                                 </option>
                                             @endforeach
                                         </select>

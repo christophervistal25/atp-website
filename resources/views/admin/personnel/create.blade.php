@@ -122,7 +122,7 @@
                                             <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                                         </label>
                                         <div class="bg-white flex {{ $errors->has('province')  ? 'border border-red-500' : 'p-1' }}">
-                                            <select 
+                                            <select
                                                 class="select2 input border p-2 px-2 appearance-none outline-none w-full text-gray-800"
                                                 name="province" id="province" >
                                                 @foreach($provinces as $province)
@@ -276,6 +276,73 @@
                                     </div>
                                 </div>
 
+                                <hr>
+
+                                <div class="mt-2 flex-1 flex flex-col md:flex-row">
+
+                                    <div class="w-full flex-1 mx-2">
+                                        Username
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            *
+                                        </span>
+                                        <div class=" p-1 bg-white flex">
+                                            <input
+                                                class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('username') ? 'border-red-500' : '' }}"
+                                                type="text" placeholder="Enter username" name="username" value="{{  old('username') }}">
+                                        </div>
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            {{ $errors->first('username') }}
+                                        </span>
+                                    </div>
+                                    <div class="w-full flex-1 mx-2">
+                                        <label>
+                                            Password
+                                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                                *
+                                            </span>
+                                        </label>
+                                        <div class="p-1 bg-white flex ">
+                                            <input
+                                                class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('password') ? 'border-red-500' : '' }}"
+                                                type="password" name="password" value="{{ old('password') }}" placeholder="Enter password">
+                                        </div>
+
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            {{ $errors->first('password') }}
+                                        </span>
+
+                                    </div>
+
+                                    <div class="w-full flex-1 mx-2">
+                                        MPIN
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            *
+                                        </span>
+                                        <div class="p-1 bg-white">
+                                            <input
+                                                class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('mpin') ? 'border-red-500' : '' }}"
+                                                placeholder="Enter MPIN"
+                                                name="mpin"
+                                                value="{{ old('mpin') }}"
+                                                maxlength="4"
+                                                type="password">
+                                        </div>
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            {{ $errors->first('mpin') }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="w-full flex-1">
+                                    <div class="mx-2 my-2">
+                                        <div class="mt-2">
+                                            <input type="checkbox" class="input input--switch border" name="use_default">
+                                        </div>
+                                        <label class="text-theme-3 font-medium">Use default Passwod and MPIN for this account</label>
+
+                                    </div>
+                                </div>
+
 
                                 <div class="w-full flex-1 mx-2">
                                     <label>
@@ -285,9 +352,10 @@
                                         </span>
                                     </label>
 
+
                                     <div class="p-1 bg-white flex  rounded">
                                         <input
-                                            class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('image') ? 'border-red-500' : '' }}" 
+                                            class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('image') ? 'border-red-500' : '' }}"
                                             type="file" name="image">
                                     </div>
                                     <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
@@ -333,7 +401,7 @@
                 success : (response) => {
                     // Clear all option of cities select element
                     elementCities.find('option').remove();
-                    
+
                     // Iterate to all city by province code and display to select
                     response.municipals.forEach((municipal) => {
                         elementCities.append(`<option value="${municipal.code}">${municipal.name}</option>`);

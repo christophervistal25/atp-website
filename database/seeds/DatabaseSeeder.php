@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             CitySeeder::class,
             CheckerSeeder::class,
             BarangaySeeder::class,
+            SettingSeeder::class,
             // PersonSeeder::class,
             // OfficeSeeder::class,
             // EstablishmentSeeder::class,
