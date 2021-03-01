@@ -47,7 +47,6 @@ class UpdateProfileController extends Controller
 
 
         DB::beginTransaction();
-
         try {
 
             $person = Person::find(Auth::user()->person_id);
@@ -71,7 +70,7 @@ class UpdateProfileController extends Controller
 
             DB::commit();
 
-            return redirect()->route('home');
+            return redirect()->route('home')->with('success', 'Successfully update your profile.');
         } catch(\Exception $e) {
             abort(404);
             DB::rollback();

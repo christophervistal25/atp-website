@@ -8,6 +8,17 @@
     </h2>
 </div>
 <!-- BEGIN: Profile Info -->
+@if(Session::has('success'))
+    <div class="intro-y col-span-12 md:col-span-6">
+        <div class="box">
+            <div class="flex flex-col lg:flex-row items-center p-5 bg-theme-9 rounded">
+                <div class="lg:ml-2 lg:mr-auto text-center lg:text-left mt-3 lg:mt-0">
+                    <p class="font-medium text-white">{{  Session::get('success') }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
 <div class="intro-y box px-5 pt-5 mt-5">
     <div class="flex flex-col lg:flex-row border-b border-gray-200 pb-5 -mx-5">
         <div class="flex flex-1 px-5 items-center justify-center lg:justify-start">
@@ -20,7 +31,14 @@
                 <div class="w-auto truncate sm:whitespace-normal font-medium text-md">{{  $person->info->firstname }} {{  $person->info->middlename }} {{  $person->info->lastname }} {{  $person->info->suffix }}</div>
                 <div class="font-medium">{{ $person->info->person_id }} </div>
                 <div class="font-medium">{{ $person->info->age }} Years Old</div>
-                <div class="font-medium">Registered by administrator</div>
+                <div class="font-medium">Registered in {{ $person->info->registered_from }}</div>
+                <div class="font-medium">
+                    <a 
+                        target="_blank" 
+                        href="{{ route('user-id') }}"
+                        class="button button--sm text-white bg-theme-1">View Your I.D</a>
+                </div>
+                
             </div>
         </div>
         <div class="flex mt-6 lg:mt-0 items-center lg:items-start flex-1 flex-col justify-center text-gray-600 px-5 border-l border-r border-gray-200 border-t lg:border-t-0 pt-5 lg:pt-0">

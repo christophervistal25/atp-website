@@ -8,12 +8,13 @@ use App\Province;
 use App\Http\Controllers\Repositories\Encrytor;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class PersonnelRepository
 {
     public const QR_SEPARATOR = '|';
     public const ID_SEPERATOR = '-';
-    public const GENDER = ['Male', 'Female'];
+    public const GENDER       = ['Male', 'Female'];
     public const CIVIL_STATUS = ['Single', 'Single Parent', 'Married', 'Separated', 'Widow', 'Widowed', 'Annuled'];
 
     public static function generateQRbyData(Person $person)

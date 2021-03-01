@@ -11,22 +11,13 @@
           </div>
           <div class="grid grid-cols mt-5">
               <div class="intro-y col-span-12 lg:col-span-6">
-                  @if(Session::has('success'))
-                      <div class="intro-y col-span-12 md:col-span-6">
-                          <div class="box">
-                              <div class="flex flex-col lg:flex-row items-center p-5 bg-theme-9 rounded mb-2">
-                                  <div class="lg:ml-2 lg:mr-auto text-center lg:text-left mt-3 lg:mt-0">
-                                      <p class="font-medium text-white">Successfully update your profile you can now view other sections </p>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  @else
                       <div class="rounded-md flex items-center px-5 py-4 mb-2 bg-theme-6">
                           <i data-feather="alert-circle" class="w-6 h-6 mr-2 text-white"></i>
-                          <span class="text-white font-medium">All fields with * mark are required.</span>
+                          <ul class="font-medium text-white">
+                            <li>• Please fill out this form as honestly and accurately as possible</li>
+                            <li>• All fields with * mark are required.</li>
+                          </ul>
                       </div>
-                  @endif
                   <!-- BEGIN: Input -->
                   <div class="intro-y box">
                       <div class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200">
@@ -121,12 +112,23 @@
                                     </label>
                                     <div class=" p-1 bg-white flex">
                                         <input
-                                            type="text"
+                                            type="password"
                                             class="input w-full border px-2 p-2 appearance-none outline-none {{  $errors->has('m_pin') ? 'border-red-500' : '' }}"
                                             name="mpin"
+                                            maxlength="4"
                                             placeholder="Enter your MPIN"
                                             value="{{ old('mpin') }}">
                                     </div>
+                                    @if($errors->has('mpin'))
+                                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                        {{  $errors->first('mpin') }}
+                                    </span>
+                                    @else
+                                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                        Maximum of 4 digits
+                                    </span>
+                                    @endif
+                                    
                                 </div>
                                 <div class="w-full flex-1 mx-2">
                                     <label>Re-type MPIN
@@ -136,12 +138,14 @@
                                     </label>
                                     <div class=" p-1 bg-white flex">
                                         <input
-                                            type="text"
+                                            type="password"
                                             class="input w-full border px-2 p-2 appearance-none outline-none {{  $errors->has('confirm_mpin') ? 'border-red-500' : '' }}"
                                             name="confirm_mpin"
                                             placeholder="Re-type your MPIN"
+                                            maxlength="4"
                                             value="{{ old('confirm_mpin') }}">
                                     </div>
+
                                     <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
                                         {{  $errors->first('confirm_mpin') }}
                                     </span>

@@ -32,19 +32,36 @@ class PersonnelController extends Controller
                 return response()->json(['success' => false, 'message' => 'Please check your account credentials.']);
             }
 
-            $person = Person::where('phone_number', $request->phone_number)->first();
-
+            $person = Person::with('account')
+                            ->where('phone_number', $request->phone_number)
+                            ->first();
 
             if(Hash::check($request->mpin, $person->account->mpin)) {
-                return response()->json(['success' => true]);
-            } else {
-                return response()->json(['success' => false, 'message' => 'Please check your account credentials.']);
-            }
+                
+                // These credentials are from User Model we need to set this two data into variable for removing the account information relation in Person model that automatically load
+                // once we access some columns from it.
+                $mpin     = $request->mpin;
+                $username = $person->account->username;
+                $province = $person->province->name;
+                $city     = $person->city->name;
+                $barangay = $person->barangay->name;
 
+                // Removing the account information that load in person model
+                $person = $person->setEagerLoads([])->first();
 
+                // Setting two new key value pairs in person information.
+                $person->username = $username;
+                $person->mpin     = $mpin;
+                $person->province = $province;
+                $person->city     = $city;
+                $person->barangay = $barangay;
+                
+                $person->makeHidden(['image', 'province_code', 'city_code', 'barangay_code', 'created_at', 'updated_at']);
 
-            return $person;
+                return response()->json(['success' => true, 'user' => $person]);
+            } 
 
+            return response()->json(['success' => false, 'message' => 'Please check your account credentials.']);
         } else {
             $validator = Validator::make($request->all(), [
                 'username' => 'exists:users,username',
@@ -54,16 +71,27 @@ class PersonnelController extends Controller
                 return response()->json(['success' => false, 'message' => 'Please check your account credentials.']);
             }
 
-
-            $user = User::where('username', $request->username)->first();
-
+            $user = User::where('username', $request->username)
+                            ->first();
             if(Hash::check($request->mpin, $user->mpin)) {
-                return response()->json(['success' => true]);
-            } else {
-                return response()->json(['success' => false, 'message' => 'Please check your account credentials.']);
-            }
+                // Push new key values in info these two values are seperated from the table columns.
+                $province = $user->info->province->name;
+                $city     = $user->info->city->name;
+                $barangay = $user->info->barangay->name;
 
+                $user = $user->setEagerLoads([])->first();
 
+                $user->info->username = $user->username;
+                $user->info->mpin     = $request->mpin;
+                $user->info->province = $province;
+                $user->info->city     = $city;
+                $user->info->barangay = $barangay;
+                
+                $user->info->makeHidden(['image', 'province_code', 'city_code', 'barangay_code', 'created_at', 'updated_at']);
+                return response()->json(['success' => true, 'user' => $user->info]);
+            } 
+
+            return response()->json(['success' => false, 'message' => 'Please check your account credentials.']);
         }
 
 
