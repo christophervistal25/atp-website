@@ -56,6 +56,7 @@
           <th class="font-medium">Province</th>
           <th class="font-medium">City</th>
           <th class="font-medium">Barangay</th>
+          <th class="font-medium text-center">Status</th>
           <th class="font-medium">Registered Date</th>
           <th class="font-medium text-center">Options</th>
         </tr>
@@ -102,6 +103,7 @@
               { name: 'province.name', orderable : false },
               { name: 'city.name', orderable : false},
               { name: 'barangay.name', orderable : false },
+              { name: 'status', orderable : false },
               { name: 'created_at' },
               { name: 'admin_action' , searchable : false, orderable : false, },
           ],

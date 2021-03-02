@@ -132,8 +132,7 @@ class PersonnelController extends Controller
                     'username'  => $request->username,
                     'password'  => bcrypt($request->password),
                     'person_id' => $person->id,
-                    'mpin'      => bcrypt($request->mpin),
-
+                    'mpin'      => bcrypt($request->mpin)
                 ]);
             }
             DB::commit();

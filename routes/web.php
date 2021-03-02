@@ -15,7 +15,7 @@ Route::group(['prefix' => 'admin'] , function () {
 
 	Route::group(['middleware' => 'auth:admin'], function () {
 
-
+		
 		Route::get('/profile/update', 'Admin\ProfileController@edit')->name('admin.profile.edit');
 		Route::put('/profile/update/account/{id}', 'Admin\ProfileController@updateAccount')->name('admin.profile.update.account');
 		Route::put('/profile/update/info/{id}', 'Admin\ProfileController@updateInfo')->name('admin.profile.update.info');
@@ -70,6 +70,8 @@ Route::group(['prefix' => 'admin'] , function () {
 		Route::post('/accounts/administrator/create', 'Admin\AccountController@store')->name('administrator.store');
 		Route::get('/accounts/administrator/{admin}/edit', 'Admin\AccountController@edit')->name('administrator.edit');
 		Route::put('/accounts/administrator/{admin}/edit', 'Admin\AccountController@update')->name('administrator.update');
+
+		Route::resource('user', 'Admin\UserController');
 
 	});
 

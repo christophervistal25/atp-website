@@ -41,6 +41,11 @@ class User extends Authenticatable
         return $this->hasOne('App\Person', 'id', 'person_id');
     }
 
+    public function getStatusAttribute()
+    {
+        return $this->info->province_code === '*';
+    }
+
 
 
 }

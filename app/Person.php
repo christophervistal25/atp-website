@@ -69,6 +69,20 @@ class Person extends Model
         ";
     }
 
+    public static function laratablesCustomStatus($person)
+    {
+        if($person->province_code === '*') {
+           return "<span class='px-2 py-1 bg-theme-6 rounded text-xs text-white rounded-full'>
+                        Incomplete
+                   </span>";
+        } else {
+            return "<span class='px-2 py-1 bg-theme-1 rounded text-xs text-white rounded-full'>
+                        Complete
+                   </span>";
+        }
+       
+    }
+
     public static function laratablesGender($person)
     {
         return ucfirst($person->gender);

@@ -1,7 +1,7 @@
 @extends('templates-2.app')
 @section('page-title', 'Dashboard')
 @prepend('page-css')
-    @include('templates.select-option')
+@include('templates.select-option')
 @endpush
 @section('content')
 <div class="grid grid-cols-12 gap-6">
@@ -74,7 +74,8 @@
                                                 class="p-1 bg-white flex border {{ $errors->has('middlename')  ? 'border-red-500' : '' }} rounded">
                                                 <input
                                                     class="p-1 px-2 appearance-none outline-none w-full text-gray-800"
-                                                    type="text" placeholder="e.g. Platino" name="middlename" value="{{  old('middlename') }}">
+                                                    type="text" placeholder="e.g. Platino" name="middlename"
+                                                    value="{{  old('middlename') }}">
                                             </div>
                                             <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">Required, at
                                                 least 2 characters</span>
@@ -87,7 +88,8 @@
                                                 class="p-1 bg-white flex border {{ $errors->has('lastname')  ? 'border-red-500' : '' }} rounded">
                                                 <input
                                                     class="p-1 px-2 appearance-none outline-none w-full text-gray-800"
-                                                    type="text" placeholder="e.g. Vistal" name="lastname" value="{{  old('lastname') }}">
+                                                    type="text" placeholder="e.g. Vistal" name="lastname"
+                                                    value="{{  old('lastname') }}">
                                             </div>
                                             <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">Required, at
                                                 least 2 characters</span>
@@ -98,7 +100,8 @@
                                             <div class="p-1 bg-white flex border rounded">
                                                 <input placeholder="Enter Suffix"
                                                     class="p-1 px-2 appearance-none outline-none w-full text-gray-800"
-                                                    type="text" maxlength="3" placeholder="e.g. Jr" name="suffix" value="{{  old('suffix') }}">
+                                                    type="text" maxlength="3" placeholder="e.g. Jr" name="suffix"
+                                                    value="{{  old('suffix') }}">
                                             </div>
                                         </div>
                                     </div>
@@ -124,17 +127,18 @@
                                             Province
                                             <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                                         </label>
-                                        <div class="bg-white flex {{ $errors->has('province')  ? 'border border-red-500' : 'p-1' }}">
+                                        <div
+                                            class="bg-white flex {{ $errors->has('province')  ? 'border border-red-500' : 'p-1' }}">
                                             <select
                                                 class="select2 input border p-2 px-2 appearance-none outline-none w-full text-gray-800"
-                                                name="province" id="province" >
+                                                name="province" id="province">
                                                 @foreach($provinces as $province)
-                                                    @if(old('province'))
-                                                        <option {{ old('province') == $province->code ? 'selected' : '' }}
-                                                        value="{{ $province->code }}"> {{ $province->name }}</option>
-                                                    @else
-                                                        <option value="{{ $province->code }}"> {{ $province->name }}</option>
-                                                    @endif
+                                                @if(old('province'))
+                                                <option {{ old('province') == $province->code ? 'selected' : '' }}
+                                                    value="{{ $province->code }}"> {{ $province->name }}</option>
+                                                @else
+                                                <option value="{{ $province->code }}"> {{ $province->name }}</option>
+                                                @endif
                                                 @endforeach
                                             </select>
                                         </div>
@@ -145,11 +149,12 @@
                                             City
                                             <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                                         </label>
-                                        <div class=" bg-white flex {{  $errors->has('city') ? 'rounded border border-red-500' : 'p-1' }}">
+                                        <div
+                                            class=" bg-white flex {{  $errors->has('city') ? 'rounded border border-red-500' : 'p-1' }}">
                                             <select
                                                 class="select2 input border p-2 px-2 appearance-none outline-none w-full text-gray-800"
                                                 name="city" id="cities">
-                                                    <option selected disable>Select Province First</option>
+                                                <option selected disable>Select Province First</option>
                                             </select>
                                         </div>
                                         <span class="text-red-500 text-xs">{{  $errors->first('city') }}</span>
@@ -160,7 +165,8 @@
                                             Barangay
                                             <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                                         </label>
-                                        <div class="bg-white {{ $errors->has('barangay') ? 'rounded border border-red-500' : 'p-1' }}">
+                                        <div
+                                            class="bg-white {{ $errors->has('barangay') ? 'rounded border border-red-500' : 'p-1' }}">
                                             <select
                                                 class="select2 input border p-2 px-2 appearance-none outline-none w-full text-gray-800 "
                                                 name="barangay" id="barangay">
@@ -217,8 +223,10 @@
                                             <select
                                                 class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800  border {{  $errors->has('gender') ? 'border-red-500' : '' }}"
                                                 name="gender">
-                                                <option {{ old('gender') == 'Male' ? 'selected' : '' }} value="Male">Male</option>
-                                                <option {{ old('gender') == 'Female' ? 'selected' : '' }} value="Female">Female</option>
+                                                <option {{ old('gender') == 'Male' ? 'selected' : '' }} value="Male">
+                                                    Male</option>
+                                                <option {{ old('gender') == 'Female' ? 'selected' : '' }}
+                                                    value="Female">Female</option>
                                             </select>
                                         </div>
                                     </div>
@@ -234,7 +242,8 @@
                                                 class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('status') ? 'border-red-500' : '' }}"
                                                 name="status">
                                                 @foreach($civil_status as $status)
-                                                    <option {{ old('status') == $status ? 'selected' : '' }}  value={{ $status }}>{{ $status }}</option>
+                                                <option {{ old('status') == $status ? 'selected' : '' }}
+                                                    value={{ $status }}>{{ $status }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -247,7 +256,8 @@
                                         <div class=" p-1 bg-white flex">
                                             <input
                                                 class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800"
-                                                type="email" placeholder="e.g. user@gmail.com" name="email" value="{{  old('email') }}">
+                                                type="email" placeholder="e.g. user@gmail.com" name="email"
+                                                value="{{  old('email') }}">
                                         </div>
                                     </div>
                                     <div class="w-full flex-1 mx-2">
@@ -260,7 +270,8 @@
                                         <div class="p-1 bg-white flex ">
                                             <input
                                                 class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('phone_number') ? 'border-red-500' : '' }}"
-                                                type="text" placeholder="e.g.+639193693499" name="phone_number" value="{{  old('phone_number') }}">
+                                                type="text" placeholder="e.g.+639193693499" name="phone_number"
+                                                value="{{  old('phone_number') }}">
                                         </div>
 
                                         <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
@@ -274,7 +285,8 @@
                                         <div class="p-1 bg-white">
                                             <input
                                                 class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800"
-                                                type="text" placeholder="e.g. 8123-4567" name="landline_number" value="{{  old('landline_number') }}">
+                                                type="text" placeholder="e.g. 8123-4567" name="landline_number"
+                                                value="{{  old('landline_number') }}">
                                         </div>
                                     </div>
                                 </div>
@@ -291,7 +303,8 @@
                                         <div class=" p-1 bg-white flex">
                                             <input
                                                 class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('username') ? 'border-red-500' : '' }}"
-                                                type="text" placeholder="Enter username" name="username" value="{{  old('username') }}">
+                                                type="text" placeholder="Enter username" name="username"
+                                                value="{{  old('username') }}">
                                         </div>
                                         <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
                                             {{ $errors->first('username') }}
@@ -307,7 +320,8 @@
                                         <div class="p-1 bg-white flex ">
                                             <input
                                                 class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('password') ? 'border-red-500' : '' }}"
-                                                type="password" name="password" value="{{ old('password') }}" placeholder="Enter password">
+                                                type="password" name="password" value="{{ old('password') }}"
+                                                placeholder="Enter password">
                                         </div>
 
                                         <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
@@ -324,28 +338,14 @@
                                         <div class="p-1 bg-white">
                                             <input
                                                 class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('mpin') ? 'border-red-500' : '' }}"
-                                                placeholder="Enter MPIN"
-                                                name="mpin"
-                                                value="{{ old('mpin') }}"
-                                                maxlength="4"
-                                                type="password">
+                                                placeholder="Enter MPIN" name="mpin" value="{{ old('mpin') }}"
+                                                maxlength="4" type="password">
                                         </div>
                                         <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
                                             {{ $errors->first('mpin') }}
                                         </span>
                                     </div>
                                 </div>
-
-                                <div class="w-full flex-1">
-                                    <div class="mx-2 my-2">
-                                        <div class="mt-2">
-                                            <input type="checkbox" class="input input--switch border" name="use_default">
-                                        </div>
-                                        <label class="text-theme-3 font-medium">Use default Passwod and MPIN for this account</label>
-
-                                    </div>
-                                </div>
-
 
                                 <div class="w-full flex-1 mx-2">
                                     <label>
@@ -391,7 +391,7 @@
 <script>
     $(document).ready(() => {
 
-    const BASE_URL = '/api/province';
+        const BASE_URL = '/api/province';
 
         // User Select Province then populate all data for province.
         $('#province').change((e) => {
@@ -399,14 +399,16 @@
             let elementCities = $('#cities');
             // Make an AJAX request to get all city filtered by selected province.
             $.ajax({
-                url : `${BASE_URL}/municipal/${provinceCode}`,
-                success : (response) => {
+                url: `${BASE_URL}/municipal/${provinceCode}`,
+                success: (response) => {
                     // Clear all option of cities select element
                     elementCities.find('option').remove();
 
                     // Iterate to all city by province code and display to select
                     response.municipals.forEach((municipal) => {
-                        elementCities.append(`<option value="${municipal.code}">${municipal.name}</option>`);
+                        elementCities.append(
+                            `<option value="${municipal.code}">${municipal.name}</option>`
+                            );
                     });
 
                 }
@@ -415,20 +417,22 @@
 
 
         // User Select City then populate all data for barangays
-        $('#cities').change((e) =>  {
+        $('#cities').change((e) => {
             let selectedCityCode = e.target.value;
             let barangayElement = $('#barangay');
 
             // Make an AJAX request to get all barangay filtered by selected city.
             $.ajax({
-                url : `${BASE_URL}/barangay/${selectedCityCode}`,
-                success : (response) =>  {
+                url: `${BASE_URL}/barangay/${selectedCityCode}`,
+                success: (response) => {
                     // Clear all option of barangay select element
                     barangayElement.find('option').remove();
 
                     // Iterate to all barangay by city code and display to select
-                    response.barangays.forEach((barangay) =>  {
-                        $('#barangay').append(`<option value="${barangay.code}">${barangay.name}</option>`);
+                    response.barangays.forEach((barangay) => {
+                        $('#barangay').append(
+                            `<option value="${barangay.code}">${barangay.name}</option>`
+                            );
                     });
 
                 }
@@ -436,6 +440,7 @@
 
         });
     });
+
 </script>
 @endpush
 @endsection
