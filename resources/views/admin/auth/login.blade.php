@@ -4,7 +4,8 @@
     <!-- BEGIN: Head -->
     <head>
         <meta charset="utf-8">
-        <link href="http://surigaodelsur.ph/images/logo.png" rel="shortcut icon">
+        <link rel="icon" href="{{ asset('/favicon.ico') }}" type="image/x-icon">
+
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Midone admin is super flexible, powerful, clean & modern responsive tailwind admin template with unlimited possibilities.">
@@ -43,7 +44,7 @@
                         <h2 class="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left">
                             Sign In
                         </h2>
-                        
+
                         <div class="intro-x mt-2 text-gray-500 xl:hidden text-center">A few more clicks to sign in to your account. Manage all your e-commerce accounts in one place</div>
                         <form action="{{ route('admin.auth.loginAdmin') }}" method="POST">
                             @csrf

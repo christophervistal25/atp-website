@@ -1,5 +1,48 @@
 @extends('templates-2.app')
 @section('page-title', 'Dashboard')
+@prepend('page-css')
+{{-- BEGIN OF SCRIPT FOR CHECKING IF THERE'S A ODL VALUE IN SELECT --}}
+<script async>
+    (() => {
+        const BASE_URL        = '/api/province';
+        let   oldProvinceCode = "{{ old('province') }}";
+        let   oldCity         = "{{ old('city') }}";
+        let   oldBarangay     = "{{ old('barangay') }}";
+
+        let fetchData = (URL, callback) => {
+            fetch(URL)
+                .then(response => response.json())
+                .then(data => callback(data));
+        };
+
+        if(oldCity) {
+            fetchData(`${BASE_URL}/municipal/${oldProvinceCode}`, (data) => {
+                data.municipals.forEach((municipal) => {
+                    let option  = document.createElement('option');
+                    option.value       = municipal.code;
+                    option.textContent = municipal.name;
+                    option.selected = (municipal.code == oldCity) ? true : false;
+                    document.querySelector('#cities').append(option);
+                });
+            });
+        }
+
+        if(oldBarangay) {
+            fetchData(`${BASE_URL}/barangay/${oldCity}`, (data) => {
+                data.barangays.forEach((barangay) => {
+                    let option  = document.createElement('option');
+                    option.value       = barangay.code;
+                    option.textContent = barangay.name;
+                    option.selected = (barangay.code == oldBarangay) ? true : false;
+                    document.querySelector('#barangay').append(option);
+                });
+            });
+        }
+
+    })();
+    </script>
+    {{-- END OF SCRIPT FOR CHECKING IF THERE'S A ODL VALUE IN SELECT --}}
+@endpush
 @section('content')
 <div class="grid grid-cols-12 gap-6">
     <div class="col-span-12 xxl:col-span-12 grid grid-cols-12 gap-6">
@@ -388,12 +431,11 @@
 <script>
     $(document).ready(() => {
 
-        const BASE_URL = '/api/province';
+    const BASE_URL = '/api/province';
 
         // User Select Province then populate all data for province.
         $('#province').change((e) => {
             let provinceCode = e.target.value;
-            console.log(provinceCode);
             let elementCities = $('#cities');
             // Make an AJAX request to get all city filtered by selected province.
             $.ajax({
@@ -408,7 +450,6 @@
                     });
 
                 }
-
             });
         });
 
