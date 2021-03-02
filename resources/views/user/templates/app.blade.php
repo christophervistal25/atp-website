@@ -3,7 +3,6 @@
     <!-- BEGIN: Head -->
     <head>
         <meta charset="utf-8">
-        {{-- <link href="http://surigaodelsur.ph/images/logo.png" rel="shortcut icon"> --}}
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Midone admin is super flexible, powerful, clean & modern responsive tailwind admin template with unlimited possibilities.">
         <meta name="keywords" content="admin template, Midone admin template, dashboard template, flat admin template, responsive admin template, web app">
@@ -21,7 +20,7 @@
             <!-- BEGIN: Side Menu -->
             <nav class="side-nav">
                 <a href="{{  route('home') }}" class="intro-x flex items-center pl-5 pt-4">
-                    <img alt="e" class="w-6" src="/dist/images/logo.svg">
+                    <img alt="e" class="w-6" src="/dist/images/logo.png">
                     <span class="hidden xl:block text-white text-lg ml-3"> SurSur-<span class="font-medium">ATP</span> </span>
                 </a>
                 <div class="side-nav__devider my-6"></div>

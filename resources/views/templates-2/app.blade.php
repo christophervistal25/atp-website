@@ -29,7 +29,7 @@
         <!-- BEGIN: Side Menu -->
         <nav class="side-nav">
             <a href="{{  route('admin.dashboard') }}" class="intro-x flex items-center pl-5 pt-4">
-                <img alt="Midone Tailwind HTML Admin Template" class="w-6" src="/dist/images/logo.svg">
+                <img alt="Midone Tailwind HTML Admin Template" class="w-6" src="/dist/images/logo.png">
                 <span class="hidden xl:block text-white text-lg ml-3"> SurSur-<span class="font-medium">ATP</span>
                 </span>
             </a>

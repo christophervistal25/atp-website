@@ -24,7 +24,7 @@
                 <!-- BEGIN: Login Info -->
                 <div class="hidden xl:flex flex-col min-h-screen">
                     <a href="" class="-intro-x flex items-center pt-5 focus:outline-none">
-                        <img alt="Midone Tailwind HTML Admin Template" class="w-6" src="/dist/images/logo.svg">
+                        <img alt="Midone Tailwind HTML Admin Template" class="w-6" src="/dist/images/logo.png">
                         <span class="text-white text-lg ml-3"><span class="font-medium">SurSur-ATP</span> </span>
                     </a>
                     <div class="my-auto">
