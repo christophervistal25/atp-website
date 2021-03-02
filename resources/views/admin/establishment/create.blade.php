@@ -1,5 +1,8 @@
 @extends('templates-2.app')
 @section('page-title', 'Add New Establishment')
+@prepend('page-css')
+@include('templates.select-option')
+@endprepend
 @section('content')
     <div class="grid grid-cols-12">
         <div class="col-span-12 grid grid-cols-12">
@@ -19,13 +22,13 @@
                                 <div class="box">
                                     <div class="flex flex-col lg:flex-row items-center p-5 bg-theme-9 rounded mb-2">
                                         <div class="lg:ml-2 lg:mr-auto text-center lg:text-left mt-3 lg:mt-0">
-                                            <p class="font-medium text-white">Establishment Successfully Added!</p> 
+                                            <p class="font-medium text-white">Establishment Successfully Added!</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         @else
-                            <div class="rounded-md flex items-center px-5 py-4 mb-2 bg-theme-6"> 
+                            <div class="rounded-md flex items-center px-5 py-4 mb-2 bg-theme-6">
                                 <i data-feather="alert-circle" class="w-6 h-6 mr-2 text-white"></i>
                                 <span class="text-white font-medium">All fields with * mark are required.</span>
                             </div>
@@ -44,10 +47,10 @@
                                         <div class="flex-1 flex flex-col md:flex-row">
                                             <div class="w-full flex-1">
                                                 <label>
-                                                    Establishment/Office/Store Name  
+                                                    Establishment/Office/Store Name
                                                     <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                                                 </label>
-                                                
+
                                                 <div class="p-1 bg-white flex border rounded  {{ $errors->has('office_store_name')  ? 'border-red-500' : '' }}">
                                                     <input class="p-1 px-2 appearance-none outline-none w-full text-gray-800" type="text" placeholder="e.g. Gaisano Capital" aria-invalid="true" name="office_store_name" value="{{  old('office_store_name') }}">
                                                 </div>
@@ -65,7 +68,7 @@
                                                         @foreach($types as $type)
                                                             <option value="{{ $type }}"> {{ $type }}</option>
                                                         @endforeach
-                                                    </select> 
+                                                    </select>
                                                 <div class="text-xs text-theme-6">
                                                     @if($errors->has('type'))
                                                         {{ $errors->first('type') }}
@@ -75,11 +78,11 @@
                                         </div>
                                     </div>
 
-                                    <div> 
+                                    <div>
                                         <label>
                                             Address
                                             <span class="text-theme-6">*</span>
-                                        </label> 
+                                        </label>
                                         <textarea  class="input w-full border {{  $errors->has('address')  ? 'border-theme-6' : '' }}" name="address" rows="5">{{ old('address') }}</textarea>
                                         <div class="text-xs text-theme-6">
                                             @if($errors->has('address'))
@@ -87,13 +90,13 @@
                                             @endif
                                         </div>
                                     </div>
-                                    
 
-                                    <div class="mt-3 mb-3"> 
+
+                                    <div class="mt-3 mb-3">
                                         <label>
-                                            Contact Number 
+                                            Contact Number
                                             <span class="text-theme-6">*</span>
-                                        </label> 
+                                        </label>
                                         <input type="text" class="input w-full border {{  $errors->has('contact_number')  ? 'border-theme-6' : '' }}" placeholder="+639193693499" value="{{  old('contact_number') }}" name="contact_number">
                                         <div class="text-xs text-theme-6">
                                             @if($errors->has('contact_number'))
@@ -105,7 +108,7 @@
                                     </div>
 
 
-                                    <div class="mt-3"> 
+                                    <div class="mt-3">
                                         <label>
                                             Geo tag location
                                             <span class="text-theme-6">*</span>
@@ -123,9 +126,9 @@
                                         <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                                             <select class="select2 w-full input border apperance-none outline-none" name="province" id="province">
                                                 @foreach($provinces as $province)
-                                                <option value="{{ $province->code }}"> {{ $province->name }}</option>
-                                            @endforeach
-                                            </select> 
+                                                    <option {{ old('province') == $province->code  ? 'selected' : '' }} value="{{ $province->code }}"> {{ $province->name }}</option>
+                                                @endforeach
+                                            </select>
                                         <div class="text-xs text-theme-6">
                                             @if($errors->has('province'))
                                                 {{ $errors->first('province') }}
@@ -140,7 +143,7 @@
                                                 <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                                                     <select class="select2 w-full input border {{ $errors->has('city')  ? 'border-theme-6' : ''}}" name="city" id="cities">
                                                         <option selected disabled>Please Select Province</option>
-                                                    </select> 
+                                                    </select>
                                                 <div class="text-xs text-theme-6">
                                                     @if($errors->has('city'))
                                                         {{ $errors->first('city') }}
@@ -164,7 +167,7 @@
                                     </div>
 
                                     <div class="flex lg:justify-end mt-5">
-                                        <button type="submit" class="button bg-theme-1 text-white w-auto">Add New Establishment</button>    
+                                        <button type="submit" class="button bg-theme-1 text-white w-auto">Add New Establishment</button>
                                     </div>
                                 </form>
                              </div>
@@ -221,9 +224,9 @@
         $.ajax({
             url : `${BASE_URL}/barangay/${e.target.value}`,
             success :  (response) => {
-                
+
                 $('#barangay').find('option').remove();
-                
+
                 response.barangays.forEach((barangay) => $('#barangay').append(`<option value="${barangay.code}">${barangay.name}</option>`));
             },
         });

@@ -1,5 +1,8 @@
 @extends('user.templates.app')
 @section('page-title', 'Dashboard')
+@prepend('page-css')
+@include('templates.select-option')
+@endprepend
 @section('content')
 <div class="grid grid-cols-12 gap-6">
   <div class="col-span-12 xxl:col-span-12 grid grid-cols-12 gap-6">
@@ -37,13 +40,9 @@
                                       </label>
                                       <div class=" p-1 bg-white flex">
                                           <select value="{{  old('province') }}" class="input select2 select-province border {{ $errors->has('date_of_birth')  ? 'border-red-500' : '' }} p-2 px-2 appearance-none outline-none w-full text-gray-800" name="province" id="province">
-                                              {{-- @foreach($provinces as $province)
-                                              @if(old('province'))
+                                              @foreach($provinces as $province)
                                                   <option {{ old('province') == $province->code ? 'selected' : '' }} value="{{ $province->code }}"> {{ $province->name }}</option>
-                                              @else
-                                                  <option value="{{ $province->code }}"> {{ $province->name }}</option>
-                                              @endif
-                                              @endforeach --}}
+                                              @endforeach
                                           </select>
                                       </div>
 
@@ -128,7 +127,7 @@
                                         Maximum of 4 digits
                                     </span>
                                     @endif
-                                    
+
                                 </div>
                                 <div class="w-full flex-1 mx-2">
                                     <label>Re-type MPIN
@@ -237,12 +236,12 @@
     $(document).ready(() => {
         const BASE_URL = '/api/province';
 
-        // Load all provinces using ajax.
-        $.get(`/api/provinces`, (provinces) =>  {
-          provinces.forEach((province) => {
-            $('.select-province').append(`<option value="${province.code}">${province.name}</option>`);
-          })
-        });
+        // // Load all provinces using ajax.
+        // $.get(`/api/provinces`, (provinces) =>  {
+        //   provinces.forEach((province) => {
+        //     $('.select-province').append(`<option value="${province.code}">${province.name}</option>`);
+        //   })
+        // });
 
 
         // User Select Province then populate all data for province.
