@@ -19,8 +19,9 @@ $factory->define(App\Person::class, function (Faker $faker) {
         'temporary_address' => $faker->address,
         'address'           => $faker->address,
         'barangay_code'     => Barangay::first()->code,
-        'age'               => $faker->numberBetween(10, 70),
+        'age'               => $faker->numberBetween(1, 90),
         'civil_status'      => 'Single',
+        'gender'            => $faker->randomElement(['female', 'male']),
         'phone_number'      => $faker->phoneNumber,
         'date_of_birth'     => Carbon::now(),
     ];

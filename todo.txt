@@ -24,10 +24,11 @@ Android App Reader Features need to be add :
 
 
  Website
-    // Add No. of Scanned QR in Dashboard
-    // Chart by month of Scanned Qr
+    * Add No. of Scanned QR in Dashboard
+    // Chart by location temperature
     // Person's Temperature Chart -> Add Group By Age or Group By Gender.
     // Chart of Register User Display Complete and In-complete information.
+
     // Open a API for covid quick stats.
     // Display of High temperature Person's Chart & View in Table.
     // Queue process for notification for all users.

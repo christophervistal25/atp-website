@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class PersonLog extends Model
 {
-    private const LOW_NORMAL = 36.5;
-    private const HIGH_NORMAL = 37.5;
+    public const LOW_NORMAL = 36.5;
+    public const HIGH_NORMAL = 37.5;
 
-    private const LOW_FEVER = 37.6;
-    private const HIGH_FEVER = 38.0;
+    public const LOW_FEVER = 37.6;
+    public const HIGH_FEVER = 38.0;
 
 
-    private const LOW_SEVERE = 38.1;
-    private const HIGH_SEVERE = 43.0;
+    public const LOW_SEVERE = 38.1;
+    public const HIGH_SEVERE = 43.0;
 
     protected $fillable = ['person_id', 'location', 'checker_id','purpose', 'body_temperature', 'time'];
 

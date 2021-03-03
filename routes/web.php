@@ -5,6 +5,9 @@ Route::get('download-android', function () {
 
 Route::get('/', 'WelcomeController@index');
 
+Route::get('/test', function () {
+    return view('admin.statistics.overview');
+});
 
 Route::group(['prefix' => 'admin'] , function () {
 
@@ -15,7 +18,7 @@ Route::group(['prefix' => 'admin'] , function () {
 
 	Route::group(['middleware' => 'auth:admin'], function () {
 
-		
+
 		Route::get('/profile/update', 'Admin\ProfileController@edit')->name('admin.profile.edit');
 		Route::put('/profile/update/account/{id}', 'Admin\ProfileController@updateAccount')->name('admin.profile.update.account');
 		Route::put('/profile/update/info/{id}', 'Admin\ProfileController@updateInfo')->name('admin.profile.update.info');

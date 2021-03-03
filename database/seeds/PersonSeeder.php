@@ -11,6 +11,6 @@ class PersonSeeder extends Seeder
      */
     public function run()
     {
-        factory('App\Person', 100)->create();
+        factory('App\Person', 2000)->create();
     }
 }

@@ -12,6 +12,8 @@ Route::post('/person/register', 'Api\PersonnelController@register');
 
 Route::get('/person/{id}/profile', 'Api\PersonnelController@show');
 
+Route::get('/person/temperature', 'Api\PersonnelChartController@temperature');
+
 
 // Routes for cities and barangays.
 Route::get('/provinces', 'Api\ProvinceController@province');
