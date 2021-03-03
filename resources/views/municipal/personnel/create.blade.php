@@ -1,245 +1,424 @@
-
-@extends('municipal.layouts.app')
-@section('page-small-title','Personnel')
-@section('page-title','Add New Personnel')
+@extends('templates-2.app')
+@section('page-title', 'Dashboard')
+@prepend('page-css')
+@include('templates.select-option')
+@endpush
 @section('content')
-<div class="mb-2">
-    @if(Session::has('success'))
-    <div class="card bg-success text-white shadow">
-        <div class="card-body">Successfully add new personnel.</div>
-    </div>
-    @endif
-    {{-- @include('templates.error') --}}
-</div>
-<section id="basic-alerts">
-    <form method="POST" enctype="multipart/form-data" action="{{ route('municipal-personnel.store') }}" >
-    @csrf
-  <div class="row match-height">
-            <div class="col-xl-12 col-lg-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Personnel Information</h4>
-                        <a class="heading-elements-toggle">
-                            <i class="la la-ellipsis-v font-medium-3"></i>
-                        </a>
+<div class="grid grid-cols-12 gap-6">
+    <div class="col-span-12 xxl:col-span-12 grid grid-cols-12 gap-6">
+        <!-- BEGIN: Add New Personnel -->
+        <div class="col-span-12 mt-8">
+            {{-- @include('templates.error') --}}
+            <div class="intro-y flex items-center h-10">
+                <h2 class="text-lg font-medium truncate mr-5">
+                    Add New Personnel
+                </h2>
+                <a href="" class="ml-auto flex text-theme-1"> <i data-feather="refresh-ccw" class="w-4 h-4 mr-3"></i>
+                    Reload Data </a>
+            </div>
+            <div class="grid grid-cols mt-5">
+                <div class="intro-y col-span-12 lg:col-span-6">
+                    @if(Session::has('success'))
+                    <div class="intro-y col-span-12 md:col-span-6">
+                        <div class="box">
+                            <div class="flex flex-col lg:flex-row items-center p-5 bg-theme-9 rounded">
+                                <div class="lg:ml-2 lg:mr-auto text-center lg:text-left mt-3 lg:mt-0">
+                                    <p class="font-medium mb-2 text-white">Personnel Successfully Added!</p>
+                                    <div class="text-gray-600 text-xs">
+                                        <a target="_blank" href="{{ route('admin.print.qr', Session::get('success')) }}"
+                                            class="button button--md text-white bg-theme-1 mr-2">View Personnel I.D</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-content collapse show">
-                        <div class="card-body">
-                            <div class="row">
-                                    <div class="form-group  col-lg-3">
-                                        <label for="firstname">Firstname <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control {{ $errors->has('firstname')  ? 'is-invalid' : ''}}" id="firstname" name="firstname" placeholder="Enter Firstname" value="{{ old('firstname') }}">
-                                        @if($errors->has('firstname'))
-                                            <small  class="form-text text-danger">
-                                                {{ $errors->first('firstname') }} </small>
-                                        @endif
-                                    </div>
+                    @else
+                    <div class="rounded-md flex items-center px-5 py-4 mb-2 bg-theme-6">
+                        <i data-feather="alert-circle" class="w-6 h-6 mr-2 text-white"></i>
+                        <span class="text-white font-medium">All fields with * mark are required.</span>
+                    </div>
+                    @endif
+                    <!-- BEGIN: Input -->
+                    <div class="intro-y box">
+                        <div class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200">
+                            <h2 class="font-medium text-base mr-auto">
+                                Personnel Information
+                            </h2>
+                        </div>
+                        <div class="p-5" id="input">
+                            <form method="POST" enctype="multipart/form-data" action="{{ route('personnel.store') }}"
+                                class="preview">
+                                @csrf
+                                <div class="flex flex-col md:flex-row border-b border-gray-200 pb-4 mb-4">
+                                    <div class="flex-1 flex flex-col md:flex-row">
+                                        <div class="w-full flex-1 mx-2">
+                                            <label>
+                                                Firstname
+                                                <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+                                            </label>
 
-                                    <div class="form-group col-lg-3 ">
-                                            <label for="middlename">Middlename <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control {{ $errors->has('middlename')  ? 'is-invalid' : ''}} " id="middlename" name="middlename" placeholder="Enter Middlename" value="{{ old('middlename') }}">
-                                            @if($errors->has('middlename'))
-                                            <small  class="form-text text-danger">{{ $errors->first('middlename') }} </small>
-                                            @endif
-                                    </div>
+                                            <div
+                                                class="p-1 bg-white flex border rounded  {{ $errors->has('firstname')  ? 'border-red-500' : '' }}">
+                                                <input
+                                                    class="p-1 px-2 appearance-none outline-none w-full text-gray-800"
+                                                    type="text" placeholder="e.g. Christopher" aria-invalid="true"
+                                                    name="firstname" value="{{  old('firstname') }}">
+                                            </div>
+                                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">Required, at
+                                                least 3 characters</span>
+                                        </div>
+                                        <div class="w-full flex-1 mx-2">
+                                            Middlename
+                                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+                                            <div
+                                                class="p-1 bg-white flex border {{ $errors->has('middlename')  ? 'border-red-500' : '' }} rounded">
+                                                <input
+                                                    class="p-1 px-2 appearance-none outline-none w-full text-gray-800"
+                                                    type="text" placeholder="e.g. Platino" name="middlename"
+                                                    value="{{  old('middlename') }}">
+                                            </div>
+                                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">Required, at
+                                                least 2 characters</span>
+                                        </div>
 
-                                    <div class="form-group col-lg-3">
-                                        <label for="lastname">Lastname <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control {{ $errors->has('lastname')  ? 'is-invalid' : ''}}" id="lastname" name="lastname" placeholder="Enter Lastname" value="{{ old('lastname') }}">
+                                        <div class="w-full flex-1 mx-2">
+                                            Lastname
+                                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+                                            <div
+                                                class="p-1 bg-white flex border {{ $errors->has('lastname')  ? 'border-red-500' : '' }} rounded">
+                                                <input
+                                                    class="p-1 px-2 appearance-none outline-none w-full text-gray-800"
+                                                    type="text" placeholder="e.g. Vistal" name="lastname"
+                                                    value="{{  old('lastname') }}">
+                                            </div>
+                                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">Required, at
+                                                least 2 characters</span>
+                                        </div>
 
-                                        @if($errors->has('lastname'))
-                                            <small  class="form-text text-danger">
-                                            {{ $errors->first('lastname') }} </small>
-                                        @endif
-                                    </div>
-
-                                    <div class="form-group col-lg-3">
-                                        <label for="suffix">Suffix </label>
-                                        <input type="text" maxlength="3" class="form-control {{ $errors->has('suffix')  ? 'is-invalid' : ''}}" id="suffix" name="suffix" placeholder="e.g Jr." value="{{ old('suffix') }}">
-                                        @if($errors->has('suffix'))
-                                            <small  class="form-text text-danger">
-                                            {{ $errors->first('suffix') }} </small>
-                                        @endif
-                                    </div>
-                            </div>
-
-
-
-
-
-
-
-                            {{-- <hr> --}}
-
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <label for="date_of_birth">Date of birth <span class="text-danger">*</span></label>
-                                        <input type="date" class="form-control  {{ $errors->has('date_of_birth')  ? 'is-invalid' : ''}}" id="date_of_birth" name="date_of_birth" value="{{ old('date_of_birth') }}">
-                                        @if($errors->has('date_of_birth'))
-                                            <small  class="form-text text-danger">
-                                            {{ $errors->first('date_of_birth') }} </small>
-                                        @endif
-                                    </div>
-
-
-                                </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <label for="barangay">Barangay<span class="text-danger"> *</span></label>
-                                        <select name="barangay" id="barangay" class="form-control {{ $errors->has('barangay')  ? 'is-invalid' : ''}}">
-                                            <option value="" disabled>Select City</option>
-                                            @foreach($barangays as $barangay)
-                                            @if(old('barangay'))
-                                                <option {{ old('barangay') == $barangay->code ? 'selected' : '' }}  value="{{ $barangay->code }}"> {{ $barangay->name }}</option>
-                                            @else
-                                                <option value="{{ $barangay->code }}"> {{ $barangay->name }}</option>
-                                            @endif
-                                            @endforeach
-                                        </select>
-                                        @if($errors->has('barangay'))
-                                        <small  class="form-text text-danger">
-                                        {{ $errors->first('barangay') }} </small>
-                                        @endif
-                                    </div>
+                                        <div class="w-full flex-1 mx-2">
+                                            Suffix
+                                            <div class="p-1 bg-white flex border rounded">
+                                                <input placeholder="Enter Suffix"
+                                                    class="p-1 px-2 appearance-none outline-none w-full text-gray-800"
+                                                    type="text" maxlength="3" placeholder="e.g. Jr" name="suffix"
+                                                    value="{{  old('suffix') }}">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                            <div class="form-group">
-                                    <label for="puroksub">Temporary Address<span class="text-danger">*</span></label>
-                                     <textarea name="temporary_address" id="temporary_address" class="form-control {{  $errors->has('temporary_address') ?'is-invalid' : '' }}">{{  old('temporary_address') }}</textarea>
-                                    @if($errors->has('temporary_address'))
-                                        <small  class="form-text text-danger">
-                                            {{ $errors->first('temporary_address') }}
-                                        </small>
-                                    @endif
-                            </div>
+                                <div class="w-full flex-1 mx-2">
+                                    <label>
+                                        Date of Birth <span
+                                            class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+                                    </label>
+                                    <div
+                                        class=" p-1 bg-white flex border {{ $errors->has('date_of_birth')  ? 'border-red-500' : 'border' }} rounded">
+                                        <input name="date_of_birth" placeholder="Date of Birth"
+                                            class="p-1 px-2 appearance-none outline-none w-full text-gray-800"
+                                            type="date" value="{{  old('date_of_birth') }}">
+                                    </div>
+                                </div>
+                                <div class="mb-2"></div>
 
-                            <div class="form-group">
-                                <label for="address">Permanent Address <span class="text-danger">*</span></label>
-                                <textarea name="address" id="address" class="form-control {{ $errors->has('address')  ? 'is-invalid' : ''}}" rows="3">{{ old('address') }}</textarea>
-                                @if($errors->has('address'))
-                                    <small  class="form-text text-danger">
-                                    {{ $errors->first('address') }} </small>
-                                @endif
-                            </div>
+                                <div class="mb-2 flex-1 flex flex-col md:flex-row">
+                                    <div class="w-full flex-1 mx-2">
+                                        <label for="">
+                                            City
+                                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+                                        </label>
+                                        <div
+                                            class=" bg-white flex {{  $errors->has('city') ? 'rounded border border-red-500' : 'p-1' }}">
+                                            <select
+                                                class="select2 input border p-2 px-2 appearance-none outline-none w-full text-gray-800"
+                                                name="city" id="cities">
+                                                <option selected disable>Select Province First</option>
+                                            </select>
+                                        </div>
+                                        <span class="text-red-500 text-xs">{{  $errors->first('city') }}</span>
+                                    </div>
 
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="gender">Sex <span class="text-danger">*</span></label>
-                                        <select name="gender" id="gender" class="form-control {{ $errors->has('gender')  ? 'is-invalid' : ''}}">
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                        </select>
-                                    @if($errors->has('gender'))
-                                        <small  class="form-text text-danger">
-                                        {{ $errors->first('gender') }} </small>
-                                    @endif
+                                    <div class="w-full flex-1 mx-2">
+                                        <label for="">
+                                            Barangay
+                                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+                                        </label>
+                                        <div
+                                            class="bg-white {{ $errors->has('barangay') ? 'rounded border border-red-500' : 'p-1' }}">
+                                            <select
+                                                class="select2 input border p-2 px-2 appearance-none outline-none w-full text-gray-800 "
+                                                name="barangay" id="barangay">
+                                                <option selected disable>Select City First</option>
+                                            </select>
+                                        </div>
+                                        <span class="text-red-500 text-xs">{{  $errors->first('barangay') }}</span>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="status">Status <span class="text-danger">*</span></label>
-                                            <select name="status" id="status" class="form-control {{ $errors->has('status')  ? 'is-invalid' : ''}}">
+                                <div class="w-full flex-1 mx-2">
+                                    <label for="">
+                                        Temporary Address
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+                                    </label>
+                                    <div
+                                        class="p-1 bg-white flex border {{  $errors->has('temporary_address') ? 'border-red-500' : '' }} rounded rounded">
+                                        <textarea placeholder="e.g. Purok Paradise 950"
+                                            class="p-1 px-2 appearance-none outline-none w-full text-gray-800" rows="5"
+                                            name="temporary_address">{{  old('temporary_address') }}</textarea>
+                                    </div>
+                                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                        Required, atleast 5 characters
+                                    </span>
+                                    <div class="mb-2"></div>
+                                </div>
+
+                                <div class="w-full flex-1 mx-2">
+
+                                    <label for="">
+                                        Permanent Address
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+                                    </label>
+                                    <div
+                                        class="p-1 bg-white flex border {{  $errors->has('address') ? 'border-red-500' : '' }} rounded">
+                                        <textarea placeholder="e.g. Purok Paradise 950"
+                                            class="p-1 px-2 appearance-none outline-none w-full text-gray-800" rows="5"
+                                            name="address">{{  old('address') }}</textarea>
+                                    </div>
+                                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                        Required, atleast 5 characters
+                                    </span>
+                                    <div class="mb-2"></div>
+                                </div>
+
+                                <div class="mb-2 flex-1 flex flex-col md:flex-row">
+                                    <div class="w-full flex-1 mx-2">
+                                        <label> Sex
+                                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                                *
+                                            </span>
+                                        </label>
+                                        <div class=" p-1 bg-white flex">
+                                            <select
+                                                class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800  border {{  $errors->has('gender') ? 'border-red-500' : '' }}"
+                                                name="gender">
+                                                <option {{ old('gender') == 'Male' ? 'selected' : '' }} value="Male">
+                                                    Male</option>
+                                                <option {{ old('gender') == 'Female' ? 'selected' : '' }}
+                                                    value="Female">Female</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="w-full flex-1 mx-2">
+                                        <label>
+                                            Status
+                                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                                *
+                                            </span>
+                                        </label>
+                                        <div class="p-1 bg-white flex ">
+                                            <select
+                                                class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('status') ? 'border-red-500' : '' }}"
+                                                name="status">
                                                 @foreach($civil_status as $status)
-                                                    <option value={{ $status }}>{{ $status }}</option>
+                                                <option {{ old('status') == $status ? 'selected' : '' }}
+                                                    value={{ $status }}>{{ $status }}</option>
                                                 @endforeach
                                             </select>
-                                            <div class="invalid-feedback">{{ $errors->first('status') }}</div>
-                                        @if($errors->has('status'))
-                                            <small  class="form-text text-danger">
-                                            {{ $errors->first('status') }} </small>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input type="email" class="form-control {{ $errors->has('email')  ? 'is-invalid' : ''}}" id="email" name="email" placeholder="Optional" value="{{ old('email') }}">
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label for="phone_number">Mobile Number <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control {{ $errors->has('phone_number')  ? 'is-invalid' : ''}}" id="phone_number" name="phone_number" placeholder="" value="{{ old('phone_number') }}">
+                                <div class="mb-2 flex-1 flex flex-col md:flex-row">
+                                    <div class="w-full flex-1 mx-2">
+                                        Email
+                                        <div class=" p-1 bg-white flex">
+                                            <input
+                                                class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800"
+                                                type="email" placeholder="e.g. user@gmail.com" name="email"
+                                                value="{{  old('email') }}">
+                                        </div>
+                                    </div>
+                                    <div class="w-full flex-1 mx-2">
+                                        <label>
+                                            Mobile Number
+                                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                                *
+                                            </span>
+                                        </label>
+                                        <div class="p-1 bg-white flex ">
+                                            <input
+                                                class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('phone_number') ? 'border-red-500' : '' }}"
+                                                type="text" placeholder="e.g.+639193693499" name="phone_number"
+                                                value="{{  old('phone_number') }}">
+                                        </div>
 
-                                        @if($errors->has('phone_number'))
-                                            <small  class="form-text text-danger">
-                                            {{ $errors->first('phone_number') }} </small>
-                                        @endif
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            Required, Please include country code e.g. +639
+                                        </span>
+
+                                    </div>
+
+                                    <div class="w-full flex-1 mx-2">
+                                        Landline Number
+                                        <div class="p-1 bg-white">
+                                            <input
+                                                class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800"
+                                                type="text" placeholder="e.g. 8123-4567" name="landline_number"
+                                                value="{{  old('landline_number') }}">
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label for="landline_number">Landline Number</label>
-                                        <input type="text" class="form-control {{ $errors->has('landline_number')  ? 'is-invalid' : ''}}" id="landline_number" name="landline_number" placeholder="" value="{{ old('landline_number') }}">
+                                <hr>
+
+                                <div class="mt-2 flex-1 flex flex-col md:flex-row">
+
+                                    <div class="w-full flex-1 mx-2">
+                                        Username
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            *
+                                        </span>
+                                        <div class=" p-1 bg-white flex">
+                                            <input
+                                                class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('username') ? 'border-red-500' : '' }}"
+                                                type="text" placeholder="Enter username" name="username"
+                                                value="{{  old('username') }}">
+                                        </div>
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            {{ $errors->first('username') }}
+                                        </span>
+                                    </div>
+                                    <div class="w-full flex-1 mx-2">
+                                        <label>
+                                            Password
+                                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                                *
+                                            </span>
+                                        </label>
+                                        <div class="p-1 bg-white flex ">
+                                            <input
+                                                class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('password') ? 'border-red-500' : '' }}"
+                                                type="password" name="password" value="{{ old('password') }}"
+                                                placeholder="Enter password">
+                                        </div>
+
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            {{ $errors->first('password') }}
+                                        </span>
+
+                                    </div>
+
+                                    <div class="w-full flex-1 mx-2">
+                                        MPIN
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            *
+                                        </span>
+                                        <div class="p-1 bg-white">
+                                            <input
+                                                class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('mpin') ? 'border-red-500' : '' }}"
+                                                placeholder="Enter MPIN" name="mpin" value="{{ old('mpin') }}"
+                                                maxlength="4" type="password">
+                                        </div>
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            {{ $errors->first('mpin') }}
+                                        </span>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                <label for="">Image <span class="text-danger">*</span></label>
-                                <div class="custom-file">
-                                    <input type="file" name="image" class="custom-file-input {{ $errors->has('image')  ? 'is-invalid' : ''}}" id="imageFile" >
-                                    <label class="custom-file-label" for="imageFile">Choose file...</label>
-                                    <div class="invalid-feedback">{{ $errors->first('image') }}</div>
+                                <div class="w-full flex-1 mx-2">
+                                    <label>
+                                        Image
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            *
+                                        </span>
+                                    </label>
+
+
+                                    <div class="p-1 bg-white flex  rounded">
+                                        <input
+                                            class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('image') ? 'border-red-500' : '' }}"
+                                            type="file" name="image">
+                                    </div>
+                                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                        Required, attach only image file
+                                    </span>
                                 </div>
-                            </div>
 
-                            <div class="float-right">
-                                <button type="submit" class="btn btn-primary">Add New Personnel</button>
-                                @if(Session::has('success'))
-                                    <a href="{{ route('admin.print.qr', Session::get('success')) }}" class="btn btn-success">Generate</a>
-                                @endif
-                            </div>
+                                <div class="flex lg:justify-end">
+                                    <button type="submit" class="button bg-theme-1 text-white w-auto">Add New
+                                        Personnel</button>
+                                    @if(Session::has('success'))
+                                    <button type="submit" class="ml-2 button bg-green-500 text-white btn--md">View
+                                        Generated QR</button>
+                                    @endif
+                                </div>
 
-                            <div class="clearfix"></div>
+                            </form>
+
+                        </div>
                     </div>
                 </div>
+                <!-- END: Input -->
             </div>
         </div>
     </div>
-    </form>
-</section>
+    <!-- END: Add New Personnel -->
+</div>
+</div>
 @push('page-scripts')
-
 <script>
-    $(document).ready(function () {
+    $(document).ready(() => {
 
-        $('#province').change(function (e) {
+        const BASE_URL = '/api/province';
+
+        // User Select Province then populate all data for province.
+        $('#province').change((e) => {
+            let provinceCode = e.target.value;
+            let elementCities = $('#cities');
+            // Make an AJAX request to get all city filtered by selected province.
             $.ajax({
-                url : `/api/province/municipal/${e.target.value}`,
-                success : function (response) {
+                url: `${BASE_URL}/municipal/${provinceCode}`,
+                success: (response) => {
                     // Clear all option of cities select element
-                    $('#cities').find('option').remove();
-                    response.municipals.forEach((municipal) => $('#cities').append(`<option value="${municipal.code}">${municipal.name}</option>`));
-                },
+                    elementCities.find('option').remove();
+
+                    // Iterate to all city by province code and display to select
+                    response.municipals.forEach((municipal) => {
+                        elementCities.append(
+                            `<option value="${municipal.code}">${municipal.name}</option>`
+                        );
+                    });
+
+                }
             });
         });
 
-        $('#cities').change(function (e) {
-            console.log(e.target.value);
+
+        // User Select City then populate all data for barangays
+        $('#cities').change((e) => {
+            let selectedCityCode = e.target.value;
+            let barangayElement = $('#barangay');
+
+            // Make an AJAX request to get all barangay filtered by selected city.
             $.ajax({
-                url : `/api/province/barangay/${e.target.value}`,
-                success : function (response) {
+                url: `${BASE_URL}/barangay/${selectedCityCode}`,
+                success: (response) => {
                     // Clear all option of barangay select element
-                    $('#barangay').find('option').remove();
-                    response.barangays.forEach((barangay) => $('#barangay').append(`<option value="${barangay.code}">${barangay.name}</option>`));
-                },
+                    barangayElement.find('option').remove();
+
+                    // Iterate to all barangay by city code and display to select
+                    response.barangays.forEach((barangay) => {
+                        $('#barangay').append(
+                            `<option value="${barangay.code}">${barangay.name}</option>`
+                        );
+                    });
+
+                }
             });
+
         });
     });
+
 </script>
 @endpush
 @endsection

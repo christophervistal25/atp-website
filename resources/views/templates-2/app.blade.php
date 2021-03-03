@@ -221,7 +221,7 @@
             @auth('municipal')
             <ul>
                 <li>
-                    <a href="{{  route('admin.dashboard') }}" class="side-menu side-menu--active">
+                    <a href="{{  route('municipal.dashboard') }}" class="side-menu side-menu--active">
                         <div class="side-menu__icon"> <i data-feather="home"></i> </div>
                         <div class="side-menu__title"> Dashboard </div>
                     </a>
@@ -234,13 +234,13 @@
                     </a>
                     <ul class="">
                         <li>
-                            <a href="{{ route('personnel.create') }}" class="side-menu">
+                            <a href="{{ route('municipal-personnel.create') }}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-feather="user"></i> </div>
                                 <div class="side-menu__title"> Personnel </div>
                             </a>
                         </li>
                         <li>
-                            <a href="{{  route('establishment.create') }}" class="side-menu">
+                            <a href="{{  route('m-establishment.create') }}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-feather="home"></i> </div>
                                 <div class="side-menu__title"> Establishment </div>
                             </a>

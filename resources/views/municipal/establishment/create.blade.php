@@ -1,124 +1,221 @@
-
-@extends('municipal.layouts.app')
-@section('page-small-title','Personnel')
-@section('page-title','Add New Establishment')
+@extends('templates-2.app')
+@section('page-title', 'Add New Establishment')
+@prepend('page-css')
+@include('templates.select-option')
+@endprepend
 @section('content')
-
-<section id="basic-alerts">
-<form action="{{  route('m-establishment.store') }}" method="POST">
-   @csrf
-  <div class="row match-height">
-            <div class="col-xl-12 col-lg-12">
-                <div class="mb-2">
-                    @if(Session::has('success'))
-                    <div class="card bg-success text-white shadow">
-                        <div class="card-body">Successfully add new establishment.</div>
-                    </div>
-                    @endif
+    <div class="grid grid-cols-12">
+        <div class="col-span-12 grid grid-cols-12">
+            <!-- BEGIN: Add New Establishment -->
+            <div class="col-span-12 mt-8">
+                {{-- @include('templates.error') --}}
+                <div class="intro-y flex items-center h-10">
+                    <h2 class="text-lg font-medium truncate mr-5">
+                        Add New Establishment
+                    </h2>
+                    <a href="" class="ml-auto flex text-theme-1"> <i data-feather="refresh-ccw" class="w-4 h-4 mr-3"></i> Reload Data </a>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Establishment Information</h4>
-                        <a class="heading-elements-toggle">
-                            <i class="la la-ellipsis-v font-medium-3"></i>
-                        </a>
-                    </div>
-                    <div class="card-content collapse show">
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="office_store_name">Establishment/Office/Store Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control {{  $errors->has('office_store_name') ? 'is-invalid' : '' }}" id="office_store_name" name="office_store_name" placeholder="Enter Establishment/Office/Store Name" value="{{  old('office_store_name') }}">
-                                @if($errors->has('office_store_name'))
-                                    <small  class="form-text text-danger">
-                                        {{ $errors->first('office_store_name') }} </small>
-                                @endif
-                            </div>
-
-                                <div class="form-group mt-1">
-                                    <label for="establishment_type">Establishment Type <span class="text-danger">*</span></label>
-                                    {{  old('type') }}
-                                    <select name="type" id="establishment_type" class="form-control {{ $errors->has('type')  ? 'is-invalid' : ''}}">
-                                        @foreach($types as $type)
-                                            <option {{ $type == old('type') ? 'selected' : ''  }} value="{{ $type }}"> {{ $type }}</option>
-                                        @endforeach
-                                    </select>
-                                    @if($errors->has('type'))
-                                    <small class="form-text text-danger">
-                                        {{ $errors->first('type') }} </small>
-                                    @endif
+                <div class="grid grid-cols mt-5">
+                    <div class="intro-y col-span-12 lg:col-span-6">
+                        @if(Session::has('success'))
+                            <div class="intro-y col-span-12 md:col-span-6">
+                                <div class="box">
+                                    <div class="flex flex-col lg:flex-row items-center p-5 bg-theme-9 rounded mb-2">
+                                        <div class="lg:ml-2 lg:mr-auto text-center lg:text-left mt-3 lg:mt-0">
+                                            <p class="font-medium text-white">Establishment Successfully Added!</p>
+                                        </div>
+                                    </div>
                                 </div>
-                            <div class="form-group mt-1">
-                                <label for="address">Address<span class="text-danger">*</span></label>
-                                <textarea name="address" class="form-control" id="address" cols="30" rows="10">{{ old('address') }}</textarea>
-                                @if($errors->has('address'))
-                                <small class="form-text text-danger">
-                                    {{ $errors->first('address') }} </small>
-                                @endif
                             </div>
+                        @else
+                            <div class="rounded-md flex items-center px-5 py-4 mb-2 bg-theme-6">
+                                <i data-feather="alert-circle" class="w-6 h-6 mr-2 text-white"></i>
+                                <span class="text-white font-medium">All fields with * mark are required.</span>
+                            </div>
+                        @endif
+                        <!-- BEGIN: Input -->
+                        <div class="intro-y box">
+                            <div class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200">
+                                <h2 class="font-medium text-base mr-auto">
+                                    Establishment Information
+                                </h2>
+                            </div>
+                            <div class="p-5" id="input">
+                                <form method="POST" action="{{ route('establishment.store') }}" class="preview">
+                                    @csrf
+                                    <div class="flex flex-col md:flex-row border-b border-gray-200 pb-4 mb-4">
+                                        <div class="flex-1 flex flex-col md:flex-row">
+                                            <div class="w-full flex-1">
+                                                <label>
+                                                    Establishment/Office/Store Name
+                                                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+                                                </label>
 
-                            <div class="form-group">
-                                <label for="contact_number">Contact Number <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control {{  $errors->has('contact_number') ? 'is-invalid' : '' }}" id="contact_number" name="contact_number" placeholder="Enter Contact Number" value="{{  old('contact_number') }}">
-                                @if($errors->has('contact_number'))
-                                <small class="form-text text-danger">
-                                    {{ $errors->first('contact_number') }} </small>
-                                @endif
-                            </div>
+                                                <div class="p-1 bg-white flex border rounded  {{ $errors->has('office_store_name')  ? 'border-red-500' : '' }}">
+                                                    <input class="p-1 px-2 appearance-none outline-none w-full text-gray-800" type="text" placeholder="e.g. Gaisano Capital" aria-invalid="true" name="office_store_name" value="{{  old('office_store_name') }}">
+                                                </div>
+                                                <div class="text-xs text-theme-6">
+                                                    @if($errors->has('office_store_name'))
+                                                        {{ $errors->first('office_store_name') }}
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="w-full flex-1 xxl:mx-2">
+                                                Establishment Type
+                                                <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+                                                    <select class="select2 w-full input border apperance-none outline-none {{  $errors->has('type') ? 'border-theme-6' : '' }}" name="type">
+                                                        <option selected disabled>Please select a type</option>
+                                                        @foreach($types as $type)
+                                                            <option value="{{ $type }}"> {{ $type }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                <div class="text-xs text-theme-6">
+                                                    @if($errors->has('type'))
+                                                        {{ $errors->first('type') }}
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                            <div class="form-group">
-                                <label for="geo_tag_location">Geo Tag Location <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control {{  $errors->has('geo_tag_location') ? 'is-invalid' : '' }}" id="geo_tag_location" name="geo_tag_location" placeholder="Enter Geo Tag Location">
-                                @if($errors->has('geo_tag_location'))
-                                <small class="form-text text-danger">
-                                    {{ $errors->first('geo_tag_location') }} </small>
-                                @endif
-                            </div>
-                            <div class="form-group">
-                                <label for="barangay">Barangay <span class="text-danger">*</span></label>
-                                <select name="barangay" id="barangay" class="form-control {{ $errors->has('barangay')  ? 'is-invalid' : ''}}">
-                                    <option  selected disabled>Please Select Barangay</option>
-                                    @foreach($barangays as $b)
-                                        <option {{  $b->code == old('barangay') ? 'selected' : '' }} value="{{ $b->code }}"> {{ $b->name }}</option>
-                                    @endforeach
-                                </select>
-                                @if($errors->has('barangay'))
-                                <small class="form-text text-danger">
-                                    {{ $errors->first('barangay') }} </small>
-                                @endif
-                            </div>
-                            <div class="float-right">
-                                <button type="submit" class="btn btn-primary">Add New Establishment</button>
+                                    <div>
+                                        <label>
+                                            Address
+                                            <span class="text-theme-6">*</span>
+                                        </label>
+                                        <textarea  class="input w-full border {{  $errors->has('address')  ? 'border-theme-6' : '' }}" name="address" rows="5">{{ old('address') }}</textarea>
+                                        <div class="text-xs text-theme-6">
+                                            @if($errors->has('address'))
+                                                {{ $errors->first('address') }}
+                                            @endif
+                                        </div>
+                                    </div>
 
-                                @if(Session::has('success'))
-                                    <a href="" class="btn btn-success">Generate</a>
-                                @endif
-                            </div>
 
-                            <div class="clearfix"></div>
+                                    <div class="mt-3 mb-3">
+                                        <label>
+                                            Contact Number
+                                            <span class="text-theme-6">*</span>
+                                        </label>
+                                        <input type="text" class="input w-full border {{  $errors->has('contact_number')  ? 'border-theme-6' : '' }}" placeholder="+639193693499" value="{{  old('contact_number') }}" name="contact_number">
+                                        <div class="text-xs text-theme-6">
+                                            @if($errors->has('contact_number'))
+                                                {{ $errors->first('contact_number') }}
+                                            @else
+                                                Please include country code e.g. +639
+                                            @endif
+                                        </div>
+                                    </div>
+
+
+                                    <div class="mt-3">
+                                        <label>
+                                            Geo tag location
+                                            <span class="text-theme-6">*</span>
+                                        </label>
+                                        <input type="text" class="input w-full border {{  $errors->has('geo_tag_location')  ? 'border-theme-6' : '' }}" name="geo_tag_location" id="geo_tag_location" readonly>
+                                        <div class="text-xs text-theme-6">
+                                            @if($errors->has('geo_tag_location'))
+                                                {{ $errors->first('geo_tag_location') }}
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-col md:flex-row mt-3">
+                                        <div class="flex-1 flex flex-col md:flex-row">
+                                            <div class="w-full flex-1 mr-2">
+                                                City
+                                                <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+                                                    <select class="select2 w-full input border {{ $errors->has('city')  ? 'border-theme-6' : ''}}" name="city" id="cities">
+                                                        <option selected disabled>Please Select Province</option>
+                                                    </select>
+                                                <div class="text-xs text-theme-6">
+                                                    @if($errors->has('city'))
+                                                        {{ $errors->first('city') }}
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                            <div class="w-full flex-1">
+                                                Barangay
+                                                <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+                                                <select name="barangay" id="barangay" class="select2 w-full input border {{ $errors->has('barangay')  ? 'border-theme-6' : ''}}">
+                                                    <option  selected disabled>Please Select Barangay</option>
+                                                </select>
+                                                <div class="text-xs text-theme-6">
+                                                    @if($errors->has('barangay'))
+                                                        {{ $errors->first('barangay') }}
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex lg:justify-end mt-5">
+                                        <button type="submit" class="button bg-theme-1 text-white w-auto">Add New Establishment</button>
+                                    </div>
+                                </form>
+                             </div>
+                            </div>
                         </div>
+                        <!-- END: Input -->
                     </div>
                 </div>
             </div>
+            <!-- END: Add New Establishment -->
         </div>
-        <div class="col-xl-2 col-lg-12"></div>
     </div>
-    </form>
-</section>
 @push('page-scripts')
 <script>
-     function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(initPosition);
-            } else {
-                alert('Geolocation is not supported by this browser.');
+    const BASE_URL = '/api/province';
+
+    // Get the current position of the user.
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(initPosition);
+        } else {
+            alert('Geolocation is not supported by this browser.');
+        }
+    }
+
+    // Get the latitude and longitude.
+    function initPosition(position) {
+        $('#geo_tag_location').val(`${position.coords.latitude}&${position.coords.longitude}`);
+    }
+
+    getLocation();
+
+    $('#province').change((e) => {
+        let provinceCode = e.target.value;
+        let citiesElement = $('#cities');
+
+        // Make an AJAX request to get all city filtered by selected province.
+        $.ajax({
+            url : `${BASE_URL}/municipal/${provinceCode}`,
+            success : (response) => {
+                // Clear all option of cities select element
+                citiesElement.find('option').remove();
+
+                // Iterate to all barangay by city code and display to select
+                response.municipals.forEach((municipal) => {
+                    $('#cities').append(`<option value="${municipal.code}">${municipal.name}</option>`);
+                });
             }
-        }
+        });
+     });
 
-        function initPosition(position) {
-            $('#geo_tag_location').val(`${position.coords.latitude}&${position.coords.longitude}`);
-        }
+    $('#cities').change((e) => {
 
-        getLocation();
+        $.ajax({
+            url : `${BASE_URL}/barangay/${e.target.value}`,
+            success :  (response) => {
+
+                $('#barangay').find('option').remove();
+
+                response.barangays.forEach((barangay) => $('#barangay').append(`<option value="${barangay.code}">${barangay.name}</option>`));
+            },
+        });
+    });
 </script>
 @endpush
 @endsection
