@@ -151,15 +151,22 @@
                                             </label>
                                             <div class=" p-1 bg-white flex">
                                                 <select
-                                                    class="input border {{ $errors->has('province')  ? 'border-red-500' : '' }} p-2 px-2 appearance-none outline-none w-full text-gray-800"
+                                                    class="select2 input border {{ $errors->has('province')  ? 'border-red-500' : '' }} p-2 px-2 appearance-none outline-none w-full text-gray-800"
                                                     name="province" id="province">
                                                     @foreach($provinces as $province)
+                                                    @if(old('province'))
+                                                    <option {{ old('province') == $province->code ? 'selected' : '' }}
+                                                        value="{{ $province->code }}"> {{ $province->name }}
+                                                    </option>
+                                                    @else
                                                     <option
                                                         {{ $personnel->province_code == $province->code ? 'selected' : '' }}
                                                         value="{{ $province->code }}"> {{ $province->name }}
                                                     </option>
+                                                    @endif
                                                     @endforeach
                                                 </select>
+                                                {{  $errors->first('province') }}
                                             </div>
 
                                         </div>
@@ -170,7 +177,7 @@
                                             </label>
                                             <div class="p-1 bg-white flex ">
                                                 <select
-                                                    class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('city') ? 'border-red-500' : '' }}"
+                                                    class="select2 input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('city') ? 'border-red-500' : '' }}"
                                                     name="city" id="cities" value="{{  old('city') }}">
                                                     <option selected value="{{ $personnel->city_code ?? '' }}">
                                                         {{ @$personnel->city->name ?? '' }}</option>
@@ -185,7 +192,7 @@
                                             </label>
                                             <div class="p-1 bg-white">
                                                 <select
-                                                    class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('barangay') ? 'border-red-500' : '' }}"
+                                                    class="select2 input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('barangay') ? 'border-red-500' : '' }}"
                                                     name="barangay" id="barangay" value="{{  old('barangay') }}">
                                                     <option selected value="{{ $personnel->barangay_code ?? '' }}">
                                                         {{ $personnel->barangay->name ?? '' }}</option>
@@ -269,8 +276,8 @@
                                             </label>
                                             <div class="p-1 bg-white flex ">
                                                 <select
-                                                    class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('status') ? 'border-red-500' : '' }}"
-                                                    name="status" value="{{  old('status') }}">
+                                                    class="select2 input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('status') ? 'border-red-500' : '' }}"
+                                                    name="status" value="{{ old('status') }}">
                                                     @foreach($civil_status as $status)
                                                     <option {{ $personnel->civil_status == $status ? 'selected' : '' }}
                                                         value="{{ $status }}">{{ $status }}</option>
@@ -403,7 +410,7 @@
 
                                         <div class="p-1 bg-white flex  rounded">
                                             <input
-                                                class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('image') ? 'border-red-500' : '' }}" 
+                                                class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('image') ? 'border-red-500' : '' }}"
                                                 type="file" name="image">
                                         </div>
                                         <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
@@ -436,60 +443,6 @@
 </div>
 <!-- END: Content -->
 @push('page-scripts')
-<script>
-    $(document).ready(() => {
-
-        const BASE_URL = '/api/province';
-
-        // User Select Province then populate all data for province.
-        $('#province').change((e) => {
-            let provinceCode = e.target.value;
-            let elementCities = $('#cities');
-            // Make an AJAX request to get all city filtered by selected province.
-            $.ajax({
-                url: `${BASE_URL}/municipal/${provinceCode}`,
-                success: (response) => {
-                    // Clear all option of cities select element
-                    elementCities.find('option').remove();
-
-                    // Iterate to all city by province code and display to select
-                    response.municipals.forEach((municipal) => {
-                        elementCities.append(
-                            `<option value="${municipal.code}">${municipal.name}</option>`
-                            );
-                    });
-
-                }
-
-            });
-        });
-
-
-        // User Select City then populate all data for barangays
-        $('#cities').change((e) => {
-            let selectedCityCode = e.target.value;
-            let barangayElement = $('#barangay');
-
-            // Make an AJAX request to get all barangay filtered by selected city.
-            $.ajax({
-                url: `${BASE_URL}/barangay/${selectedCityCode}`,
-                success: (response) => {
-                    // Clear all option of barangay select element
-                    barangayElement.find('option').remove();
-
-                    // Iterate to all barangay by city code and display to select
-                    response.barangays.forEach((barangay) => {
-                        $('#barangay').append(
-                            `<option value="${barangay.code}">${barangay.name}</option>`
-                            );
-                    });
-
-                }
-            });
-
-        });
-    });
-
-</script>
+<script src="/dist/js/custom/select/select-province-city.js"></script>
 @endpush
 @endsection

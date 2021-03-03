@@ -124,17 +124,13 @@ class PersonnelController extends Controller
             ]);
 
 
-            // Check if the administrator choose to use a default password and mpin for new registered personne;.
-            if($request->has('use_default')) {
-
-            } else {
-                User::create([
-                    'username'  => $request->username,
-                    'password'  => bcrypt($request->password),
-                    'person_id' => $person->id,
-                    'mpin'      => bcrypt($request->mpin)
-                ]);
-            }
+            User::create([
+                'username'  => $request->username,
+                'password'  => bcrypt($request->password),
+                'person_id' => $person->id,
+                'mpin'      => bcrypt($request->mpin)
+            ]);
+            
             DB::commit();
             return back()->with('success', $person->id);
         } catch(\Exception $e) {
@@ -162,9 +158,8 @@ class PersonnelController extends Controller
      */
     public function edit(Person $personnel)
     {
-        $provinces = Cache::rememberForever('provinces', function () {
-            return Province::get();
-        });
+        
+        $provinces = Province::get();
 
         $civil_status = PersonnelRepository::CIVIL_STATUS;
 

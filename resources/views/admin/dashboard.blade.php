@@ -104,7 +104,7 @@
         <div class="col-span-12 sm:col-span-6 lg:col-span-3 mt-8">
             <div class="intro-y flex items-center h-10">
                 <h2 class="text-lg font-medium truncate mr-5">
-                    Scanned Person Temperature
+                    Scanned Temperature
                 </h2>
             </div>
             <div class="intro-y box p-5 mt-5">
@@ -503,8 +503,8 @@
 
 <!-- END: Content -->
 @push('page-scripts')
-<script src="/dist/js/custom/covid-stats.js"></script>
-<script src="/dist/js/custom/covid-stats-chart.js"></script>
-<script src="/dist/js/custom/person-temperature-chart.js"></script>
+<script src="/dist/js/custom/dashboard/covid-stats.js"></script>
+<script src="/dist/js/custom/dashboard/covid-stats-chart.js"></script>
+<script src="/dist/js/custom/dashboard/person-temperature-chart.js"></script>
 @endpush
 @endsection

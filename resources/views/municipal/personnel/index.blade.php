@@ -1,50 +1,113 @@
-@extends('municipal.layouts.app')
-@section('page-small-title','Personnel')
+@extends('templates-2.app')
 @section('page-title','View Personnel')
 @prepend('page-css')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/startbootstrap-sb-admin-2@4.1.3/vendor/datatables/dataTables.bootstrap4.min.css">
 @endprepend
 @section('content')
-<div class="card" >
-    <div class="card-body">
-      <div class="float-right">
-        <!--<a href="/municipal/export/options" class="btn btn-primary">EXPORT</a>-->
-      </div>
-      <div class="clearfix mb-2"></div>
-      <table class="table table-bordered" id="persons-table">
-        <thead>
-          <tr>
-            <td scope="col" class="font-weight-bold text-center">ID</td>
-            <td scope="col" class="font-weight-bold">Firstname</td>
-            <td scope="col" class="font-weight-bold">Middlename</td>
-            <td scope="col" class="font-weight-bold">Lastname</td>
-            <td scope="col" class="font-weight-bold">Barangay</td>
-            <td scope="col" class="font-weight-bold">Registered At</td>
-            <td scope="col" class="font-weight-bold">Option</td>
-          </tr>
-        </thead>
-        <tbody class="text-center"><tbody>
-      </table>
+<div class="intro-y flex flex-col sm:flex-row items-center mt-8">
+  <h2 class="text-lg font-medium mr-auto">
+      List of Personnel
+  </h2>
+  <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
+      <a href="{{  route('municipal-personnel.create') }}" class="button text-white bg-theme-1 shadow-md mr-2">Add New Person</a>
+      {{-- <div class="dropdown relative ml-auto sm:ml-0">
+          <button class="dropdown-toggle button px-2 box text-gray-700">
+              <span class="w-5 h-5 flex items-center justify-center"> <i class="w-4 h-4" data-feather="plus"></i> </span>
+          </button>
+          <div class="dropdown-box mt-10 absolute w-40 top-0 right-0 z-20">
+              <div class="dropdown-box__content box p-2">
+                  <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white hover:bg-gray-200 rounded-md"> <i data-feather="file-plus" class="w-4 h-4 mr-2"></i> New Category </a>
+                  <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white hover:bg-gray-200 rounded-md"> <i data-feather="users" class="w-4 h-4 mr-2"></i> New Group </a>
+              </div>
+          </div>
+      </div> --}}
   </div>
 </div>
+<!-- BEGIN: Datatable -->
+<div class="intro-y datatable-wrapper box p-5 mt-5 ">
+  <span class="text-gray-800 font-medium">Filter by Barangay</span>
+  <div class="mt-1"></div>
+  <select name="cities" id="province_filter" class="select2 input border px-2 py-2 w-full">
+  <option value="all">Show All</option>
+    @foreach($barangays as $barangay)
+      <option value="{{ $barangay->code }}"> {{ $barangay->name }}</option>
+    @endforeach
+  </select>
+  <div class="mb-2"></div>
+  <table class="table datatable table--report  display"  id="persons-table">
+      <thead>
+        <tr>
+          <th class="font-medium">ID</th>
+          <th class="font-medium">Image</th>
+          <th class="font-medium">Firstname</th>
+          <th class="font-medium">Middlename</th>
+          <th class="font-medium">Lastname</th>
+          <th class="font-medium">Suffix</th>
+          <th class="font-medium">Age</th>
+          <th class="font-medium">Province</th>
+          <th class="font-medium">City</th>
+          <th class="font-medium">Barangay</th>
+          <th class="font-medium text-center">Status</th>
+          <th class="font-medium">Registered Date</th>
+          <th class="font-medium text-center">Options</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+  </table>
+</div>
+<!-- END: Datatable -->
   @push('page-scripts')
-  <script src="https://cdn.jsdelivr.net/npm/startbootstrap-sb-admin-2@4.1.3/vendor/datatables/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/startbootstrap-sb-admin-2@4.1.3/vendor/datatables/dataTables.bootstrap4.min.js"></script>
   <script>
+    $.ajaxSetup({
+    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+  });
+  </script>
+  <script>
+    // By default the template has built-in datatable so we need to 
+    // by destroying the first one then re-initialize the datable to run our customize server-side process for rendering data.
+     $('#persons-table').dataTable().fnClearTable();
+     $('#persons-table').dataTable().fnDestroy();
 
-    let person_table =  $('#persons-table').DataTable({
-            serverSide: true,
-            ajax: "{{ route('municipal-people-list') }}",
-            columns: [
-                { name: 'person_id' },
-                { name: 'firstname' },
-                { name: 'middlename' },
-                { name: 'lastname' },
-                { name: 'barangay.name', orderable : false },
-                { name: 'created_at' , orderable : false },
-                { name: 'action' , searchable : false, orderable : false },
-            ],
-        });
+    let QUERY_STRING = 'all';
+
+    // Check if there is selected item.
+    if(localStorage.getItem('FILTER_SELECT') == null) {
+      QUERY_STRING = 'all';
+    } else {
+      QUERY_STRING = localStorage.getItem('FILTER_SELECT');
+      $('#province_filter').val(QUERY_STRING);
+    }
+
+
+    let person_table = $('#persons-table').DataTable({
+          serverSide: true,
+          ajax: `/municipal/people/list/${QUERY_STRING}`,
+          columns: [
+              { name: 'person_id' },
+              { name: 'image' },
+              { name: 'firstname' },
+              { name: 'middlename' },
+              { name: 'lastname' },
+              { name: 'suffix' },
+              { name: 'age' },
+              { name: 'province.name', orderable : false },
+              { name: 'city.name', orderable : false},
+              { name: 'barangay.name', orderable : false },
+              { name: 'status', orderable : false },
+              { name: 'created_at' },
+              { name: 'action' , searchable : false, orderable : false, },
+          ],
+      });
+
+      $('#province_filter').change((e)  => {
+        // Get the value of selected item
+        QUERY_STRING = e.target.value;
+
+        // Set it to local storage to remember the filter selected when re-visit
+        localStorage.setItem('FILTER_SELECT', QUERY_STRING);
+
+        // Filter and load data base on selected province
+        person_table.ajax.url(`/municipal/people/list/${QUERY_STRING}`).load();
+    });
   </script>
   @endpush
 @endsection

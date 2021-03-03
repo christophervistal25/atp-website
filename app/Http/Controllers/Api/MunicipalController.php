@@ -25,14 +25,8 @@ class MunicipalController extends Controller
 
     public function city()
     {
-        if(Cache::has('municipals')) {
-            return Cache::get('municipals');
-        } else {
-            return Cache::rememberForever('municipals', function () {
-                return City::get(['code', 'name']);
-            });
-        }
-        
+        Cache::flush();
+        return City::get(['code', 'name']);
     }
 
     public function filterByName(string $name)

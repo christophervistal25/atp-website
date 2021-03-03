@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Municipal;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use DB;
+use Auth;
+use App\User;
 use App\Person;
 use App\Barangay;
-use Illuminate\Support\Str;
-use Freshbitsweb\Laratables\Laratables;
-use Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Freshbitsweb\Laratables\Laratables;
 use App\Http\Controllers\Repositories\PersonnelRepository;
 
 class PersonnelController extends Controller
@@ -23,13 +25,18 @@ class PersonnelController extends Controller
         $this->middleware('auth:municipal');
     }
 
-    public function list()
+    public function list(string $filter)
     {
-        $city_code = Auth::user()->city_code;
-
-        return Laratables::recordsOf(Person::class, function ($query) use($city_code) {
-            return $query->where('city_code', $city_code);
-        });
+        if($filter !== 'all') {
+            return Laratables::recordsOf(Person::class, function ($query) use($filter) {
+                return $query->where('barangay_code', $filter);
+            });
+        } else {
+            $city_code = Auth::user()->city_code;
+            return Laratables::recordsOf(Person::class, function ($query) use($city_code) {
+                return $query->where('city_code', $city_code);
+            });
+        }
     }
     /**
      * Display a listing of the resource.
@@ -65,17 +72,20 @@ class PersonnelController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'firstname'         => 'required',
-            'middlename'        => 'required',
-            'lastname'          => 'required',
+            'username'          => 'required|unique:users,username',
+            'password'          => 'required|min:8|max:20',
+            'mpin'              => 'required|max:4',
+            'firstname'         => 'required|regex:/^[A-Za-z ]+$/u',
+            'middlename'        => 'required|regex:/^[A-Za-z ]+$/u',
+            'lastname'          => 'required|regex:/^[A-Za-z ]+$/u',
             'date_of_birth'     => 'required|date',
             'gender'            => 'required|in:' . implode(',', PersonnelRepository::GENDER),
             'temporary_address' => 'required',
-            'phone_number'      => 'required|unique:people,phone_number',
             'address'           => 'required',
-            'status'            => 'required',
             'barangay'          => 'required|exists:barangays,code',
             'image'             => 'required',
+            'status'            => 'required|in:' . implode(',', PersonnelRepository::CIVIL_STATUS),
+            'phone_number'      => 'required|unique:people',
         ]);
 
         if($request->has('image')) {
@@ -87,24 +97,43 @@ class PersonnelController extends Controller
         // Province Code
         $barangay = Barangay::where('code', $request->barangay)->first();
 
-        $person = Person::create([
-            'firstname'         => $request->firstname,
-            'middlename'        => $request->middlename,
-            'lastname'          => $request->lastname,
-            'temporary_address' => $request->temporary_address,
-            'address'           => $request->address,
-            'suffix'            => $request->suffix,
-            'date_of_birth'     => Carbon::parse($request->date_of_birth)->format('Y-m-d'),
-            'image'             => $imageName ?? 'default.png',
-            'gender'            => $request->gender,
-            'province_code'     => $barangay->province_code,
-            'city_code'         => $barangay->city_code,
-            'barangay_code'     => $barangay->code,
-            'civil_status'      => $request->status,
-            'phone_number'      => $request->phone_number,
-            'landline_number'   => $request->landline_number,
-            'age'               => $this->personnelRepository->getAge($request->date_of_birth),
-        ]);
+        DB::beginTransaction();
+
+        try {
+            $person = Person::create([
+                'firstname'         => $request->firstname,
+                'middlename'        => $request->middlename,
+                'lastname'          => $request->lastname,
+                'temporary_address' => $request->temporary_address,
+                'address'           => $request->address,
+                'suffix'            => $request->suffix,
+                'date_of_birth'     => Carbon::parse($request->date_of_birth)->format('Y-m-d'),
+                'image'             => $imageName ?? 'default.png',
+                'gender'            => $request->gender,
+                'province_code'     => $barangay->province_code,
+                'city_code'         => $barangay->city_code,
+                'barangay_code'     => $request->barangay,
+                'civil_status'      => $request->status,
+                'phone_number'      => $request->phone_number,
+                'landline_number'   => $request->landline_number,
+                'age'               => $this->personnelRepository->getAge($request->date_of_birth),
+            ]);
+
+
+            User::create([
+                'username'  => $request->username,
+                'password'  => bcrypt($request->password),
+                'person_id' => $person->id,
+                'mpin'      => bcrypt($request->mpin)
+            ]);
+
+            DB::commit();
+            return back()->with('success', $person->id);
+        } catch(\Exception $e) {
+            dd($e->getMessage());
+            abort(404);
+            DB::rollback();
+        }
 
 
         return back()->with('success', $person->id);
@@ -129,9 +158,6 @@ class PersonnelController extends Controller
      */
     public function edit($id)
     {
-        $barangays = Auth::user()->city->barangays;
-        $person = Person::find($id);
-        return view('municipal.personnel.edit', compact('person', 'barangays'));
     }
 
     /**

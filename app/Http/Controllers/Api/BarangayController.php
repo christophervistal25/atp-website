@@ -11,12 +11,7 @@ class BarangayController extends Controller
 {
     public function barangay()
     {
-        if(Cache::has('barangay')) {
-            return Cache::get('barangay');
-        } else {
-            return Cache::rememberForever('barangay', function () {
-                return Barangay::get(['code', 'name']);
-            });
-        }
+        Cache::flush();
+        return Barangay::get(['code', 'name']);
     }
 }

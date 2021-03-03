@@ -41,13 +41,13 @@ class CheckerController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'username'   => 'required|unique:checkers',
-            'firstname'  => 'required',
-            'middlename' => 'required',
-            'lastname'   => 'required',
-            'city'       => 'required|exists:cities,code',
+            'username'     => 'required|unique:checkers',
+            'firstname'    => 'required',
+            'middlename'   => 'required',
+            'lastname'     => 'required',
+            'city'         => 'required|exists:cities,code',
             'phone_number' => 'required|unique:checkers',
-            'password'   => 'required|confirmed|min:6|max:20'
+            'password'     => 'required|confirmed|min:6|max:20'
         ]);
 
 

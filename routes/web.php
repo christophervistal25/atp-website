@@ -91,7 +91,7 @@ Route::group(['prefix' => 'municipal'] , function () {
 		Route::group(['middleware' => 'auth:municipal'], function () {
 			Route::get('/{id}/print/qr', 'PrintQRController@show')->name('municipal.print.qr');
 
-			Route::get('people/list', 'Municipal\PersonnelController@list')->name('municipal-people-list');
+			Route::get('people/list/{filter}', 'Municipal\PersonnelController@list')->name('municipal-people-list');
             Route::resource('municipal-personnel', 'Municipal\PersonnelController');
             Route::get('person/{id}/logs', 'Municipal\PersonLogController@show')->name('municipal.personnel.logs');
             Route::put('/personnel/{person}/logs', 'Municipal\PersonLogController@update')->name('municipal.personnel.logs.update');

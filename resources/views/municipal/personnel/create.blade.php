@@ -46,7 +46,7 @@
                             </h2>
                         </div>
                         <div class="p-5" id="input">
-                            <form method="POST" enctype="multipart/form-data" action="{{ route('personnel.store') }}"
+                            <form method="POST" enctype="multipart/form-data" action="{{ route('municipal-personnel.store') }}"
                                 class="preview">
                                 @csrf
                                 <div class="flex flex-col md:flex-row border-b border-gray-200 pb-4 mb-4">
@@ -124,22 +124,6 @@
                                 <div class="mb-2 flex-1 flex flex-col md:flex-row">
                                     <div class="w-full flex-1 mx-2">
                                         <label for="">
-                                            City
-                                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
-                                        </label>
-                                        <div
-                                            class=" bg-white flex {{  $errors->has('city') ? 'rounded border border-red-500' : 'p-1' }}">
-                                            <select
-                                                class="select2 input border p-2 px-2 appearance-none outline-none w-full text-gray-800"
-                                                name="city" id="cities">
-                                                <option selected disable>Select Province First</option>
-                                            </select>
-                                        </div>
-                                        <span class="text-red-500 text-xs">{{  $errors->first('city') }}</span>
-                                    </div>
-
-                                    <div class="w-full flex-1 mx-2">
-                                        <label for="">
                                             Barangay
                                             <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                                         </label>
@@ -148,7 +132,10 @@
                                             <select
                                                 class="select2 input border p-2 px-2 appearance-none outline-none w-full text-gray-800 "
                                                 name="barangay" id="barangay">
-                                                <option selected disable>Select City First</option>
+                                                <option selected disabled>Select Barangay</option>
+                                                @foreach($barangays as $barangay)
+                                                    <option {{ old('barangay') == $barangay->code ? 'selected' : '' }} value="{{ $barangay->code }}">{{ $barangay->name }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <span class="text-red-500 text-xs">{{  $errors->first('barangay') }}</span>
@@ -365,60 +352,4 @@
     <!-- END: Add New Personnel -->
 </div>
 </div>
-@push('page-scripts')
-<script>
-    $(document).ready(() => {
-
-        const BASE_URL = '/api/province';
-
-        // User Select Province then populate all data for province.
-        $('#province').change((e) => {
-            let provinceCode = e.target.value;
-            let elementCities = $('#cities');
-            // Make an AJAX request to get all city filtered by selected province.
-            $.ajax({
-                url: `${BASE_URL}/municipal/${provinceCode}`,
-                success: (response) => {
-                    // Clear all option of cities select element
-                    elementCities.find('option').remove();
-
-                    // Iterate to all city by province code and display to select
-                    response.municipals.forEach((municipal) => {
-                        elementCities.append(
-                            `<option value="${municipal.code}">${municipal.name}</option>`
-                        );
-                    });
-
-                }
-            });
-        });
-
-
-        // User Select City then populate all data for barangays
-        $('#cities').change((e) => {
-            let selectedCityCode = e.target.value;
-            let barangayElement = $('#barangay');
-
-            // Make an AJAX request to get all barangay filtered by selected city.
-            $.ajax({
-                url: `${BASE_URL}/barangay/${selectedCityCode}`,
-                success: (response) => {
-                    // Clear all option of barangay select element
-                    barangayElement.find('option').remove();
-
-                    // Iterate to all barangay by city code and display to select
-                    response.barangays.forEach((barangay) => {
-                        $('#barangay').append(
-                            `<option value="${barangay.code}">${barangay.name}</option>`
-                        );
-                    });
-
-                }
-            });
-
-        });
-    });
-
-</script>
-@endpush
 @endsection

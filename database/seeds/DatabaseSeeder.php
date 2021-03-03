@@ -19,10 +19,10 @@ class DatabaseSeeder extends Seeder
             CheckerSeeder::class,
             BarangaySeeder::class,
             SettingSeeder::class,
-            PersonSeeder::class,
+            // PersonSeeder::class,
             // OfficeSeeder::class,
             // EstablishmentSeeder::class,
-            LogsSeeder::class,
+            // LogsSeeder::class,
         ]);
     }
 }

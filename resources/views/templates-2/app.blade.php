@@ -255,15 +255,9 @@
                     </a>
                     <ul class="">
                         <li>
-                            <a href="{{  route('personnel.index') }}" class="side-menu">
+                            <a href="{{  route('municipal-personnel.index') }}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-feather="list"></i> </div>
                                 <div class="side-menu__title"> View All </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{  route('personnel.index', ['menu_edit' => true]) }}" class="side-menu">
-                                <div class="side-menu__icon"> <i data-feather="edit-3"></i> </div>
-                                <div class="side-menu__title"> Edit Personnel </div>
                             </a>
                         </li>
                     </ul>
@@ -306,13 +300,13 @@
                     </a>
                     <ul class="">
                         <li>
-                            <a href="{{  route('establishment.index') }}" class="side-menu">
+                            <a href="{{  route('m-establishment.index') }}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-feather="list"></i> </div>
                                 <div class="side-menu__title"> View All </div>
                             </a>
                         </li>
                         <li>
-                            <a href="{{  route('establishment.index', ['menu_edit' => true]) }}" class="side-menu">
+                            <a href="{{  route('m-establishment.index', ['menu_edit' => true]) }}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-feather="edit-3"></i> </div>
                                 <div class="side-menu__title"> Edit Establishment </div>
                             </a>

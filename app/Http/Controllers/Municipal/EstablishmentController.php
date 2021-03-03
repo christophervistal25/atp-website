@@ -59,6 +59,7 @@ class EstablishmentController extends Controller
         ], [], ['office_store_name' => 'name']);
 
         $barangay = Barangay::where('code', $request->barangay)->first();
+        
         list($latitude, $longitude) = explode('&', $request->geo_tag_location);
 
         Establishment::create([
@@ -115,7 +116,7 @@ class EstablishmentController extends Controller
             'name' => 'required',
             'type'              => 'required|in:' . implode(',', EstablishmentRepository::TYPES),
             'address'           => 'required|max:100',
-            'contact_number'    => 'required|unique:establishments,contact_no,' . $m_establishment->id,
+            'contact_no'    => 'required|unique:establishments,contact_no,' . $m_establishment->id,
             'geo_tag_location'  => 'required',
             'barangay'          => 'required|exists:barangays,code',
         ], [], ['office_store_name' => 'name']);
@@ -129,7 +130,7 @@ class EstablishmentController extends Controller
         $m_establishment->address       = $request->address;
         $m_establishment->latitude      = $latitude;
         $m_establishment->longitude     = $longitude;
-        $m_establishment->contact_no    = $request->contact_number;
+        $m_establishment->contact_no    = $request->contact_no;
         $m_establishment->province_code = $barangay->province_code;
         $m_establishment->city_code     = $barangay->city_code;
         $m_establishment->barangay_code = $barangay->code;

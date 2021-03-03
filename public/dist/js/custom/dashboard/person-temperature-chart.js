@@ -86,7 +86,6 @@ fetch(`/api/person/temperature`)
         new Chart(sexTemperatureChart, options);
 
 
-
         Object.values(data.user_bracket_by_age).forEach((age, index) => {
             let bracket = Object.keys(data.user_bracket_by_age)[index];
             let widthForProgress = Math.ceil(age / 32);
