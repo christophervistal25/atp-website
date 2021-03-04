@@ -15,7 +15,7 @@
             </div>
             <div class="grid grid-cols-12 gap-6 mt-5">
                 <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
-                    <a href="{{  route('personnel.index') }}">
+                    <a href="{{  route('municipal-personnel.index') }}">
                         <div class="report-box zoom-in">
                             <div class="box p-5">
                                 <div class="flex">
@@ -40,14 +40,14 @@
                                             <div class="report-box__indicator bg-theme-9 tooltip cursor-pointer" title="22% Higher than last month"> 22% <i data-feather="chevron-up" class="w-4 h-4"></i> </div>
                                         </div> --}}
                                 </div>
-                                <div class="text-3xl font-bold leading-8 mt-6">{{ $municipal_count }}</div>
-                                <div class="text-base text-gray-600 mt-1">Municipals account</div>
+                                <div class="text-3xl font-bold leading-8 mt-6">{{ $establishment_by_municipal }}</div>
+                                <div class="text-base text-gray-600 mt-1">Establishments</div>
                             </div>
                         </div>
                     </a>
                 </div>
                 <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
-                    <a href="{{  route('checker.index') }}">
+                    <a href="{{  route('m-checker.index') }}">
                         <div class="report-box zoom-in">
                             <div class="box p-5">
                                 <div class="flex">
@@ -63,7 +63,7 @@
                     </a>
                 </div>
                 <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
-                    <a href="">
+                    <a href="{{ route('people.track.index') }}">
                         <div class="report-box zoom-in">
                             <div class="box p-5">
                                 <div class="flex">

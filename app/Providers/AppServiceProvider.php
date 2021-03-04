@@ -10,6 +10,8 @@ use App\Person;
 use App\PersonLog;
 use App\Checker;
 use App\Municipal;
+use App\Establishment;
+use Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -40,13 +42,11 @@ class AppServiceProvider extends ServiceProvider
         if (View::exists('admin.dashboard')) {
 
             View::composer(['admin.dashboard', 'municipal.dashboard'], function ($view) {
-                $test = 'testing';
-
+                $view->with('establishment_by_municipal', Establishment::where('city_code', Auth::user()->city_code)->count());
                 $view->with('person_count', Person::count());
                 $view->with('municipal_count', Municipal::count());
                 $view->with('checker_count', Checker::count());
                 $view->with('scanned_qr', PersonLog::count());
-                $view->with('testing', $test);
             });
 
         }
