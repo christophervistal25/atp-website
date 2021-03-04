@@ -18,14 +18,21 @@ class UpdateProfileController extends Controller
     {
         $account = Auth::user();
 
-        $this->validate($request, [
+        $rules = [
             'username'     => 'required|unique:municipals,username,' . $account->id,
             'phone_number' => 'required|unique:municipals,phone_number,' . $account->id,
-        ]);
+        ];
+
+
+        if(!is_null($request->password)) {
+            $rules['password'] = 'required|min:6|max:20|confirmed';
+        }
+
+        $this->validate($request, $rules);
 
         $account->username = $request->username;
         $account->phone_number = $request->phone_number;
-        if(!is_null($account->password)) {
+        if(!is_null($request->password)) {
             $account->password = bcrypt($request->password);
         }
         $account->save();

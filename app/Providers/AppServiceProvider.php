@@ -39,7 +39,7 @@ class AppServiceProvider extends ServiceProvider
 
         if (View::exists('admin.dashboard')) {
 
-            View::composer('admin.dashboard', function ($view) {
+            View::composer(['admin.dashboard', 'municipal.dashboard'], function ($view) {
                 $test = 'testing';
 
                 $view->with('person_count', Person::count());
