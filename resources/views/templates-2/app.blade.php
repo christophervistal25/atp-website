@@ -10,7 +10,7 @@
     {{-- <meta name="description" content="Midone admin is super flexible, powerful, clean & modern responsive tailwind admin template with unlimited possibilities."> --}}
     {{-- <meta name="keywords" content="admin template, Midone admin template, dashboard template, flat admin template, responsive admin template, web app"> --}}
     <meta name="author" content="Surigao del Sur - ITU TEAM">
-    <title>{{ config('app.name') }} | @yield('page-title')</title>
+    <title>@yield('page-title') | {{ config('app.name') }}</title>
     <!-- BEGIN: CSS Assets-->
     <link rel="stylesheet" href="{{ asset('/dist/css/app.css') }}" />
     @stack('page-css')
@@ -20,10 +20,10 @@
 
 <body class="app">
     @auth('admin')
-        @include('templates-2.mobile_menu')
+    @include('templates-2.mobile_menu')
     @endauth
     @auth('municipal')
-        @include('templates-2.mobile_menu_municipal')
+    @include('templates-2.mobile_menu_municipal')
     @endauth
     <div class="flex">
         <!-- BEGIN: Side Menu -->
@@ -211,9 +211,9 @@
                 </li>
                 {{-- <li>
                     <a href="{{ route('setting.index') }}" class="side-menu">
-                        <div class="side-menu__icon"> <i data-feather="settings"></i> </div>
-                        <div class="side-menu__title"> Settings </div>
-                    </a>
+                <div class="side-menu__icon"> <i data-feather="settings"></i> </div>
+                <div class="side-menu__title"> Settings </div>
+                </a>
                 </li> --}}
             </ul>
             @endauth
@@ -272,19 +272,19 @@
                     </a>
                     <ul class="">
                         <li>
-                            <a href="{{  route('checker.index') }}" class="side-menu">
+                            <a href="{{  route('m-checker.index') }}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-feather="list"></i> </div>
                                 <div class="side-menu__title"> View All </div>
                             </a>
                         </li>
                         <li>
-                            <a href="{{  route('checker.create') }}" class="side-menu">
+                            <a href="{{ route('m-checker.create') }}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-feather="user-plus"></i> </div>
                                 <div class="side-menu__title"> Add Checker </div>
                             </a>
                         </li>
                         <li>
-                            <a href="{{  route('checker.index', ['menu_edit' => true]) }}" class="side-menu">
+                            <a href="{{ route('m-checker.index', ['menu_edit' => true]) }}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-feather="edit-3"></i> </div>
                                 <div class="side-menu__title"> Edit Checker </div>
                             </a>
@@ -316,42 +316,25 @@
                 <li class="side-nav__devider my-6"></li>
                 <li>
                     <a href="javascript:;" class="side-menu">
-                        <div class="side-menu__icon"> <i data-feather="key"></i> </div>
-                        <div class="side-menu__title"> Accounts <i data-feather="chevron-down"
-                                class="side-menu__sub-icon"></i> </div>
-                    </a>
-                    <ul class="">
-                        <li>
-                            <a href="{{  route('municipal-account.index') }}" class="side-menu">
-                                <div class="side-menu__icon"> <i data-feather="users"></i> </div>
-                                <div class="side-menu__title"> Municipals </div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-
-                <li>
-                    <a href="javascript:;" class="side-menu">
                         <div class="side-menu__icon"> <i data-feather="map"></i> </div>
                         <div class="side-menu__title"> Province <i data-feather="chevron-down"
                                 class="side-menu__sub-icon"></i> </div>
                     </a>
                     <ul class="">
                         <li>
-                            <a href="{{ route('province.index') }}" class="side-menu">
+                            <a href="{{ route('m-province.index') }}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-feather="list"></i> </div>
                                 <div class="side-menu__title"> View All </div>
                             </a>
                         </li>
                         <li>
-                            <a href="{{  route('city.index') }}" class="side-menu">
+                            <a href="{{  route('m-city.index') }}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-feather="home"></i> </div>
                                 <div class="side-menu__title"> Municipalities </div>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('barangay.index') }}" class="side-menu">
+                            <a href="{{ route('m-barangay.index') }}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-feather="home"></i> </div>
                                 <div class="side-menu__title"> Barangay </div>
                             </a>
@@ -368,18 +351,12 @@
                     </a>
                     <ul class="">
                         <li>
-                            <a href="{{  route('track.index') }}" class="side-menu">
+                            <a href="{{  route('people.track.index') }}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
                                 <div class="side-menu__title"> Personnel </div>
                             </a>
                         </li>
                     </ul>
-                </li>
-                <li>
-                    <a href="{{ route('setting.index') }}" class="side-menu">
-                        <div class="side-menu__icon"> <i data-feather="settings"></i> </div>
-                        <div class="side-menu__title"> Settings </div>
-                    </a>
                 </li>
             </ul>
             @endauth
@@ -659,15 +636,10 @@
                                     {{ Auth::user()->city->code }}</div>
                             </div>
                             <div class="p-2">
-                                <a href="{{  route('admin.profile.edit') }}"
+                                <a href="{{ route('account.edit') }}"
                                     class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md">
-                                    <i data-feather="user" class="w-4 h-4 mr-2"></i> Update Profile </a>
-                                <a href="{{  route('administrator.create') }}"
-                                    class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md">
-                                    <i data-feather="edit" class="w-4 h-4 mr-2"></i> Add Account </a>
-                                <a href=""
-                                    class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md">
-                                    <i data-feather="help-circle" class="w-4 h-4 mr-2"></i> Help </a>
+                                    <i data-feather="user" class="w-4 h-4 mr-2"></i> Update Profile
+                                </a>
                             </div>
                             <div class="p-2 border-t border-theme-40">
                                 <a onclick="event.preventDefault();

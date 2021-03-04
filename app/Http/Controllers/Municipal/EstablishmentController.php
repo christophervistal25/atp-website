@@ -59,7 +59,7 @@ class EstablishmentController extends Controller
         ], [], ['office_store_name' => 'name']);
 
         $barangay = Barangay::where('code', $request->barangay)->first();
-        
+
         list($latitude, $longitude) = explode('&', $request->geo_tag_location);
 
         Establishment::create([
@@ -136,7 +136,7 @@ class EstablishmentController extends Controller
         $m_establishment->barangay_code = $barangay->code;
         $m_establishment->save();
 
-        return redirect()->back()->with('success', 'Successfully update establishment.'); 
+        return redirect()->back()->with('success', 'Successfully update establishment.');
 
     }
 

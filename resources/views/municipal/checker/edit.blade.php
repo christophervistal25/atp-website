@@ -1,112 +1,165 @@
-
-@extends('municipal.layouts.app')
-@section('page-small-title','Checker')
-@section('page-title','Update Checker')
+@extends('templates-2.app')
+@section('page-title', 'Edit Checker')
 @section('content')
-<div class="mb-2">
-    @if(Session::has('success'))
-    <div class="card bg-success text-white shadow">
-        <div class="card-body">{{ Session::get('success') }}</div>
-    </div>
-    @endif
-    {{-- @include('templates.error') --}}
-</div>
-<section id="basic-alerts">
-    <form method="POST"  action="{{ route('m-checker.update', $m_checker->id) }}" >
-        @method('PUT')
-        @csrf
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Checker Information</h4>
-                        <a class="heading-elements-toggle">
-                            <i class="la la-ellipsis-v font-medium-3"></i>
-                        </a>
-                    </div>
-                    <div class="card-content collapse show">
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="username">Username</label>
-                                <input type="text" class="form-control {{ $errors->has('username')  ? 'is-invalid' : ''}}" id="username" name="username" placeholder="Enter Username" value="{{ $m_checker->username ?? old('username') }}">
-                                @if($errors->has('username'))
-                                <small  class="form-text text-danger">
-                                    {{ $errors->first('username') }} </small>
-                            @endif
-
-
-                            <div class="form-group mt-1">
-                            <label for="firstname">Firstname</label>
-                            <input type="text" class="form-control {{ $errors->has('firstname')  ? 'is-invalid' : ''}}" id="firstname" name="firstname" placeholder="Enter Firstname" value="{{ $m_checker->firstname ?? old('firstname') }}">
-                            @if($errors->has('firstname'))
-                                <small  class="form-text text-danger">
-                                    {{ $errors->first('firstname') }} </small>
-                            @endif
-
+    <div class="grid grid-cols-12 gap-6">
+        <div class="col-span-12 xxl:col-span-12 grid grid-cols-12 gap-6">
+            <!-- BEGIN: Add Update Checker -->
+            <div class="col-span-12 mt-8">
+                {{-- @include('templates.error') --}}
+                <div class="intro-y flex items-center h-10">
+                    <h2 class="text-lg font-medium truncate mr-5">
+                        Edit <span class="capitalize">{{ $checker->firstname }}</span>'s information
+                    </h2>
+                    <a href="" class="ml-auto flex text-theme-1"> <i data-feather="refresh-ccw" class="w-4 h-4 mr-3"></i> Reload Data </a>
+                </div>
+                <div class="grid grid-cols mt-5">
+                    <div class="intro-y col-span-12 lg:col-span-6">
+                        @if(Session::has('success'))
+                            <div class="intro-y col-span-12 md:col-span-6">
+                                <div class="box">
+                                    <div class="flex flex-col lg:flex-row items-center p-5 bg-theme-9 rounded">
+                                        <div class="lg:ml-2 lg:mr-auto text-center lg:text-left mt-3 lg:mt-0">
+                                            <p class="font-medium mb-2 text-white">{{ Session::get('success') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-
-                            <div class="form-group">
-                                <label for="middlename">Middlename</label>
-                                <input type="text" class="form-control {{ $errors->has('middlename')  ? 'is-invalid' : ''}} " id="middlename" name="middlename" placeholder="Enter Middlename" value="{{ $m_checker->middlename ?? old('middlename') }}">
-                                @if($errors->has('middlename'))
-                                <small  class="form-text text-danger">
-                                    {{ $errors->first('middlename') }} </small>
-                            @endif
+                        @endif
+                        <!-- BEGIN: Input -->
+                        <div class="intro-y box">
+                            <div class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200">
+                                <h2 class="font-medium text-base mr-auto">
+                                    Checker Information
+                                </h2>
                             </div>
+                            <div class="p-5" id="input">
+                                <form method="POST" action="{{ route('m-checker.update', $checker->id) }}" class="preview">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="flex flex-col md:flex-row border-b border-gray-200 pb-4 mb-4">
+                                        <div class="flex-1 flex flex-col md:flex-row">
+                                            <div class="w-full flex-1">
+                                                <label>
+                                                    Firstname
+                                                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+                                                </label>
 
-                            <div class="form-group">
-                                <label for="lastname">Lastname</label>
-                                <input type="text" class="form-control {{ $errors->has('lastname')  ? 'is-invalid' : ''}}" id="lastname" name="lastname" placeholder="Enter Lastname" value="{{ $m_checker->lastname ?? old('lastname') }}">
+                                                <div class="p-1 bg-white flex border rounded  {{ $errors->has('firstname')  ? 'border-red-500' : '' }}">
+                                                    <input class="p-1 px-2 appearance-none outline-none w-full text-gray-800" type="text" placeholder="e.g. Christopher" aria-invalid="true" name="firstname" value="{{  old('firstname') ?? $checker->firstname }}">
+                                                </div>
+                                                <div class="text-xs text-theme-6">
+                                                    @if($errors->has('firstname'))
+                                                        {{ $errors->first('firstname') }}
+                                                    @else
+                                                    Required, at least 3 characters
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="w-full flex-1 mx-2">
+                                                Middlename
+                                                <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+                                                <div class="p-1 bg-white flex border {{ $errors->has('middlename')  ? 'border-red-500' : '' }} rounded">
+                                                    <input class="p-1 px-2 appearance-none outline-none w-full text-gray-800" type="text" placeholder="e.g. Platino" name="middlename" value="{{  old('middlename') ?? $checker->middlename }}">
+                                                </div>
+                                                <div class="text-xs text-theme-6">
+                                                    @if($errors->has('middlename'))
+                                                        {{ $errors->first('middlename') }}
+                                                    @else
+                                                        Required, at least 2 characters
+                                                    @endif
+                                                </div>
+                                            </div>
 
-                                @if($errors->has('lastname'))
-                                    <small  class="form-text text-danger">
-                                    {{ $errors->first('lastname') }} </small>
-                                @endif
+                                            <div class="w-full flex-1 mx-2">
+                                                Lastname
+                                                <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+                                                <div class="p-1 bg-white flex border {{ $errors->has('lastname')  ? 'border-red-500' : '' }} rounded">
+                                                    <input class="p-1 px-2 appearance-none outline-none w-full text-gray-800" type="text" placeholder="e.g. Vistal" name="lastname" value="{{ old('lastname') ?? $checker->lastname }}">
+                                                </div>
+                                                <div class="text-xs text-theme-6">
+                                                    @if($errors->has('lastname'))
+                                                        {{ $errors->first('lastname') }}
+                                                    @else
+                                                        Required, at least 2 characters
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                            <div class="w-full flex-1 mx-2">
+                                                Suffix
+                                                <div class="p-1 bg-white flex border rounded">
+                                                    <input placeholder="Enter Suffix" class="p-1 px-2 appearance-none outline-none w-full text-gray-800" type="text" maxlength="3" placeholder="e.g. Jr" name="suffix" value="{{  old('suffix') ?? $checker->suffix }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-3">
+                                        <label>
+                                            Username
+                                            <span class="text-theme-6">*</span>
+                                        </label>
+                                        <input type="text" class="input w-full border {{  $errors->has('username')  ? 'border-theme-6' : '' }}" name="username" value="{{ old('username') ?? $checker->username }}" placeholder="checker01">
+                                        <div class="text-xs text-theme-6">
+                                            @if($errors->has('username'))
+                                                {{ $errors->first('username') }}
+                                            @else
+                                                Required, atleast 6 characters
+                                            @endif
+                                        </div>
+                                    </div>
+
+
+                                    <div class="mt-3">
+                                        <label>
+                                            Password
+                                        </label>
+                                        <input type="password" class="input w-full border {{  $errors->has('password')  ? 'border-theme-6' : '' }}" name="password">
+                                        <div class="text-xs text-theme-6">
+                                            @if($errors->has('password'))
+                                                {{ $errors->first('password') }}
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-3">
+                                        <label>Re-type Password</label>
+                                        <input type="password" class="input w-full border {{  $errors->has('password_confirmation')  ? 'border-theme-6' : '' }}" placeholder="" name="password_confirmation">
+                                        <div class="text-xs text-theme-6">
+                                            @if($errors->has('password_confirmation'))
+                                                {{ $errors->first('password_confirmation') }}
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-3 mb-3">
+                                        <label>
+                                            Phone number
+                                            <span class="text-theme-6">*</span>
+                                        </label>
+                                        <input type="text" class="input w-full border {{  $errors->has('phone_number')  ? 'border-theme-6' : '' }}" placeholder="+639193693499" value="{{ old('phone_number') ?? $checker->phone_number }}" name="phone_number">
+                                        <div class="text-xs text-theme-6">
+                                            @if($errors->has('phone_number'))
+                                                {{ $errors->first('phone_number') }}
+                                            @else
+                                                Required, Please include country code e.g. +639
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="flex lg:justify-end mt-5">
+                                        <button type="submit" class="button bg-theme-9 text-white w-auto shadow">Update <span class="capitalize">
+                                            {{ strtolower($checker->firstname) }}</span>'s Information</button>
+                                    </div>
+                                </form>
+                             </div>
                             </div>
-
-                            <div class="form-group">
-                                <label for="suffix">Suffix</label>
-                                <input type="text" maxlength="3" class="form-control {{ $errors->has('suffix')  ? 'is-invalid' : ''}}" id="suffix" name="suffix" placeholder="e.g Jr." value="{{ $m_checker->suffix ?? old('suffix') }}">
-                                @if($errors->has('suffix'))
-                                    <small  class="form-text text-danger">
-                                    {{ $errors->first('suffix') }} </small>
-                                @endif
-                            </div>
-
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" placeholder="Enter Password" class="form-control {{ $errors->has('password')  ? 'is-invalid' : ''}}" id="password" name="password"  value="{{ old('password') }}">
-                                @if($errors->has('password'))
-                                    <small  class="form-text text-danger">
-                                    {{ $errors->first('password') }} </small>
-                                @endif
-                            </div>
-
-                            <div class="form-group">
-                                <label for="password_confirmation">Re-type Password</label>
-                                <input type="password"  class="form-control {{ $errors->has('password_confirmation')  ? 'is-invalid' : ''}}" id="password_confirmation" name="password_confirmation"  value="{{ old('password_confirmation') }}">
-                                @if($errors->has('password_confirmation'))
-                                    <small  class="form-text text-danger">
-                                    {{ $errors->first('password_confirmation') }} </small>
-                                @endif
-                            </div>
-
-                            <div class="form-group">
-                                <label for="phone_number">Phone Number</label>
-                                <input type="text"  class="form-control {{ $errors->has('phone_number')  ? 'is-invalid' : ''}}" id="phone_number" name="phone_number"  value="{{ $m_checker->phone_number ?? old('phone_number') }}">
-                                @if($errors->has('phone_number'))
-                                    <small  class="form-text text-danger">
-                                    {{ $errors->first('phone_number') }} </small>
-                                @endif
-                            </div>
-
                         </div>
-                            <div class="float-right">
-                                <button type="submit" class="btn btn-success" id="btnSubmitNewChecker">Update Checker</button>
-                            </div>
-
-                            <div class="clearfix"></div>
+                        <!-- END: Input -->
                     </div>
                 </div>
             </div>
-    </form>
-</section>
+            <!-- END: Update Checker -->
+        </div>
+    </div>
 @endsection

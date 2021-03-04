@@ -41,12 +41,12 @@ class CheckerController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'username'   => 'required|unique:checkers',
-            'firstname'  => 'required',
-            'middlename' => 'required',
-            'lastname'   => 'required',
+            'username'     => 'required|unique:checkers',
+            'firstname'    => 'required',
+            'middlename'   => 'required',
+            'lastname'     => 'required',
             'phone_number' => 'required|unique:checkers',
-            'password'   => 'required|confirmed|min:6|max:20'
+            'password'     => 'required|confirmed|min:6|max:20'
         ]);
 
 
@@ -83,7 +83,8 @@ class CheckerController extends Controller
      */
     public function edit(Checker $m_checker)
     {
-        return view('municipal.checker.edit', compact('m_checker'));
+        $checker = $m_checker;
+        return view('municipal.checker.edit', compact('checker'));
     }
 
     /**

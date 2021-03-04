@@ -63,7 +63,7 @@ class PersonnelChartController extends Controller
 
         $personsByAgeBracket[ $roundedAge . '_Above'] = $maxAgeAbove;
 
-        $checkValue = array_filter($personsByAgeBracket);
+        $temporaryPersonsByAge = array_filter($personsByAgeBracket);
 
         return response()->json([
             'Normal - (' .  PersonLog::LOW_NORMAL  . ' - ' . PersonLog::HIGH_NORMAL . ')'    =>  $normal,
@@ -74,7 +74,7 @@ class PersonnelChartController extends Controller
                 'Female' => $female,
                 '&nbsp;' => '&nbsp;'
             ],
-           'user_bracket_by_age' => !empty($checkValue) ? $personsByAgeBracket : [],
+           'user_bracket_by_age' => !empty($temporaryPersonsByAge) ? $personsByAgeBracket : [],
         ]);
     }
 }

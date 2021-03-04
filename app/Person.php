@@ -80,7 +80,7 @@ class Person extends Model
                         Complete
                    </span>";
         }
-       
+
     }
 
     public static function laratablesGender($person)
@@ -146,6 +146,11 @@ class Person extends Model
     public static function laratablesCustomTrackAction($person)
     {
         return view('admin.track.includes.index_action', compact('person'))->render();
+    }
+
+    public static function laratablesCustomMunicipalTrackAction($person)
+    {
+        return view('municipal.track.includes.index_action', compact('person'))->render();
     }
 
     /**

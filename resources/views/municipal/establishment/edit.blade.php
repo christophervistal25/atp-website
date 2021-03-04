@@ -68,19 +68,19 @@
                                         <div class="w-full flex-1 mx-2">
                                             Establishment Type
                                             <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
-                                            <div class="{{ $errors->has('type') ? 'border border-theme-6 rounded' : '' }}">
-                                                <select
-                                                    class="select2 w-full input border apperance-none outline-none"
+                                            <div
+                                                class="{{ $errors->has('type') ? 'border border-theme-6 rounded' : '' }}">
+                                                <select class="select2 w-full input border apperance-none outline-none"
                                                     name="type">
                                                     <option selected disabled>Select Establishment Type</option>
                                                     @foreach($types as $type)
-                                                        @if(old('type'))
-                                                        <option {{ old('type') == $type ? 'selected' : '' }}
-                                                            value="{{ $type }}"> {{ $type }}</option>
-                                                        @else
-                                                        <option {{ $establishment->type == $type ? 'selected' : '' }}
-                                                            value="{{ $type }}"> {{ $type }}</option>
-                                                        @endif
+                                                    @if(old('type'))
+                                                    <option {{ old('type') == $type ? 'selected' : '' }}
+                                                        value="{{ $type }}"> {{ $type }}</option>
+                                                    @else
+                                                    <option {{ $establishment->type == $type ? 'selected' : '' }}
+                                                        value="{{ $type }}"> {{ $type }}</option>
+                                                    @endif
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -118,8 +118,7 @@
                                     <input type="text"
                                         class="input w-full border {{  $errors->has('contact_no')  ? 'border-theme-6' : '' }}"
                                         placeholder="+639193693499"
-                                        value="{{ old('contact_no') ?? $establishment->contact_no }}"
-                                        name="contact_no">
+                                        value="{{ old('contact_no') ?? $establishment->contact_no }}" name="contact_no">
                                     <div class="text-xs text-theme-6">
                                         @if($errors->has('contact_no'))
                                         {{ $errors->first('contact_no') }}
@@ -151,13 +150,27 @@
                                         <div class="w-full flex-1">
                                             Barangay
                                             <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
-                                            <div class="{{ $errors->has('barangay')  ? 'border border-theme-6 rounded' : ''}}">
+                                            <div
+                                                class="{{ $errors->has('barangay')  ? 'border border-theme-6 rounded' : ''}}">
                                                 <select name="barangay" id="barangay"
-                                                class="select2 w-full input border">
-                                                <option disabled>Select city to show all barangays</option>
-                                                <option selected value="{{ $establishment->barangay_code }}">
-                                                    {{  $establishment->barangay->name }}</option>
-                                            </select>
+                                                    class="select2 w-full input border">
+                                                    <option selected disabled>Select Barangay</option>
+                                                    @foreach($barangays as $barangay)
+                                                    @if(old('barangay'))
+                                                    <option {{ old('barangay') == $barangay->code ? 'selected' : '' }}
+                                                        value="{{ $barangay->code }}">
+                                                        {{  $barangay->name }}
+                                                    </option>
+                                                    @else
+                                                    <option
+                                                        {{ $establishment->barangay->code == $barangay->code ? 'selected' : '' }}
+                                                        value="{{ $barangay->code }}">
+                                                        {{  $barangay->name }}
+                                                    </option>
+                                                    @endif
+
+                                                    @endforeach
+                                                </select>
                                             </div>
                                             <div class="text-xs text-theme-6">
                                                 @if($errors->has('barangay'))

@@ -19,11 +19,10 @@ class PersonnelLogController extends Controller
      */
     public function show($id)
     {
+        dd('test');
         $person = Person::with('logs')->find($id);
 
-        $provinces = Cache::rememberForever('provinces', function () {
-            return Province::orderBy('name')->get();
-        });
+        return Province::get();
 
         $cities = City::where('province_code', $person->province_code)
                         ->get();

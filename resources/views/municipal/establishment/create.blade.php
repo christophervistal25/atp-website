@@ -147,6 +147,9 @@
                                                 <select name="barangay" id="barangay"
                                                     class="select2 w-full input border">
                                                     <option selected disabled>Select Barangay</option>
+                                                    @foreach($barangays as $barangay)
+                                                        <option {{ old('barangay') === $barangay->code ? 'selected' : '' }} value="{{ $barangay->code }}">{{  $barangay->name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                             <div class="text-xs text-theme-6">

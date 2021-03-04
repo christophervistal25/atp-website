@@ -52,7 +52,7 @@
                                 <div class="text-theme-6">
                                    {{ $errors->first('message') }}
                                 </div>
-                                <input type="text" class="intro-x login__input input input--lg border border-gray-300 block {{ $errors->has('message') ? 'border-theme-6' : '' }}" placeholder="Username" name="username">
+                                <input type="text" class="intro-x login__input input input--lg border border-gray-300 block {{ $errors->has('message') ? 'border-theme-6' : '' }}" placeholder="Username" name="username" value="{{ old('username') }}">
                                 <input type="password" class="intro-x login__input input input--lg border border-gray-300 block mt-4 {{ $errors->has('message') ? 'border-theme-6' : '' }}" placeholder="Password" name="password">
                             </div>
                             <div class="intro-x flex text-gray-700 text-xs sm:text-sm mt-4">

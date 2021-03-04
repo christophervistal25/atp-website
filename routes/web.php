@@ -5,9 +5,7 @@ Route::get('download-android', function () {
 
 Route::get('/', 'WelcomeController@index');
 
-Route::get('/test', function () {
-    return view('admin.statistics.overview');
-});
+
 
 Route::group(['prefix' => 'admin'] , function () {
 
@@ -49,20 +47,13 @@ Route::group(['prefix' => 'admin'] , function () {
 		Route::get('province/list', 'Admin\ProvinceController@list');
 		Route::resource('province', 'Admin\ProvinceController');
 
-		// Route::get('cities', 'Admin\CityController@data');
 		Route::get('/list/city', 'Admin\CityController@list')->name('city.list');
 		Route::resource('city', 'Admin\CityController');
 
 		Route::resource('municipal-account', 'Admin\MunicipalAccountController');
 
-        Route::resource('setting', 'Admin\SettingController');
 
 		Route::resource('/checker', 'Admin\CheckerController');
-
-
-		Route::get('/export/options', 'Admin\ExportOptionController@index');
-		Route::get('/personnel/list/download', 'Admin\ExportOptionController@personnelList');
-        Route::get('/personnel/total/download', 'Admin\ExportOptionController@personnelTotal');
 
 		Route::get('/establishment/list', 'Admin\EstablishmentController@list');
         Route::resource('establishment', 'Admin\EstablishmentController');
@@ -83,29 +74,39 @@ Route::group(['prefix' => 'admin'] , function () {
 
 Route::group(['prefix' => 'municipal'] , function () {
 	Route::get('/', 'Municipal\DashboardController@index')->name('municipal.dashboard');
-  	Route::get('dashboard', 'Municipal\DashboardController@index')->name('municipal.dashboard');
+    Route::get('dashboard', 'Municipal\DashboardController@index')->name('municipal.dashboard');
 	Route::get('login', 'Auth\MunicipalLoginController@login')->name('municipal.auth.login');
 	Route::post('login', 'Auth\MunicipalLoginController@loginMunicipal')->name('municipal.auth.loginMunicipal');
     Route::post('logout', 'Auth\MunicipalLoginController@logout')->name('municipal.auth.logout');
 
 		Route::group(['middleware' => 'auth:municipal'], function () {
-			Route::get('/{id}/print/qr', 'PrintQRController@show')->name('municipal.print.qr');
-
+            Route::get('update/profile', 'Municipal\UpdateProfileController@edit')->name('account.edit');
+            Route::post('update/profile', 'Municipal\UpdateProfileController@update')->name('account.update');
 			Route::get('people/list/{filter}', 'Municipal\PersonnelController@list')->name('municipal-people-list');
             Route::resource('municipal-personnel', 'Municipal\PersonnelController');
-            Route::get('person/{id}/logs', 'Municipal\PersonLogController@show')->name('municipal.personnel.logs');
-            Route::put('/personnel/{person}/logs', 'Municipal\PersonLogController@update')->name('municipal.personnel.logs.update');
+
+			Route::get('/{id}/print/qr', 'PrintQRController@show')->name('municipal.print.qr');
+
+            Route::get('list/province', 'Municipal\ProvinceController@list')->name('m-province.list');
+            Route::get('/m-province', 'Municipal\ProvinceController@index')->name('m-province.index');
+
+            Route::get('barangay/list', 'Municipal\BarangayController@list');
+            Route::get('barangay', 'Municipal\BarangayController@index')->name('m-barangay.index');
 
 
-			Route::get('/setting', 'Municipal\SettingController@index')->name('municipal.setting.index');
+            Route::get('/people/track', 'Municipal\TrackController@find');
+            Route::get('/track/people', 'Municipal\TrackController@index')->name('people.track.index');
+            Route::get('/track/people/{id}', 'Municipal\TrackController@show')->name('people.track.show');
+            Route::get('/track/others/{log}', 'Municipal\TrackController@track');
+            Route::post('/track/send/sms', 'Municipal\TrackController@notify')->name('notify.others');
 
-			Route::post('/setting/municipal/account/update', 'Municipal\SettingController@municipalUpdateAccount')->name('setting.municipal.account.update');
+            Route::get('/m-city/list', 'Municipal\CityController@list')->name('city.list');
+            Route::get('/m-cities', 'Municipal\CityController@index')->name('m-city.index');
 
 			Route::resource('m-checker', 'Municipal\CheckerController');
 
             Route::get('/m-establishment/list', 'Municipal\EstablishmentController@list')->name('municipal.establishment.list');
 			Route::resource('m-establishment', 'Municipal\EstablishmentController');
-
 		});
 
 	});
@@ -130,6 +131,3 @@ Route::group(['middleware' => ['auth']], function () {
 	});
 
 });
-
-
-
