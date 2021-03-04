@@ -14,7 +14,7 @@ Route::group(['prefix' => 'admin'] , function () {
 	Route::post('logout', 'Auth\AdminLoginController@logout')->name('admin.auth.logout');
 
 
-	Route::group(['middleware' => 'auth:admin'], function () {
+	Route::group(['middleware' => ['auth:admin', 'fetch_covid_update' ]], function () {
 
 
 		Route::get('/profile/update', 'Admin\ProfileController@edit')->name('admin.profile.edit');

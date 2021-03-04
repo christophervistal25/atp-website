@@ -63,6 +63,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'check.update.profile' => \App\Http\Middleware\UpdateProfileMiddleware::class,
         'update.done' => \App\Http\Middleware\AlreadyUpdateMiddleware::class,
+        'fetch_covid_update' => \App\Http\Middleware\FetchQuickCovidMiddleware::class,
     ];
 
     /**
