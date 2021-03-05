@@ -16,24 +16,6 @@ $.get('https://covid19stats.ph/api/stats/quick', {}, function (data, textStatus,
     $('#world-wide-deaths').html(numberWithCommas(world.deaths));
 });
 
-$.get('https://covid19stats.ph/api/stats/location', {}, function (data, textStatus, jqXHR) {
-    let surigaoDelSurCities = data.cities.filter((city) => city.slug.includes(
-        'surigao-del-sur'));
-    let confirmedTotal = 0;
-    let recoveredTotal = 0;
-    let deathTotal = 0;
-
-    surigaoDelSurCities.forEach((city, index) => {
-        confirmedTotal += city.total;
-        recoveredTotal += city.recovered;
-        deathTotal += city.deaths;
-    });
-
-
-    $('#surigao-confirmed-case').html(numberWithCommas(confirmedTotal));
-    $('#surigao-recovered').html(numberWithCommas(recoveredTotal));
-    $('#surigao-deaths').html(numberWithCommas(deathTotal));
-});
 
 $('.update-category').click((e) => {
 
