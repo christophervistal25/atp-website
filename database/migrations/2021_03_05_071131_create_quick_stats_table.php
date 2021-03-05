@@ -18,14 +18,6 @@ class CreateQuickStatsTable extends Migration
             $table->bigInteger('surigao_confirmed');
             $table->bigInteger('surigao_recovered');
             $table->bigInteger('surigao_deaths');
-
-            $table->bigInteger('philippines_confirmed');
-            $table->bigInteger('philippines_recovered');
-            $table->bigInteger('philippines_deaths');
-
-            $table->bigInteger('world_wide_confirmed');
-            $table->bigInteger('world_wide_recovered');
-            $table->bigInteger('world_wide_deaths');
             $table->timestamps();
         });
     }

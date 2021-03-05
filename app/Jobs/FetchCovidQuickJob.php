@@ -24,6 +24,32 @@ class FetchCovidQuickJob implements ShouldQueue
         //
     }
 
+    private function fetch()
+    {
+        $client = new \GuzzleHttp\Client();
+        // Send an asynchronous request.
+        $request = new \GuzzleHttp\Psr7\Request('GET', 'https://covid19stats.ph/api/stats/location');
+        $promise = $client->sendAsync($request)->then(function ($response) {
+
+            $data   = json_decode($response->getBody(), true);
+            $cities = [];
+
+            foreach($data['cities'] as $city) {
+                if(\Str::contains($city['slug'], 'surigao-del-sur')) {
+                    $cities[] = $city;
+                }
+            }
+
+            QuickStat::firstOrCreate([
+                'surigao_confirmed'     => array_sum(array_column($cities, 'total')),
+                'surigao_recovered'     => array_sum(array_column($cities, 'recovered')),
+                'surigao_deaths'        => array_sum(array_column($cities, 'deaths')),
+            ]);
+
+        });
+        $promise->wait();
+    }
+
     /**
      * Execute the job.
      *
@@ -31,25 +57,6 @@ class FetchCovidQuickJob implements ShouldQueue
      */
     public function handle()
     {
-        $lastFetchTime = App\QuickStat::latest()->first(['created_at']);
-        if(!is_null($lastFetchTime) && Carbon::now()->diffInDays($lastFetchTime->created_at) != 0) {
-            $client = new \GuzzleHttp\Client();
-            // Send an asynchronous request.
-            $request = new \GuzzleHttp\Psr7\Request('GET', 'https://covid19stats.ph/api/stats/location');
-            $promise = $client->sendAsync($request)->then(function ($response) {
-                QuickStat::create([
-                    'surigao_confirmed'     => '10',
-                    'surigao_recovered'     => '10',
-                    'surigao_deaths'        => '10',
-                    'philippines_confirmed' => '10',
-                    'philippines_recovered' => '10',
-                    'philippines_deaths'    => '10',
-                    'world_wide_confirmed'  => '10',
-                    'world_wide_recovered'  => '10',
-                    'world_wide_deaths'     => '10',
-                ]);
-            });
-            $promise->wait();
-        } 
+        $this->fetch();
     }
 }
