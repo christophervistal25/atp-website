@@ -30,5 +30,7 @@ Route::get('/municipal/list', 'Api\MunicipalController@list');
 Route::get('/notify/people', 'Api\NotifyController@message');
 Route::post('/sms/message/done', 'Api\NotifyController@messageDone');
 
+// Surigao del Sur stat
+Route::get('surigao/sur/covid/stat', 'Api\SurigaoStatController@data');
 
 
