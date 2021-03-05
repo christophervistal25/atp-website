@@ -15,9 +15,10 @@ class CreateQuickStatsTable extends Migration
     {
         Schema::create('quick_stats', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('surigao_confirmed');
-            $table->bigInteger('surigao_recovered');
-            $table->bigInteger('surigao_deaths');
+            $table->string('name');
+            $table->bigInteger('confirmed');
+            $table->bigInteger('recovered');
+            $table->bigInteger('deaths');
             $table->timestamps();
         });
     }

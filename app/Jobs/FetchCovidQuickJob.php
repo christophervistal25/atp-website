@@ -32,19 +32,21 @@ class FetchCovidQuickJob implements ShouldQueue
         $promise = $client->sendAsync($request)->then(function ($response) {
 
             $data   = json_decode($response->getBody(), true);
-            $cities = [];
 
-            foreach($data['cities'] as $city) {
+            foreach($data['cities'] as $key => $city) {
                 if(\Str::contains($city['slug'], 'surigao-del-sur')) {
-                    $cities[] = $city;
+                        QuickStat::updateOrCreate(
+                            [
+                            'name'      => $city['name'],
+                            'confirmed' => $city['total'],
+                            'recovered' => $city['recovered'],
+                            'deaths'    => $city['deaths'],
+                            ]
+                     );
                 }
             }
 
-            QuickStat::firstOrCreate([
-                'surigao_confirmed'     => array_sum(array_column($cities, 'total')),
-                'surigao_recovered'     => array_sum(array_column($cities, 'recovered')),
-                'surigao_deaths'        => array_sum(array_column($cities, 'deaths')),
-            ]);
+
 
         });
         $promise->wait();
