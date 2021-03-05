@@ -432,5 +432,40 @@
 <script src="/dist/js/custom/dashboard/covid-stats.js"></script>
 {{-- <script src="/dist/js/custom/dashboard/covid-stats-chart.js"></script> --}}
 <script src="/dist/js/custom/dashboard/person-temperature-chart.js"></script>
+<script>
+    const DATA_SEPARATOR = "|";
+    let ctx = document.getElementById('horizontal-bar').getContext('2d');
+
+    let chartLabel = "{{ $horizontal_chart_label }}".split(DATA_SEPARATOR);
+    let confirmed  = "{{ $horizontal_chart_confirmed }}".split(DATA_SEPARATOR);
+    let recovered  = "{{ $horizontal_chart_recovered }}".split(DATA_SEPARATOR);
+    let deaths     = "{{ $horizontal_chart_deaths }}".split(DATA_SEPARATOR);
+
+
+    let barChartData = {
+        labels: chartLabel,
+        datasets: [{
+                label: 'Confirmed Cases',
+                backgroundColor: "#f1c40f",
+                data : confirmed,
+            }, {
+                label: 'Recovered',
+                backgroundColor: "#2ecc71",
+                data : recovered,
+            },
+            {
+                label: 'Deaths',
+                backgroundColor: "#e74c3c",
+                data : deaths
+            },
+        ],
+    };
+
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: barChartData,
+    });
+</script>
 @endpush
 @endsection

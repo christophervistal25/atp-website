@@ -44,6 +44,13 @@ class AppServiceProvider extends ServiceProvider
 
             View::composer(['admin.dashboard', 'municipal.dashboard'], function ($view) {
                 $surigaoDelSurStats     = QuickStat::get();
+                
+                $surigaoDelSurStatsChartLabels    = $surigaoDelSurStats->pluck('name')->implode('|');
+                $surigaoDelSurStatsChartConfirmed = $surigaoDelSurStats->pluck('confirmed')->implode('|');
+                $surigaoDelSurStatsChartRecovered = $surigaoDelSurStats->pluck('recovered')->implode('|');
+                $surigaoDelSurStatsChartDeaths    = $surigaoDelSurStats->pluck('deaths')->implode('|');
+                
+
                 $surigaoDelSurConfirmed = $surigaoDelSurStats->sum('confirmed');
                 $surigaoDelSurRecovered = $surigaoDelSurStats->sum('recovered');
                 $surigaoDelSurDeaths    = $surigaoDelSurStats->sum('deaths');
@@ -53,9 +60,15 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('municipal_count', Municipal::count());
                 $view->with('checker_count', Checker::count());
                 $view->with('scanned_qr', PersonLog::count());
+
                 $view->with('confirmed', $surigaoDelSurConfirmed);
                 $view->with('recovered', $surigaoDelSurRecovered);
                 $view->with('deaths', $surigaoDelSurDeaths);
+
+                $view->with('horizontal_chart_label', $surigaoDelSurStatsChartLabels);
+                $view->with('horizontal_chart_confirmed', $surigaoDelSurStatsChartConfirmed);
+                $view->with('horizontal_chart_recovered', $surigaoDelSurStatsChartRecovered);
+                $view->with('horizontal_chart_deaths', $surigaoDelSurStatsChartDeaths);
             });
 
         }
