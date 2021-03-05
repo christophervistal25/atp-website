@@ -28,8 +28,8 @@ class UpdateProfileController extends Controller
     public function update(Request $request)
     {
         $this->validate($request, [
-            'mpin'              => 'required|max:4|same:confirm_mpin',
-            'confirm_mpin'      => 'required|max:4|same:mpin',
+            'mpin'              => 'required|max:4',
+            'confirm_mpin'      => 'same:mpin',
             'gender'            => 'required|in:' . implode(',', PersonnelRepository::GENDER),
             'temporary_address' => 'required',
             'address'           => 'required',

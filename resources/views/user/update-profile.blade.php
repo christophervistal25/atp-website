@@ -47,16 +47,21 @@
                                       </div>
 
                                   </div>
-                                  <div class="w-full flex-1 mx-2">
+                                  <div class="w-full flex-1 mx-2 ">
                                       <label for="">
                                           City
                                           <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                                       </label>
-                                      <div class="p-1 bg-white flex ">
-                                          <select class="select2 select-city input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('city') ? 'border-red-500' : '' }}" name="city" id="cities">
-                                              <option selected disable>Please Select Province</option>
+                                      <div class=" bg-white flex {{  $errors->has('city') ? 'border border-red-500 rounded' : '' }}">
+                                          <select class="select2 select-city input border p-2 px-2 appearance-none outline-none w-full text-gray-800"  name="city" id="cities">
+                                              <option selected disable>Select City</option>
                                           </select>
                                       </div>
+                                      @if($errors->has('city'))
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            {{  $errors->first('city') }}
+                                        </span>
+                                      @endif
                                   </div>
 
                                   <div class="w-full flex-1 mx-2">
@@ -64,11 +69,16 @@
                                           Barangay
                                           <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                                       </label>
-                                      <div class="p-1 bg-white">
-                                          <select class="select2 input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('barangay') ? 'border-red-500' : '' }}" name="barangay" id="barangay">
-                                              <option selected disable>Please Select City</option>
+                                      <div class="bg-white {{  $errors->has('barangay') ? 'border rounded border-red-500' : '' }}">
+                                          <select class="select2 input border p-2 px-2 appearance-none outline-none w-full text-gray-800" name="barangay" id="barangay">
+                                              <option selected disable>Select Barangay</option>
                                           </select>
                                       </div>
+                                      @if($errors->has('barangay'))
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            {{  $errors->first('barangay') }}
+                                        </span>
+                                      @endif
                                   </div>
                               </div>
 
@@ -112,14 +122,14 @@
                                     <div class=" p-1 bg-white flex">
                                         <input
                                             type="password"
-                                            class="input w-full border px-2 p-2 appearance-none outline-none {{  $errors->has('m_pin') ? 'border-red-500' : '' }}"
+                                            class="input w-full border px-2 p-2 appearance-none outline-none {{  $errors->has('mpin') ? 'border-red-500' : '' }}"
                                             name="mpin"
                                             maxlength="4"
                                             placeholder="Enter your MPIN"
                                             value="{{ old('mpin') }}">
                                     </div>
                                     @if($errors->has('mpin'))
-                                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600 capitalize">
                                         {{  $errors->first('mpin') }}
                                     </span>
                                     @else
@@ -138,15 +148,15 @@
                                     <div class=" p-1 bg-white flex">
                                         <input
                                             type="password"
-                                            class="input w-full border px-2 p-2 appearance-none outline-none {{  $errors->has('confirm_mpin') ? 'border-red-500' : '' }}"
+                                            class="input w-full border px-2 p-2 appearance-none outline-none {{  $errors->has('mpin') ? 'border-red-500' : '' }}"
                                             name="confirm_mpin"
                                             placeholder="Re-type your MPIN"
                                             maxlength="4"
                                             value="{{ old('confirm_mpin') }}">
                                     </div>
 
-                                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
-                                        {{  $errors->first('confirm_mpin') }}
+                                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600 capitalize">
+                                        {{ $errors->first('mpin') }}
                                     </span>
                                 </div>
                             </div>
