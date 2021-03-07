@@ -85,6 +85,8 @@ Route::group(['prefix' => 'municipal'] , function () {
 			Route::get('people/list/{filter}', 'Municipal\PersonnelController@list')->name('municipal-people-list');
             Route::resource('municipal-personnel', 'Municipal\PersonnelController');
 
+            Route::get('person/logs/{id}', 'Municipal\PersonLogController@show')->name('municipal.personnel.logs');
+
 			Route::get('/{id}/print/qr', 'PrintQRController@show')->name('municipal.print.qr');
 
             Route::get('list/province', 'Municipal\ProvinceController@list')->name('m-province.list');

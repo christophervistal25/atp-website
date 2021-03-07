@@ -9,14 +9,14 @@
     </h2>
 </div>
 @if($person->account->status)
-<div class="rounded-md flex items-center px-5 py-4 mt-2 bg-theme-6 text-white intro-y"> 
+<div class="rounded-md flex items-center px-5 py-4 mt-2 bg-theme-6 text-white intro-y">
     <svg xmlns="http://www.w3.org/2000/svg"
         width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
         stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-octagon w-6 h-6 mr-2">
         <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon>
         <line x1="12" y1="8" x2="12" y2="12"></line>
         <line x1="12" y1="16" x2="12.01" y2="16"></line>
-    </svg> 
+    </svg>
     Sorry but you can't generate or print a QR I.D for this person please complete first all information.
 </div>
 @endif
@@ -98,13 +98,6 @@
                     <h2 class="font-medium text-base mr-auto">
                         Personnel Information
                     </h2>
-                    <div class="dropdown relative ml-auto">
-                        <a class="w-5 h-5 px-2 py-2 text-gray-900 rounded bg-theme-8 font-medium"
-                            href="{{  route('personnel.edit', $person->id) }}">
-                            EDIT
-                        </a>
-
-                    </div>
                 </div>
                 <div class="p-5">
                     <div class="flex flex-col sm:flex-row">

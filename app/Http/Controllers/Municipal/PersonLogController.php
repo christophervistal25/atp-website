@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Person;
 use Auth;
+use App\Province;
 use App\City;
 use App\Barangay;
 use Carbon\Carbon;
@@ -71,9 +72,7 @@ class PersonLogController extends Controller
     {
         $person = Person::with('logs')->find($id);
 
-        $provinces = Cache::rememberForever('provinces', function () {
-            return Province::orderBy('name')->get();
-        });
+        $provinces = Province::get();
 
         $cities = City::where('province_code', $person->province_code)
                         ->get();

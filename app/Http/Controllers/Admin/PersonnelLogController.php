@@ -19,10 +19,9 @@ class PersonnelLogController extends Controller
      */
     public function show($id)
     {
-        dd('test');
         $person = Person::with('logs')->find($id);
 
-        return Province::get();
+        $provinces = Province::get();
 
         $cities = City::where('province_code', $person->province_code)
                         ->get();
