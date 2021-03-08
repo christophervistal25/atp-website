@@ -127,9 +127,12 @@ Route::group(['middleware' => ['auth']], function () {
 			Route::put('/my/profile', 'UpdateProfileController@update')->name('user.update.profile.submit');
 		});
 
+
 	Route::group(['middleware' => 'check.update.profile'], function () {
 		Route::get('/home', 'HomeController@index')->name('home');
 		Route::get('/my/id', 'QRController@index')->name('user-id');
+        Route::get('/setting', 'LoginCredentialsController@edit')->name('user.account.edit');
+        Route::put('/setting', 'LoginCredentialsController@update')->name('user.account.update');
 	});
 
 });

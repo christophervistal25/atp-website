@@ -371,7 +371,7 @@
                                             </span>
                                             @else
                                             <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-theme-1">
-                                                Optional
+                                                Add values if  you want to change
                                             </span>
                                             @endif
 
@@ -394,7 +394,7 @@
                                             </span>
                                             @else
                                             <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-theme-1">
-                                                Optional
+                                                Add values if  you want to change
                                             </span>
                                             @endif
                                         </div>

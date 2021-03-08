@@ -60,6 +60,12 @@
                        <div class="font-medium capitalize">{{  Auth::user()->info->lastname }}, {{  Auth::user()->info->firstname }} </div>
                        <div class="text-xs text-theme-41">{{ '@' . Auth::user()->username }}</div>
                    </div>
+                   <div class="p-2">
+                    <a href="{{  route('user.account.edit') }}"
+                        class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md">
+                        <i data-feather="settings" class="w-4 h-4 mr-2"></i> Settings </a>
+
+                </div>
                    <div class="p-2 border-t border-theme-40">
                        <a onclick="event.preventDefault();
                        document.getElementById('logout-form').submit();" class="cursor-pointer flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md"> <i data-feather="toggle-right" class="w-4 h-4 mr-2"></i> Logout </a>
