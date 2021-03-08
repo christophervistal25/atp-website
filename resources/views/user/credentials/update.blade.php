@@ -25,6 +25,13 @@
                         </div>
                     </div>
                 </div>
+                @else
+                <div class="intro-y col-span-12 md:col-span-6">
+                    <div class="rounded-md flex items-center px-5 py-4 mb-2 bg-theme-12 font-medium">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle w-6 h-6 mr-2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                        If you don't want to update some of your account information just leave the textfield blank.
+                    </div>
+                </div>
                 @endif
                 <div class="grid grid-cols mt-5">
                     <div class="intro-y col-span-12 lg:col-span-6">
@@ -39,7 +46,7 @@
                                 <form action="{{ route('user.account.update') }}" method="POST">
                                     @method('PUT')
                                     @csrf
-                                    <div class="w-full flex-1 mx-2">
+                                    <div class="w-full flex-1 mx-2 mb-3">
                                         Username
                                         <div class=" p-1 bg-white flex">
                                             <input
@@ -52,7 +59,7 @@
                                         </span>
                                     </div>
 
-                                    <div class="w-full flex-1 mx-2 my-3">
+                                    <div class="w-full flex-1 mx-2 mb-3">
                                         Password
                                         <div class=" p-1 bg-white flex">
                                             <input
@@ -65,7 +72,7 @@
                                         </span>
                                     </div>
 
-                                    <div class="w-full flex-1 mx-2">
+                                    <div class="w-full flex-1 mx-2 mb-3">
                                         Re-type Password
                                         <div class=" p-1 bg-white flex">
                                             <input
@@ -77,6 +84,34 @@
                                             {{ $errors->first('password_confirmation') }}
                                         </span>
                                     </div>
+
+                                    <div class="w-full flex-1 mx-2 mb-3">
+                                        MPIN
+                                        <div class=" p-1 bg-white flex">
+                                            <input
+                                                class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800  {{ $errors->has('mpin') ? 'border-theme-6' : '' }}"
+                                                type="password" placeholder="Enter your MPIN" name="mpin"
+                                                value="">
+                                        </div>
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            {{ $errors->first('mpin') }}
+                                        </span>
+                                    </div>
+
+                                    <div class="w-full flex-1 mx-2">
+                                        Re-type MPIN
+                                        <div class=" p-1 bg-white flex">
+                                            <input
+                                                class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 "
+                                                type="password" placeholder="Re-type MPIN" name="re_type_mpin"
+                                                value="">
+                                        </div>
+                                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                            {{ $errors->first('re_type_mpin') }}
+                                        </span>
+                                    </div>
+
+
 
                                     <div class="flex lg:justify-end">
                                         <input type="submit"  value="Update your account credentials" class="button bg-theme-9 text-white mt-2">

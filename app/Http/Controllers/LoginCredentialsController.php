@@ -25,10 +25,15 @@ class LoginCredentialsController extends Controller
             $rules['password'] = 'min:8|max:20|confirmed';
         }
 
-        $this->validate($request, $rules);
+        if(!is_null($request->mpin)) {
+            $rules['mpin'] = 'max:4|same:re_type_mpin';
+        }
+
+        $this->validate($request, $rules, [], ['mpin' => 'MPIN', 're_type_mpin' => 'MPIN Confirmation']);
 
         $account->username = $request->username;
         $account->password = !is_null($request->password) ? bcrypt($request->password) : $account->password;
+        $account->mpin     = !is_null($request->mpin) ? bcrypt($request->mpin) : $account->mpin;
         $account->save();
 
         return back()->with('success', 'Successfully update your account credentials.');
