@@ -95,6 +95,9 @@ class PersonnelController extends Controller
             'phone_number'      => 'required|unique:people',
         ],[
             'image.required' => 'Please attach some image.',
+        ], [
+            'phone_number' => 'mobile number',
+            'address'      => 'permanent address',
         ]);
 
         if($request->has('image')) {
