@@ -11,7 +11,7 @@
     <a href="" class="ml-auto flex text-theme-1"> <i data-feather="refresh-ccw" class="w-4 h-4 mr-3"></i>
         Reload Data </a>
 </div>
-@include('templates.error')
+{{-- @include('templates.error') --}}
 @if(Session::has('success'))
 <div class="intro-y col-span-12 md:col-span-6">
     <div class="box">
@@ -67,6 +67,11 @@
                             type="text" placeholder="e.g. Christopher" aria-invalid="true" name="firstname"
                             value="{{  old('firstname') }}">
                     </div>
+                    @if($errors->has('firstname'))
+                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                            {{  $errors->first('firstname') }}
+                        </span>
+                    @endif
                 </div>
 
                 <div class=" col-span-12 sm:col-span-3">
@@ -78,6 +83,11 @@
                             class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('lastname') ? 'border-red-500' : '' }}"
                             type="text" placeholder="e.g. Vistal" name="lastname" value="{{  old('lastname') }}">
                     </div>
+                    @if($errors->has('lastname'))
+                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                            {{  $errors->first('lastname') }}
+                        </span>
+                    @endif
                 </div>
 
                 <div class=" col-span-12 sm:col-span-3">
@@ -89,6 +99,11 @@
                             class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('middlename') ? 'border-red-500' : '' }}"
                             type="text" placeholder="e.g. Platino" name="middlename" value="{{  old('middlename') }}">
                     </div>
+                    @if($errors->has('middlename'))
+                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                            {{  $errors->first('middlename') }}
+                        </span>
+                    @endif
                 </div>
 
                 <div class=" col-span-12 sm:col-span-3">
@@ -111,6 +126,11 @@
                             class="p-1 px-2 appearance-none outline-none w-full text-gray-800" type="date"
                             value="{{ old('date_of_birth') }}">
                     </div>
+                    @if($errors->has('date_of_birth'))
+                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                            {{  $errors->first('date_of_birth') }}
+                        </span>
+                    @endif
                 </div>
 
 
@@ -124,15 +144,20 @@
                             name="province" id="province">
                             <option selected disabled>Select Province</option>
                             @foreach($provinces as $province)
-                            @if(old('province'))
-                            <option {{ old('province') == $province->code ? 'selected' : '' }}
-                                value="{{ $province->code }}"> {{ $province->name }}</option>
-                            @else
-                            <option value="{{ $province->code }}"> {{ $province->name }}</option>
-                            @endif
+                                @if(old('province'))
+                                <option {{ old('province') == $province->code ? 'selected' : '' }}
+                                    value="{{ $province->code }}"> {{ $province->name }}</option>
+                                @else
+                                <option value="{{ $province->code }}"> {{ $province->name }}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
+                    @if($errors->has('province'))
+                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                            {{  $errors->first('province') }}
+                        </span>
+                    @endif
                 </div>
                 <div class=" col-span-12 sm:col-span-4">
                     <label for="">
@@ -173,6 +198,11 @@
                             class="p-1 px-2 appearance-none outline-none w-full text-gray-800" rows="5"
                             name="temporary_address">{{  old('temporary_address') }}</textarea>
                     </div>
+                    @if($errors->has('temporary_address'))
+                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                            {{  $errors->first('temporary_address') }}
+                        </span>
+                    @endif
                 </div>
 
                 <div class=" col-span-12 sm:col-span-6">
@@ -185,6 +215,11 @@
                             class="p-1 px-2 appearance-none outline-none w-full text-gray-800" rows="5"
                             name="address">{{  old('address') }}</textarea>
                     </div>
+                    @if($errors->has('address'))
+                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                            {{  $errors->first('address') }}
+                        </span>
+                    @endif
                 </div>
 
                 <div class=" col-span-12 sm:col-span-6">
@@ -221,6 +256,11 @@
                             @endforeach
                         </select>
                     </div>
+                    @if($errors->has('status'))
+                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                {{  $errors->first('status') }}
+                            </span>
+                    @endif
                 </div>
 
                 <div class=" col-span-12 sm:col-span-4">
@@ -246,6 +286,12 @@
                             type="text" placeholder="e.g.+639193693499" name="phone_number"
                             value="{{  old('phone_number') }}">
                     </div>
+
+                    @if($errors->has('phone_number'))
+                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                {{  $errors->first('phone_number') }}
+                            </span>
+                        @endif
                 </div>
 
                 <div class=" col-span-12 sm:col-span-4">
@@ -259,7 +305,7 @@
                 </div>
 
                 <div class="col-span-12 sm:col-span-12">
-                    <div class="w-full flex-1 mx-2">
+                    <div class="w-full flex-1">
                         <label>
                             Image
                             <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
@@ -273,14 +319,17 @@
                                 class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('image') ? 'border-red-500' : '' }}"
                                 type="file" name="image">
                         </div>
-                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
-                            Required, attach only image file
-                        </span>
+
+                        @if($errors->has('image'))
+                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                                {{  $errors->first('image') }}
+                            </span>
+                        @endif
                     </div>
                 </div>
 
             </div>
-            
+
             <div class="intro-x grid grid-cols-12 gap-4 row-gap-5 mt-5 section hidden" id="login-information">
                 <div class=" col-span-12 sm:col-span-4">
                     <label>
@@ -368,9 +417,6 @@
                             class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('mpin') ? 'border-red-500' : '' }}"
                             placeholder="Enter MPIN" name="mpin_confirmation" value="{{ old('mpin') }}" maxlength="4" type="password">
                     </div>
-                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
-                        {{ $errors->first('mpin') }}
-                    </span>
                 </div>
 
             </div>
@@ -411,7 +457,7 @@
         }
 
         if (NO_OF_WIZARD_SECTION > currentSectionIndex) {
-            
+
             currentSectionIndex++;
             previousShowUp();
             setActiveButton();

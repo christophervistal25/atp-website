@@ -78,7 +78,8 @@ class PersonnelController extends Controller
         $this->validate($request, [
             'username'          => 'required|unique:users,username',
             'password'          => 'required|min:8|max:20',
-            'mpin'              => 'required|max:4',
+            'mpin'              => 'required|max:4|same:mpin_confirmation',
+            'password'          => 'required|min:8|max:20|confirmed',
             'firstname'         => 'required|regex:/^[A-Za-z ]+$/u',
             'middlename'        => 'required|regex:/^[A-Za-z ]+$/u',
             'lastname'          => 'required|regex:/^[A-Za-z ]+$/u',
@@ -92,7 +93,9 @@ class PersonnelController extends Controller
             'image'             => 'required',
             'status'            => 'required|in:' . implode(',', PersonnelRepository::CIVIL_STATUS),
             'phone_number'      => 'required|unique:people',
-        ],['image.required' => 'Please attach some image.']);
+        ],[
+            'image.required' => 'Please attach some image.',
+        ]);
 
         if($request->has('image')) {
             $imageName = $request->file('image')->getClientOriginalName();
@@ -130,7 +133,7 @@ class PersonnelController extends Controller
                 'person_id' => $person->id,
                 'mpin'      => bcrypt($request->mpin)
             ]);
-            
+
             DB::commit();
             return back()->with('success', $person->id);
         } catch(\Exception $e) {
@@ -158,7 +161,7 @@ class PersonnelController extends Controller
      */
     public function edit(Person $personnel)
     {
-        
+
         $provinces = Province::get();
 
         $civil_status = PersonnelRepository::CIVIL_STATUS;
