@@ -1,0 +1,346 @@
+<div class="flex flex-col md:flex-row border-b border-gray-200 pb-4 mb-4">
+    <div class="flex-1 flex flex-col md:flex-row">
+        <div class="w-full flex-1 mx-2">
+            <label>
+                Firstname
+                <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+            </label>
+            <div
+                class="p-1 bg-white flex border rounded  {{ $errors->has('firstname')  ? 'border-red-500' : '' }}">
+                <input
+                class="p-1 px-2 appearance-none outline-none w-full text-gray-800"
+                type="text" placeholder="e.g. Christopher" aria-invalid="true"
+                name="firstname"
+                value="{{  old('firstname') ?? $personnel->firstname }}">
+            </div>
+            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                @if($errors->has('firstname'))
+                {{  $errors->first('firstname') }}
+                @else
+                Required, at least 3 characters
+                @endif
+            </span>
+        </div>
+        <div class="w-full flex-1 mx-2">
+            Middlename
+            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+            <div
+                class="p-1 bg-white flex border {{ $errors->has('middlename')  ? 'border-red-500' : '' }} rounded">
+                <input
+                class="p-1 px-2 appearance-none outline-none w-full text-gray-800"
+                type="text" placeholder="e.g. Platino" name="middlename"
+                value="{{ old('middlename') ?? $personnel->middlename }}">
+            </div>
+            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                    @if($errors->has('middlename'))
+                    {{  $errors->first('middlename') }}
+                    @else
+                    Required, at least 3 characters
+                    @endif
+                </span>
+            </span>
+        </div>
+        <div class="w-full flex-1 mx-2">
+            Lastname
+            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+            <div
+                class="p-1 bg-white flex border {{ $errors->has('lastname')  ? 'border-red-500' : '' }} rounded">
+                <input
+                class="p-1 px-2 appearance-none outline-none w-full text-gray-800"
+                type="text" placeholder="e.g. Vistal" name="lastname"
+                value="{{  old('lastname') ?? $personnel->lastname }}">
+            </div>
+            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                @if($errors->has('lastname'))
+                {{  $errors->first('lastname') }}
+                @else
+                Required, at least 3 characters
+                @endif
+            </span>
+        </div>
+        <div class="w-full flex-1 mx-2">
+            Suffix
+            <div class="p-1 bg-white flex border rounded">
+                <input placeholder="Enter Suffix"
+                class="p-1 px-2 appearance-none outline-none w-full text-gray-800"
+                type="text" maxlength="3" placeholder="e.g. Jr" name="suffix"
+                value="{{  old('suffix') ?? $personnel->suffix }}">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="w-full flex-1 mx-2">
+    <label>
+        Date of Birth <span
+        class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+    </label>
+    <div
+        class=" p-1 bg-white flex border {{ $errors->has('date_of_birth')  ? 'border-red-500' : 'border' }} rounded">
+        <input name="date_of_birth" placeholder="Date of Birth"
+        class="p-1 px-2 appearance-none outline-none w-full text-gray-800"
+        type="date"
+        value="{{  old('date_of_birth') ?? $personnel->date_of_birth }}">
+    </div>
+    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+        @if($errors->has('date_of_birth'))
+        {{  $errors->first('date_of_birth') }}
+        @endif
+    </span>
+</div>
+<div class="mb-2"></div>
+<div class="mb-2 flex-1 flex flex-col md:flex-row">
+    <div class="w-full flex-1 mx-2">
+        <label>
+            Province
+            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+        </label>
+        <div class=" p-1 bg-white flex">
+            <select
+                class="select2 input border {{ $errors->has('province')  ? 'border-red-500' : '' }} p-2 px-2 appearance-none outline-none w-full text-gray-800"
+                name="province" id="province">
+                @foreach($provinces as $province)
+                @if(old('province'))
+                <option {{ old('province') == $province->code ? 'selected' : '' }}
+                    value="{{ $province->code }}"> {{ $province->name }}
+                </option>
+                @else
+                <option
+                    {{ $personnel->province_code == $province->code ? 'selected' : '' }}
+                    value="{{ $province->code }}"> {{ $province->name }}
+                </option>
+                @endif
+                @endforeach
+            </select>
+            {{  $errors->first('province') }}
+        </div>
+    </div>
+    <div class="w-full flex-1 mx-2">
+        <label for="">
+            City
+            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+        </label>
+        <div class="p-1 bg-white flex ">
+            <select
+                class="select2 input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('city') ? 'border-red-500' : '' }}"
+                name="city" id="cities" value="{{  old('city') }}">
+                <option selected value="{{ $personnel->city_code ?? '' }}">
+                {{ @$personnel->city->name ?? '' }}</option>
+            </select>
+        </div>
+    </div>
+    <div class="w-full flex-1 mx-2">
+        <label for="">
+            Barangay
+            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+        </label>
+        <div class="p-1 bg-white">
+            <select
+                class="select2 input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('barangay') ? 'border-red-500' : '' }}"
+                name="barangay" id="barangay" value="{{  old('barangay') }}">
+                <option selected value="{{ $personnel->barangay_code ?? '' }}">
+                {{ $personnel->barangay->name ?? '' }}</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="w-full flex-1 mx-2">
+    <label for="">
+        Temporary Address
+        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+    </label>
+    <div
+        class="p-1 bg-white flex border {{  $errors->has('temporary_address') ? 'border-red-500' : '' }} rounded rounded">
+        <textarea placeholder="e.g. Purok Paradise 950"
+        class="p-1 px-2 appearance-none outline-none w-full text-gray-800"
+        rows="5"
+        name="temporary_address">{{  old('temporary_address') ?? $personnel->temporary_address }}</textarea>
+    </div>
+    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+        @if($errors->has('temporary_address'))
+        {{  $errors->first('temporary_address') }}
+        @else
+        Required, atleast 5 characters
+        @endif
+    </span>
+    <div class="mb-2"></div>
+</div>
+<div class="w-full flex-1 mx-2">
+    <label for="">
+        Permanent Address
+        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
+    </label>
+    <div
+        class="p-1 bg-white flex border {{  $errors->has('address') ? 'border-red-500' : '' }} rounded">
+        <textarea placeholder="e.g. Purok Paradise 950"
+        class="p-1 px-2 appearance-none outline-none w-full text-gray-800"
+        rows="5"
+        name="address">{{  old('address') ?? $personnel->address }}</textarea>
+    </div>
+    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+        @if($errors->has('address'))
+        {{ $errors->first('address') }}
+        @else
+        Required, atleast 5 characters
+        @endif
+    </span>
+    <div class="mb-2"></div>
+</div>
+<div class="mb-2 flex-1 flex flex-col md:flex-row">
+    <div class="w-full flex-1 mx-2">
+        <label> Sex
+            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                *
+            </span>
+        </label>
+        <div class=" p-1 bg-white flex">
+            <select
+                class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800  border {{  $errors->has('gender') ? 'border-red-500' : '' }}"
+                name="gender" value="{{ old('gender') ?? $personnel->gender }}">
+                <option
+                    {{  strtolower($personnel->gender) == 'male' ? 'selected' : ''  }}
+                value="Male">Male</option>
+                <option
+                    {{ strtolower($personnel->gender) == 'female' ? 'selected' : ''  }}
+                value="Female">Female</option>
+            </select>
+        </div>
+    </div>
+    <div class="w-full flex-1 mx-2">
+        <label>
+            Status
+            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                *
+            </span>
+        </label>
+        <div class="p-1 bg-white flex ">
+            <select
+                class="select2 input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('status') ? 'border-red-500' : '' }}"
+                name="status" value="{{ old('status') }}">
+                @foreach($civil_status as $status)
+                <option {{ $personnel->civil_status == $status ? 'selected' : '' }}
+                value="{{ $status }}">{{ $status }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+</div>
+<div class="mb-2 flex-1 flex flex-col md:flex-row">
+    <div class="w-full flex-1 mx-2">
+        Email
+        <div class=" p-1 bg-white flex">
+            <input
+            class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800"
+            type="email" placeholder="e.g. user@gmail.com" name="email"
+            value="{{  old('email') ?? $personnel->email }}">
+        </div>
+    </div>
+    <div class="w-full flex-1 mx-2">
+        <label>
+            Mobile Number
+            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                *
+            </span>
+        </label>
+        <div class="p-1 bg-white flex ">
+            <input
+            class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('phone_number') ? 'border-red-500' : '' }}"
+            type="text" placeholder="e.g.+639193693499" name="phone_number"
+            value="{{ old('phone_number') ?? $personnel->phone_number }}">
+        </div>
+        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+            @if($errors->has('phone_number'))
+            {{  $errors->first('phone_number') }}
+            @else
+            Required, Please include country code e.g. +639
+            @endif
+        </span>
+    </div>
+    <div class="w-full flex-1 mx-2">
+        Landline Number
+        <div class="p-1 bg-white">
+            <input
+            class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800"
+            type="text" placeholder="e.g. 8123-4567" name="landline_number"
+            value="{{  old('landline_number') ?? $personnel->landline_number }}">
+        </div>
+    </div>
+</div>
+<hr>
+<div class="mt-2 flex-1 flex flex-col md:flex-row">
+    <div class="w-full flex-1 mx-2">
+        Username
+        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+            *
+        </span>
+        <div class=" p-1 bg-white flex">
+            <input
+            class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('username') ? 'border-red-500' : '' }}"
+            type="text" placeholder="Enter username" name="username"
+            value="{{  old('username') ?? $personnel->account->username }}">
+        </div>
+        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+            {{ $errors->first('username') }}
+        </span>
+    </div>
+    <div class="w-full flex-1 mx-2">
+        <label>
+            Password
+            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                *
+            </span>
+        </label>
+        <div class="p-1 bg-white flex ">
+            <input
+            class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('password') ? 'border-red-500' : '' }}"
+            type="password" name="password" value="{{ old('password') }}"
+            placeholder="Enter password">
+        </div>
+        @if($errors->has('password'))
+        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+            {{ $errors->first('password') }}
+        </span>
+        @else
+        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-theme-1">
+            Add values if  you want to change
+        </span>
+        @endif
+    </div>
+    <div class="w-full flex-1 mx-2">
+        MPIN
+        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+            *
+        </span>
+        <div class="p-1 bg-white">
+            <input
+            class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('mpin') ? 'border-red-500' : '' }}"
+            placeholder="Enter MPIN" name="mpin" value="{{ old('mpin') }}"
+            maxlength="4" type="password">
+        </div>
+        @if($errors->has('mpin'))
+        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+            {{ $errors->first('mpin') }}
+        </span>
+        @else
+        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-theme-1">
+            Add values if  you want to change
+        </span>
+        @endif
+    </div>
+</div>
+<div class="w-full flex-1 mx-2">
+    <label>
+        Image
+        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+            *
+        </span>
+    </label>
+    <div class="p-1 bg-white flex  rounded">
+        <input
+        class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('image') ? 'border-red-500' : '' }}"
+        type="file" name="image">
+    </div>
+    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+        Required, attach only image file
+    </span>
+</div>
