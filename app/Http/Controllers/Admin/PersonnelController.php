@@ -118,6 +118,7 @@ class PersonnelController extends Controller
                 'address'           => $request->address,
                 'suffix'            => $request->suffix,
                 'date_of_birth'     => Carbon::parse($request->date_of_birth)->format('Y-m-d'),
+                'email'             => $request->email,
                 'image'             => $imageName ?? 'default.png',
                 'gender'            => $request->gender,
                 'province_code'     => $request->province,
@@ -215,6 +216,7 @@ class PersonnelController extends Controller
             $person->address           = $request->address;
             $person->suffix            = $request->suffix;
             $person->date_of_birth     = Carbon::parse($request->date_of_birth)->format('Y-m-d');
+            $person->email             = $request->email;
             $person->image             = $imageName ?? $person->image;
             $person->gender            = $request->gender;
             $person->province_code     = $request->province;
