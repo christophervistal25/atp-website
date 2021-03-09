@@ -10,8 +10,8 @@
         <title>{{ config('app.name') }} |  @yield('page-title')</title>
         <!-- BEGIN: CSS Assets-->
         <link rel="stylesheet" href="{{ asset('/dist/css/app.css') }}" />
+
         @stack('page-css')
-        <!-- END: CSS Assets-->
     </head>
     <!-- END: Head -->
     <body class="app">

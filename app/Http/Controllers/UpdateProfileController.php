@@ -27,6 +27,7 @@ class UpdateProfileController extends Controller
 
     public function update(Request $request)
     {
+
         $this->validate($request, [
             'mpin'              => 'required|max:4',
             'confirm_mpin'      => 'same:mpin',
@@ -37,12 +38,13 @@ class UpdateProfileController extends Controller
             'barangay'          => 'required|exists:barangays,code',
             'province'          => 'required|exists:provinces,code',
             'status'            => 'required|in:' . implode(',', PersonnelRepository::CIVIL_STATUS),
-            'image'             => 'required',
-        ],['image.required' => 'Please attach some image.']);
+            'photo_of_face'     => 'required',
+            'photo_of_id'       => 'required',
+        ]);
 
-        if($request->has('image')) {
-            $imageName = $request->file('image')->getClientOriginalName();
-            $request->file('image')->storeAs('/public/images', $imageName);
+        if($request->has('photo_of_face')) {
+            $imageName = $request->file('photo_of_face')->getClientOriginalName();
+            $request->file('photo_of_face')->storeAs('/public/images', $imageName);
         }
 
 
@@ -61,7 +63,6 @@ class UpdateProfileController extends Controller
             $person->civil_status      = $request->status;
             $person->email             = $request->email;
             $person->landline_number   = $request->landline_number;
-
             $account = $person->account;
             $account->mpin = bcrypt($request->mpin);
 

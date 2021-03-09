@@ -30,7 +30,7 @@
 
         <img id="person_image" class="w-40 h-40 mx-auto mt-5 img-fit mx-auto rounded border-4 border-color border-white border-2 shadow p-2 bg-white" src="{{ asset('/storage/images/' . $person->image) }}">
 
-        <p class="person_name text-lg font-bold tracking-wide mx-auto mt-5 text-white">{{ $person->firstname }} {{ $person->middlename[0] }}. {{ $person->lastname }} {{ $person->suffix }}</p>
+        <p class="person_name text-lg font-bold tracking-wide mx-auto mt-5 text-white">{{ $person->firstname }} {{ $person->middlename[0] }}. {{ $person->lastname }} {{ $person->suffix == '*' ? '' : $person->suffix }}</p>
     </div>
 </div>
 <!-- END: Content -->

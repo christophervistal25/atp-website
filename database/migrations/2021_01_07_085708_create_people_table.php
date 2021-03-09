@@ -33,6 +33,7 @@ class CreatePeopleTable extends Migration
             $table->string('landline_number')->nullable();
             $table->string('email')->nullable();
             $table->string('image')->default('default.png');
+            $table->enum('status_of_residence', ['residence', 'non_residence'])->default('residence');
             $table->enum('registered_from', ['MOBILE', 'WEBSITE'])->default('WEBSITE');
             $table->timestamps();
         });

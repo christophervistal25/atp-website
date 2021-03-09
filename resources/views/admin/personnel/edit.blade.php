@@ -53,7 +53,7 @@
           action="{{ route('personnel.update', $personnel->id) }}">
         @csrf
         @method('PUT')
-        <div class="px-5 sm:px-20 mt-10 pt-10 border-t border-gray-200">
+        <div class="px-5 sm:px-20 pt-5 mt-5 border-t border-gray-200">
             <div class="intro-x grid grid-cols-12 gap-4 row-gap-5 mt-5 section" id="person-information">
                 <div class=" col-span-12 sm:col-span-3">
                     <label>

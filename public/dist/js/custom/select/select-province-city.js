@@ -2,26 +2,30 @@ $(document).ready(() => {
 
     const BASE_URL = '/api/province';
 
+
     // User Select Province then populate all data for province.
     $('#province').change((e) => {
+
         let provinceCode = e.target.value;
         let elementCities = $('#cities');
         // Make an AJAX request to get all city filtered by selected province.
-        $.ajax({
-            url: `${BASE_URL}/municipal/${provinceCode}`,
-            success: (response) => {
-                // Clear all option of cities select element
-                elementCities.find('option').remove();
+        if(!$('#residence').is(':checked')) {
+            $.ajax({
+                url: `${BASE_URL}/municipal/${provinceCode}`,
+                success: (response) => {
+                    // Clear all option of cities select element
+                    elementCities.find('option').remove();
 
-                // Iterate to all city by province code and display to select
-                response.municipals.forEach((municipal) => {
-                    elementCities.append(
-                        `<option value="${municipal.code}">${municipal.name}</option>`
-                    );
-                });
+                    // Iterate to all city by province code and display to select
+                    response.municipals.forEach((municipal) => {
+                        elementCities.append(
+                            `<option value="${municipal.code}">${municipal.name}</option>`
+                        );
+                    });
 
-            }
-        });
+                }
+            });
+        }
     });
 
 
