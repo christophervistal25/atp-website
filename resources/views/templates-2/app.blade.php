@@ -454,6 +454,7 @@
                                 <div class="font-medium capitalize">{{  Auth::user()->city->name }}</div>
                                 <div class="text-xs text-theme-41">{{ '@' . Auth::user()->username }} -
                                     {{ Auth::user()->city->code }}</div>
+                                    <div class="d-none" id="auth-city-code" data-source="{{ Auth::user()->city->code }}"></div>
                             </div>
                             <div class="p-2">
                                 <a href="{{ route('account.edit') }}"

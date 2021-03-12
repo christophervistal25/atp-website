@@ -31,12 +31,17 @@
                     <span class="text-white text-lg ml-3"><span class="font-medium">SurSur-ATP</span> </span>
                 </a>
                 <div class="my-auto">
-                        <img alt="Phone with Mobile App" class="-intro-x w-auto ml-2" src="/dist/images/sursur@2x.png">
-                        <div class="-intro-y text-white text-lg ml-6">
-                            <a href="{{ route('download-android-apk') }}" class="button bg-theme-2 button--lg w-full xl:w-32 text-gray-800 border border-gray-300 mt-3 xl:mt-0 font-bold uppercase shadow">
+                    <img alt="Midone Tailwind HTML Admin Template" class="-intro-x w-1/2 -mt-16"
+                        src="/dist/images/illustration.svg">
+                    <div class="-intro-x text-white font-medium text-4xl leading-tight mt-10">
+                        <div class="-intro-y text-white text-lg ml-8 flex flex-col">
+                            <p>A few more clicks to sign in to your account.</p>
+                            <a href="{{ route('download-android-apk') }}"
+                                class="button bg-theme-2 button--lg w-64 ml-10  text-md text-gray-800 border border-gray-300  xl:mt-2 font-bold uppercase shadow">
                                 Download Anrdoid App
                             </a>
                         </div>
+                    </div>
                 </div>
             </div>
             <!-- END: Login Info -->
@@ -76,7 +81,8 @@
                                 class="button button--lg w-full xl:w-32 text-gray-700 border border-gray-300 mt-3 xl:mt-0">Sign
                                 up</button>
                             <button id="download" type="button"
-                                class="button bg-theme-2 button--lg w-full xl:w-32 text-gray-700 border border-gray-300 mt-3 xl:mt-0 xl:hidden font-bold uppercase">Download Android App</button>
+                                class="button bg-theme-2 button--lg w-full xl:w-32 text-gray-700 border border-gray-300 mt-3 xl:mt-0 xl:hidden font-bold uppercase">Download
+                                Android App</button>
                         </div>
                     </form>
 

@@ -1,10 +1,10 @@
-@extends('user.templates.app')
+    @extends('user.templates.app')
 @section('page-title', 'Your Dashboard')
 @section('content')
  <!-- BEGIN: Content -->
 <div class="intro-y flex items-center mt-8">
     <h2 class="text-lg font-medium mr-auto capitalize">
-     Your Profile 
+     Your Profile
     </h2>
 </div>
 <!-- BEGIN: Profile Info -->
@@ -23,7 +23,7 @@
     <div class="flex flex-col lg:flex-row border-b border-gray-200 pb-5 -mx-5">
         <div class="flex flex-1 px-5 items-center justify-center lg:justify-start">
             <div class="w-20 h-20 sm:w-24 sm:h-24 flex-none lg:w-32 lg:h-32 image-fit relative">
-                
+
                 <img alt="Personnel Image" class="rounded-full" src="{{ asset('/storage/images/' . $person->info->image) }}">
                 <div class="absolute mb-1 mr-1 flex items-center justify-center bottom-0 right-0 bg-theme-1 rounded-full p-2"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-camera w-4 h-4 text-white"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg> </div>
             </div>
@@ -33,30 +33,30 @@
                 <div class="font-medium">{{ $person->info->age }} Years Old</div>
                 <div class="font-medium">Registered in {{ $person->info->registered_from }}</div>
                 <div class="font-medium">
-                    <a 
-                        target="_blank" 
+                    <a
+                        target="_blank"
                         href="{{ route('user-id') }}"
                         class="button button--sm text-white bg-theme-1">View Your I.D</a>
                 </div>
-                
+
             </div>
         </div>
         <div class="flex mt-6 lg:mt-0 items-center lg:items-start flex-1 flex-col justify-center text-gray-600 px-5 border-l border-r border-gray-200 border-t lg:border-t-0 pt-5 lg:pt-0">
-            <div class="truncate sm:whitespace-normal flex items-center"> 
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mr-2 mb-2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-smartphone mx-auto"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg> 
+            <div class="truncate sm:whitespace-normal flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mr-2 mb-2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-smartphone mx-auto"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
                 <span class="text-md">{{  $person->info->phone_number }}</span> </div>
 
-            <div class="truncate sm:whitespace-normal flex items-center"> 
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mr-2 mb-2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-at-sign mx-auto"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg> 
+            <div class="truncate sm:whitespace-normal flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mr-2 mb-2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-at-sign mx-auto"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg>
                 <span class="text-md">{{  $person->info->email ?? 'No Email Address' }}</span> </div>
 
-            <div class="truncate sm:whitespace-normal flex items-center"> 
+            <div class="truncate sm:whitespace-normal flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="mr-2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-phone mx-auto"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                  <span class="text-md">{{  $person->info->landline_number ?? 'No Landline Number' }}</span> </div>
         </div>
     </div>
-    <div class="nav-tabs flex flex-col sm:flex-row justify-center lg:justify-start"> 
-        <a data-toggle="tab" data-target="#account-and-profile" href="javascript:;" class="py-4 sm:mr-8 active">Profile &amp; History Logs</a> 
+    <div class="nav-tabs flex flex-col sm:flex-row justify-center lg:justify-start">
+        <a data-toggle="tab" data-target="#account-and-profile" href="javascript:;" class="py-4 sm:mr-8 active">Profile &amp; History Logs</a>
     </div>
 </div>
 <!-- END: Profile Info -->
@@ -73,22 +73,22 @@
                 <div class="p-5">
                     <div class="flex flex-col sm:flex-row">
                         <div class="w-1/4">
-                            <span class="font-medium">Firstname</span> 
+                            <span class="font-medium">Firstname</span>
                             <div class="text-gray-600 ">{{  $person->info->firstname }}</div>
                         </div>
 
                         <div class="w-1/4">
-                            <span class="font-medium">Middlename</span> 
+                            <span class="font-medium">Middlename</span>
                             <div class="text-gray-600 ">{{  $person->info->middlename }}</div>
                         </div>
 
                         <div class="w-1/4">
-                            <span class="font-medium">Lastname</span> 
+                            <span class="font-medium">Lastname</span>
                             <div class="text-gray-600 ">{{  $person->info->lastname }}</div>
                         </div>
 
                         <div class="w-1/4">
-                            <span class="font-medium">Suffix</span> 
+                            <span class="font-medium">Suffix</span>
                             <div class="text-gray-600 ">{{  $person->info->suffix }}</div>
                         </div>
                     </div>
@@ -97,22 +97,22 @@
 
                     <div class="flex flex-col sm:flex-row">
                         <div class="xl:w-1/4 sm:w-auto">
-                            <span class="font-medium">Date of birth</span> 
+                            <span class="font-medium">Date of birth</span>
                             <div class="text-gray-600 ">{{  $person->info->date_of_birth }}</div>
                         </div>
 
                         <div class="xl:w-1/4 sm:w-auto">
-                            <span class="font-medium">Barangay</span> 
+                            <span class="font-medium">Barangay</span>
                             <div class="text-gray-600 ">{{  $person->info->barangay->name }}</div>
                         </div>
 
                         <div class="xl:w-1/4 sm:w-auto">
-                            <span class="font-medium">Gender</span> 
+                            <span class="font-medium">Gender</span>
                             <div class="text-gray-600 capitalize">{{  $person->info->gender }}</div>
                         </div>
 
                         <div class="xl:w-1/4 sm:w-auto">
-                            <span class="font-medium">Status</span> 
+                            <span class="font-medium">Status</span>
                             <div class="text-gray-600 capitalize">{{  $person->info->civil_status }}</div>
                         </div>
                     </div>
@@ -121,17 +121,17 @@
 
                     <div class="flex flex-col sm:flex-row mt-2">
                         <div class="xl:w-1/2 sm:w-auto">
-                            <span class="font-medium">Temporary Address</span> 
+                            <span class="font-medium">Temporary Address</span>
                             <div class="text-gray-600">{{  $person->info->temporary_address }}</div>
                         </div>
 
 
                         <div class="xl:w-1/2 sm:w-auto">
-                            <span class="font-medium">Permanent Address</span> 
+                            <span class="font-medium">Permanent Address</span>
                             <div class="text-gray-600">{{  $person->info->address }}</div>
                         </div>
 
-                     
+
                     </div>
                 </div>
             </div>
@@ -140,41 +140,34 @@
             <div class="intro-y box col-span-12 lg:col-span-6">
                 <div class="flex items-center px-5 py-5 sm:py-0 border-b border-gray-200">
                     <h2 class="font-medium text-base mr-auto py-5">
-                        Contact Information
+                        Account Information
                     </h2>
-                        {{-- <div class="dropdown relative ml-auto sm:hidden">
-                            <a class="dropdown-toggle w-5 h-5 block" href="javascript:;"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal w-5 h-5 text-gray-700"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg> </a>
-                            <div class="nav-tabs dropdown-box mt-5 absolute w-40 top-0 right-0 z-20">
-                                <div class="dropdown-box__content box p-2"> <a href="javascript:;" data-toggle="tab" data-target="#new" class="block p-2 transition duration-300 ease-in-out bg-white hover:bg-gray-200 rounded-md">New</a> <a href="javascript:;" data-toggle="tab" data-target="#last-week" class="block p-2 transition duration-300 ease-in-out bg-white hover:bg-gray-200 rounded-md">Last Week</a> </div>
-                            </div>
-                        </div>
-                        <div class="nav-tabs ml-auto hidden sm:flex"> <a data-toggle="tab" data-target="#work-in-progress-new" href="javascript:;" class="py-5 ml-6 active">New</a> <a data-toggle="tab" data-target="#work-in-progress-last-week" href="javascript:;" class="py-5 ml-6">Last Week</a> </div> --}}
                 </div>
                 <div class="p-5">
                     <div class="tab-content">
                         <div class="tab-content__pane active" id="work-in-progress-new">
                             <div>
                                 <div class="flex">
-                                    <div class="text-gray-700 font-medium mr-auto">Mobile #</div>
+                                    <div class="text-gray-700 font-medium mr-auto">Username</div>
                                 </div>
                                 <div class="w-full h-1">
-                                  {{  $person->info->phone_number }}
+                                  {{  $person->username }}
                                 </div>
                             </div>
                             <div class="mt-10">
                                 <div class="flex">
-                                    <div class="text-gray-700 font-medium mr-auto">Landline #</div>
+                                    <div class="text-gray-700 font-medium mr-auto">MPIN</div>
                                 </div>
                                 <div class="w-full h-1">
-                                  {{  $person->info->landline_number ?? 'No Landline Number' }}
+                                    {{  str_repeat('●', 10) }}
                                 </div>
                             </div>
                             <div class="mt-10">
                                 <div class="flex">
-                                    <div class="text-gray-700 font-medium mr-auto">Email Address</div>
+                                    <div class="text-gray-700 font-medium mr-auto">Password</div>
                                 </div>
                                 <div class="w-full h-1">
-                                  {{  $person->info->email ?? 'No Email Address' }}
+                                    {{  str_repeat('●', 10) }}
                                 </div>
                             </div>
                         </div>
@@ -194,8 +187,8 @@
                         <div class="tab-content__pane active">
                             @if($person->info->logs->count() !== 0)
                                 <div class="mb-3">
-                                    <a class="bg-theme-9 px-2 text-white text-xs py-1 rounded shadow">NORMAL</a> 
-                                    <a class="ml-1 bg-theme-12 px-4 text-white text-xs py-1 rounded shadow">FEVER</a> 
+                                    <a class="bg-theme-9 px-2 text-white text-xs py-1 rounded shadow">NORMAL</a>
+                                    <a class="ml-1 bg-theme-12 px-4 text-white text-xs py-1 rounded shadow">FEVER</a>
                                     <a class="ml-1 bg-theme-6 px-3 text-white text-xs py-1 rounded shadow">SEVERE</a>
                                 </div>
                             @endif
@@ -208,10 +201,10 @@
                                         </a> --}}
                                     </div>
                                     <div class="mt-3">
-                                        Checked by 
+                                        Checked by
                                         <u class="capitalize font-medium">
-                                            {{  $log->checker->firstname }} 
-                                            {{  $log->checker->middlename[0] }}. 
+                                            {{  $log->checker->firstname }}
+                                            {{  $log->checker->middlename[0] }}.
                                             {{  $log->checker->lastname }}
                                         </u>
                                       <span>
@@ -222,7 +215,7 @@
                             @empty
                             <div class="rounded-md flex items-center px-5 py-4 mb-2 border border-theme-6 text-theme-6">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-octagon w-6 h-6 mr-2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>
-                                </svg> 
+                                </svg>
                                 No Available Records
                             </div>
                             @endforelse

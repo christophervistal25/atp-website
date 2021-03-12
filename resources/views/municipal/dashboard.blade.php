@@ -176,31 +176,7 @@
                     <div class="text-xl font-medium text-center mt-10 text-theme-1">Confirmed Cases</div>
                     <div class="flex justify-center">
                         <div class="relative text-5xl font-semibold mt-2 mx-auto" id="surigao-confirmed-case">
-                            <svg width="15" viewBox="0 0 55 80" xmlns="http://www.w3.org/2000/svg"
-                                fill="rgb(45, 55, 72)" class="w-8 h-8">
-                                <g transform="matrix(1 0 0 -1 0 80)">
-                                    <rect width="10" height="20" rx="3">
-                                        <animate attributeName="height" begin="0s" dur="4.3s"
-                                            values="20;45;57;80;64;32;66;45;64;23;66;13;64;56;34;34;2;23;76;79;20"
-                                            calcMode="linear" repeatCount="indefinite"></animate>
-                                    </rect>
-                                    <rect x="15" width="10" height="80" rx="3">
-                                        <animate attributeName="height" begin="0s" dur="2s"
-                                            values="80;55;33;5;75;23;73;33;12;14;60;80" calcMode="linear"
-                                            repeatCount="indefinite"></animate>
-                                    </rect>
-                                    <rect x="30" width="10" height="50" rx="3">
-                                        <animate attributeName="height" begin="0s" dur="1.4s"
-                                            values="50;34;78;23;56;23;34;76;80;54;21;50" calcMode="linear"
-                                            repeatCount="indefinite"></animate>
-                                    </rect>
-                                    <rect x="45" width="10" height="30" rx="3">
-                                        <animate attributeName="height" begin="0s" dur="2s"
-                                            values="30;45;13;80;56;72;45;76;34;23;67;30" calcMode="linear"
-                                            repeatCount="indefinite"></animate>
-                                    </rect>
-                                </g>
-                            </svg>
+                            {{ $confirmed }}
                         </div>
                     </div>
                 </div>
@@ -212,31 +188,7 @@
                     <div class="text-xl font-medium text-center mt-10 text-theme-9">Recovered</div>
                     <div class="flex justify-center">
                         <div class="relative text-5xl font-semibold mt-2 mx-auto" id="surigao-recovered">
-                            <svg width="15" viewBox="0 0 55 80" xmlns="http://www.w3.org/2000/svg"
-                                fill="rgb(45, 55, 72)" class="w-8 h-8">
-                                <g transform="matrix(1 0 0 -1 0 80)">
-                                    <rect width="10" height="20" rx="3">
-                                        <animate attributeName="height" begin="0s" dur="4.3s"
-                                            values="20;45;57;80;64;32;66;45;64;23;66;13;64;56;34;34;2;23;76;79;20"
-                                            calcMode="linear" repeatCount="indefinite"></animate>
-                                    </rect>
-                                    <rect x="15" width="10" height="80" rx="3">
-                                        <animate attributeName="height" begin="0s" dur="2s"
-                                            values="80;55;33;5;75;23;73;33;12;14;60;80" calcMode="linear"
-                                            repeatCount="indefinite"></animate>
-                                    </rect>
-                                    <rect x="30" width="10" height="50" rx="3">
-                                        <animate attributeName="height" begin="0s" dur="1.4s"
-                                            values="50;34;78;23;56;23;34;76;80;54;21;50" calcMode="linear"
-                                            repeatCount="indefinite"></animate>
-                                    </rect>
-                                    <rect x="45" width="10" height="30" rx="3">
-                                        <animate attributeName="height" begin="0s" dur="2s"
-                                            values="30;45;13;80;56;72;45;76;34;23;67;30" calcMode="linear"
-                                            repeatCount="indefinite"></animate>
-                                    </rect>
-                                </g>
-                            </svg>
+                            {{  $recovered }}
                         </div>
                     </div>
                 </div>
@@ -247,31 +199,7 @@
                     <div class="text-xl font-medium text-center mt-10 text-theme-6">Deaths</div>
                     <div class="flex justify-center">
                         <div class="relative text-5xl font-semibold mt-2 mx-auto" id="surigao-deaths">
-                            <svg width="15" viewBox="0 0 55 80" xmlns="http://www.w3.org/2000/svg"
-                                fill="rgb(45, 55, 72)" class="w-8 h-8">
-                                <g transform="matrix(1 0 0 -1 0 80)">
-                                    <rect width="10" height="20" rx="3">
-                                        <animate attributeName="height" begin="0s" dur="4.3s"
-                                            values="20;45;57;80;64;32;66;45;64;23;66;13;64;56;34;34;2;23;76;79;20"
-                                            calcMode="linear" repeatCount="indefinite"></animate>
-                                    </rect>
-                                    <rect x="15" width="10" height="80" rx="3">
-                                        <animate attributeName="height" begin="0s" dur="2s"
-                                            values="80;55;33;5;75;23;73;33;12;14;60;80" calcMode="linear"
-                                            repeatCount="indefinite"></animate>
-                                    </rect>
-                                    <rect x="30" width="10" height="50" rx="3">
-                                        <animate attributeName="height" begin="0s" dur="1.4s"
-                                            values="50;34;78;23;56;23;34;76;80;54;21;50" calcMode="linear"
-                                            repeatCount="indefinite"></animate>
-                                    </rect>
-                                    <rect x="45" width="10" height="30" rx="3">
-                                        <animate attributeName="height" begin="0s" dur="2s"
-                                            values="30;45;13;80;56;72;45;76;34;23;67;30" calcMode="linear"
-                                            repeatCount="indefinite"></animate>
-                                    </rect>
-                                </g>
-                            </svg>
+                            {{ $deaths }}
                         </div>
                     </div>
                 </div>
@@ -504,7 +432,41 @@
 <!-- END: Content -->
 @push('page-scripts')
 <script src="/dist/js/custom/dashboard/covid-stats.js"></script>
-<script src="/dist/js/custom/dashboard/covid-stats-chart.js"></script>
-<script src="/dist/js/custom/dashboard/person-temperature-chart.js"></script>
+<script src="/dist/js/custom/municipal/person-temperature-chart.js"></script>
+<script>
+    const DATA_SEPARATOR = "|";
+    let ctx = document.getElementById('horizontal-bar').getContext('2d');
+
+    let chartLabel = "{{ $horizontal_chart_label }}".split(DATA_SEPARATOR);
+    let confirmed  = "{{ $horizontal_chart_confirmed }}".split(DATA_SEPARATOR);
+    let recovered  = "{{ $horizontal_chart_recovered }}".split(DATA_SEPARATOR);
+    let deaths     = "{{ $horizontal_chart_deaths }}".split(DATA_SEPARATOR);
+
+
+    let barChartData = {
+        labels: chartLabel,
+        datasets: [{
+                label: 'Confirmed Cases',
+                backgroundColor: "#f1c40f",
+                data : confirmed,
+            }, {
+                label: 'Recovered',
+                backgroundColor: "#2ecc71",
+                data : recovered,
+            },
+            {
+                label: 'Deaths',
+                backgroundColor: "#e74c3c",
+                data : deaths
+            },
+        ],
+    };
+
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: barChartData,
+    });
+</script>
 @endpush
 @endsection

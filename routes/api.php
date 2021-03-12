@@ -13,6 +13,7 @@ Route::post('/person/register', 'Api\PersonnelController@register');
 Route::get('/person/{id}/profile', 'Api\PersonnelController@show');
 
 Route::get('/person/temperature', 'Api\PersonnelChartController@temperature');
+Route::get('/municipal/analytics/{id}', 'Api\PersonnelChartController@municipalAnalytics');
 
 
 // Routes for cities and barangays.

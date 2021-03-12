@@ -169,41 +169,34 @@
             <div class="intro-y box col-span-12 lg:col-span-6">
                 <div class="flex items-center px-5 py-5 sm:py-0 border-b border-gray-200">
                     <h2 class="font-medium text-base mr-auto py-5">
-                        Contact Information
+                        Account Information
                     </h2>
-                    {{-- <div class="dropdown relative ml-auto sm:hidden">
-                                <a class="dropdown-toggle w-5 h-5 block" href="javascript:;"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal w-5 h-5 text-gray-700"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg> </a>
-                                <div class="nav-tabs dropdown-box mt-5 absolute w-40 top-0 right-0 z-20">
-                                    <div class="dropdown-box__content box p-2"> <a href="javascript:;" data-toggle="tab" data-target="#new" class="block p-2 transition duration-300 ease-in-out bg-white hover:bg-gray-200 rounded-md">New</a> <a href="javascript:;" data-toggle="tab" data-target="#last-week" class="block p-2 transition duration-300 ease-in-out bg-white hover:bg-gray-200 rounded-md">Last Week</a> </div>
-                                </div>
-                            </div>
-                            <div class="nav-tabs ml-auto hidden sm:flex"> <a data-toggle="tab" data-target="#work-in-progress-new" href="javascript:;" class="py-5 ml-6 active">New</a> <a data-toggle="tab" data-target="#work-in-progress-last-week" href="javascript:;" class="py-5 ml-6">Last Week</a> </div> --}}
                 </div>
                 <div class="p-5">
                     <div class="tab-content">
                         <div class="tab-content__pane active" id="work-in-progress-new">
                             <div>
                                 <div class="flex">
-                                    <div class="text-gray-700 font-medium mr-auto">Mobile #</div>
+                                    <div class="text-gray-700 font-medium mr-auto">Username</div>
                                 </div>
                                 <div class="w-full h-1">
-                                    {{  $person->phone_number }}
+                                    {{  $person->uesrname }}
                                 </div>
                             </div>
                             <div class="mt-10">
                                 <div class="flex">
-                                    <div class="text-gray-700 font-medium mr-auto">Landline #</div>
+                                    <div class="text-gray-700 font-medium mr-auto">MPIN</div>
                                 </div>
                                 <div class="w-full h-1">
-                                    {{  $person->landline_number ?? 'No Landline Number' }}
+                                    {{  str_repeat('●', 10) }}
                                 </div>
                             </div>
                             <div class="mt-10">
                                 <div class="flex">
-                                    <div class="text-gray-700 font-medium mr-auto">Email Address</div>
+                                    <div class="text-gray-700 font-medium mr-auto">Password</div>
                                 </div>
                                 <div class="w-full h-1">
-                                    {{  $person->email ?? 'No Email Address' }}
+                                    {{  str_repeat('●', 10) }}
                                 </div>
                             </div>
                         </div>
