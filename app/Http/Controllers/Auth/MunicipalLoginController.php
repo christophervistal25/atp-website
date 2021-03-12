@@ -14,7 +14,7 @@ class MunicipalLoginController extends Controller
 
 	public function __construct()
 	{
-		$this->middleware('guest:municipal')->except('logout');
+		  $this->middleware('guest:municipal')->except('logout');
 	}
 
 	public function login()

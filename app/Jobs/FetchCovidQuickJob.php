@@ -59,6 +59,10 @@ class FetchCovidQuickJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->fetch();
+        try {
+            $this->fetch();
+        } catch(\Exception $e) {
+            echo $e->getMessage();
+        }
     }
 }

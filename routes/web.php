@@ -9,7 +9,7 @@ Route::get('/', 'WelcomeController@index');
 
 Route::group(['prefix' => 'admin'] , function () {
 
-  	Route::get('login', 'Auth\AdminLoginController@login')->name('admin.auth.login');
+	Route::get('login', 'Auth\AdminLoginController@login')->name('admin.auth.login');
 	Route::post('login', 'Auth\AdminLoginController@loginAdmin')->name('admin.auth.loginAdmin');
 	Route::post('logout', 'Auth\AdminLoginController@logout')->name('admin.auth.logout');
 
@@ -69,7 +69,7 @@ Route::group(['prefix' => 'admin'] , function () {
 
 	});
 
-  });
+});
 
 
 Route::group(['prefix' => 'municipal'] , function () {

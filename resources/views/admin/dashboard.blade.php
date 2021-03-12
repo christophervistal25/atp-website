@@ -9,6 +9,7 @@
             <div class="intro-y flex items-center h-10">
                 <h2 class="text-lg font-medium truncate mr-5">
                     Dashboard
+                    {{  session()->pull('fetched_data') }}
                 </h2>
                 <a href="" class="ml-auto flex text-theme-1"> <i data-feather="refresh-ccw" class="w-4 h-4 mr-3"></i>
                     Reload Data </a>
@@ -429,8 +430,8 @@
 
 <!-- END: Content -->
 @push('page-scripts')
-<script src="/dist/js/custom/dashboard/covid-stats.js"></script>
 {{-- <script src="/dist/js/custom/dashboard/covid-stats-chart.js"></script> --}}
+<script src="/dist/js/custom/dashboard/covid-stats.js"></script>
 <script src="/dist/js/custom/dashboard/person-temperature-chart.js"></script>
 <script>
     const DATA_SEPARATOR = "|";

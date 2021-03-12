@@ -44,11 +44,11 @@
                 data-target="login-information" id="wizard-1">2</button>
             <div class="lg:w-32 text-base lg:mt-3 ml-3 lg:mx-auto text-gray-700">Login Information</div>
         </div>
-        <div class="intro-x lg:text-center flex items-center mt-5 lg:mt-0 lg:block flex-1 z-10">
+        {{-- <div class="intro-x lg:text-center flex items-center mt-5 lg:mt-0 lg:block flex-1 z-10">
             <button class="w-10 h-10 rounded-full button text-gray-600 bg-gray-200 form-wizard-buttons"
                 data-target="other-information" id="wizard-2">3</button>
             <div class="lg:w-32 text-base lg:mt-3 ml-3 lg:mx-auto text-gray-700">Other Information</div>
-        </div>
+        </div> --}}
         <div class="wizard__line hidden lg:block w-full bg-gray-200 absolute mt-5"></div>
     </div>
     <form id="formAddNewPersonnel" method="POST" enctype="multipart/form-data" action="{{ route('personnel.store') }}">

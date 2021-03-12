@@ -50,6 +50,7 @@ $('#btn-previous').click((e) => {
     if (NO_OF_WIZARD_SECTION <= currentSectionIndex + 1) {
         currentSectionIndex--;
 
+
         previousShowUp();
 
         setActiveButton();
@@ -86,13 +87,14 @@ let setActiveButton = () => {
         .removeClass('text-white')
         .addClass('text-gray-600');
 
+
     let buttonActive = $(`.form-wizard-buttons`)[currentSectionIndex].getAttribute('id');
 
-    $(`#${buttonActive}`)
-        .addClass('bg-theme-1')
-        .removeClass('bg-gray-200')
-        .addClass('text-white')
-        .removeClass('text-gray-600');
+    // $(`#${buttonActive}`)
+    //     .addClass('bg-theme-1')
+    //     .removeClass('bg-gray-200')
+    //     .addClass('text-white')
+    //     .removeClass('text-gray-600');
 };
 
 // Checking if the section in form wizard is last
