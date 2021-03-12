@@ -110,6 +110,7 @@ class PersonnelController extends Controller
                 'date_of_birth'     => Carbon::parse($request->date_of_birth)->format('Y-m-d'),
                 'image'             => $imageName ?? 'default.png',
                 'gender'            => $request->gender,
+                'email'             => $request->email,
                 'province_code'     => $barangay->province_code,
                 'city_code'         => $barangay->city_code,
                 'barangay_code'     => $request->barangay,
