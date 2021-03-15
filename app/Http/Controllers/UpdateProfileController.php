@@ -27,7 +27,6 @@ class UpdateProfileController extends Controller
 
     public function update(Request $request)
     {
-
         $this->validate($request, [
             'mpin'              => 'required|max:4',
             'confirm_mpin'      => 'same:mpin',
@@ -43,8 +42,13 @@ class UpdateProfileController extends Controller
         ]);
 
         if($request->has('photo_of_face')) {
-            $imageName = $request->file('photo_of_face')->getClientOriginalName();
-            $request->file('photo_of_face')->storeAs('/public/images', $imageName);
+            $photoOfFaceName = $request->file('photo_of_face')->getClientOriginalName();
+            $request->file('photo_of_face')->storeAs('/public/images', $photoOfFaceName);
+        }
+
+        if($request->has('photo_of_id')) {
+            $photoOfIdName = $request->file('photo_of_id')->getClientOriginalName();
+            $request->file('photo_of_id')->storeAs('/public/photo_id', $photoOfIdName);
         }
 
 
@@ -55,7 +59,8 @@ class UpdateProfileController extends Controller
 
             $person->temporary_address = $request->temporary_address;
             $person->address           = $request->address;
-            $person->image             = $imageName ?? $person->image;
+            $person->image             = $photoOfFaceName ?? $person->image;
+            $person->photo_of_id       = $photoOfIdName;
             $person->gender            = $request->gender;
             $person->province_code     = $request->province;
             $person->city_code         = $request->city;
@@ -63,8 +68,10 @@ class UpdateProfileController extends Controller
             $person->civil_status      = $request->status;
             $person->email             = $request->email;
             $person->landline_number   = $request->landline_number;
-            $account = $person->account;
-            $account->mpin = bcrypt($request->mpin);
+
+
+            $account                   = $person->account;
+            $account->mpin             = bcrypt($request->mpin);
 
             $account->save();
             $account->info()->save($person);

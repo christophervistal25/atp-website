@@ -28,7 +28,8 @@ class Person extends Model
         'phone_number',
         'landline_number',
         'email',
-        'registered_from'
+        'registered_from',
+        'photo_of_id',
     ];
 
     public static function boot()

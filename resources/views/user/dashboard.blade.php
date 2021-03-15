@@ -31,7 +31,6 @@
                 <div class="w-auto truncate sm:whitespace-normal font-medium text-md">{{  $person->info->firstname }} {{  $person->info->middlename }} {{  $person->info->lastname }} {{  $person->info->suffix }}</div>
                 <div class="font-medium">{{ $person->info->person_id }} </div>
                 <div class="font-medium">{{ $person->info->age }} Years Old</div>
-                <div class="font-medium">Registered in {{ $person->info->registered_from }}</div>
                 <div class="font-medium">
                     <a
                         target="_blank"

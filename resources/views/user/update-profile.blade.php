@@ -177,20 +177,18 @@
                     </div>
                 </div>
 
-                <div class="col-span-12 sm:col-span-4">
+                <div class="col-span-12">
                     <label class="font-medium">
                         Province
                         <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                     </label>
                         <div
                             class="bg-white flex  {{ $errors->has('province')  ? 'border border-red-500' : '' }} ">
-                            <select value="{{ old('province') }}"
-                                class="select2 select-province p-2 px-2 appearance-none outline-none w-full text-gray-800 border rounded"
+                            <select
+                                class="select-province p-2 px-2 appearance-none outline-none w-full text-gray-800 border rounded"
                                 name="province"
                                 id="province">
-
-                                <option selected disabled>Select Province</option>
-
+                                <option selected disabled>Please Select Province</option>
                                 @foreach($provinces as $province)
                                 <option
                                     {{ old('province') == $province->code ? 'selected' : '' }}
@@ -206,16 +204,17 @@
                         @endif
                 </div>
 
-                <div class="col-span-12 sm:col-span-4">
+                <div class="col-span-12">
                         <label class="font-medium">
                             City
                             <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                         </label>
                         <div class=" bg-white flex {{  $errors->has('city') ? 'border border-red-500 rounded' : '' }}">
                             <select
-                                class="select2 select-city p-2 px-2 appearance-none outline-none w-full text-gray-800 border rounded"
-                                name="city" id="cities">
-                                <option selected disable>Select City</option>
+                                class=" select-city p-2 px-2 appearance-none outline-none w-full text-gray-800 border rounded"
+                                name="city"
+                                id="cities">
+                                <option selected disabled>Please Select City</option>
                             </select>
                         </div>
                         @if($errors->has('city'))
@@ -226,16 +225,17 @@
                     </diva>
                 </div>
 
-                <div class="col-span-12 sm:col-span-4">
+                <div class="col-span-12">
                         <label class="font-medium">
                             Barangay
                             <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                         </label>
                         <div class="bg-white {{  $errors->has('barangay') ? 'border rounded border-red-500' : '' }}">
                             <select
-                                class="select2 input border p-2 px-2 appearance-none outline-none w-full text-gray-800"
-                                name="barangay" id="barangay">
-                                <option selected disable>Select Barangay</option>
+                                class=" input border p-2 px-2 appearance-none outline-none w-full text-gray-800"
+                                name="barangay"
+                                id="barangay">
+                                <option selected disabled>Please Select Barangay</option>
                             </select>
                         </div>
                         @if($errors->has('barangay'))
@@ -382,12 +382,15 @@
 <script src="/dist/js/custom/wizard.js"></script>
 {{-- END: FORM WIZARD --}}
 <script>
+
+
     $('input[type="radio"]').change((e) => {
         let selectedRadioButton = e.target.value;
-        let disabled = false;
         if (selectedRadioButton.toLowerCase() === 'residence') {
+            // Bug
             $('#province').val('166800000');
             $('#province').trigger('change');
+
 
             // Clear all data
             $('#cities').children().remove();
@@ -395,19 +398,15 @@
             $('#cities').append(`
                 <option selected value="166819000">CITY OF TANDAG (Capital)</option>
             `);
+            $('#cities').trigger('change');
 
-            disabled = true;
+            $('#province').attr('disabled', true);
+            $('#cities').attr('disabled', true);
         } else {
-            disabled = false;
+            $('#province').prop('disabled', false);
+            $('#cities').prop('disabled', false);
         }
 
-        $('#province').select2({
-            disabled: disabled
-        });
-
-        $('#cities').select2({
-            disabled: disabled
-        });
     });
 
     $('#photoOfFace').change(function () {

@@ -16,7 +16,7 @@ class CreateSMSTable extends Migration
         Schema::create('s_m_s', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('phone_number');
-            $table->longText('message')->default("You are notified having been exposed to a COVID-19 positive suspect kindly submit and coordinate with your barangay health worker for guidance. \n" . "Thank you.\n");
+            $table->text('message')->default("You are notified having been exposed to a COVID-19 positive suspect kindly submit and coordinate with your barangay health worker for guidance. \n" . "Thank you.\n");
             $table->enum('status', ['active', 'in-active'])->default('active');
             $table->timestamps();
         });
