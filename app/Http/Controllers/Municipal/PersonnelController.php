@@ -8,6 +8,7 @@ use App\User;
 use App\Person;
 use App\Barangay;
 use Carbon\Carbon;
+use App\Rules\UniqueUser;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -73,12 +74,12 @@ class PersonnelController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'username'          => 'required|unique:users,username',
+            'username'          => ['required', 'unique:users,username', new UniqueUser()],
             'password'          => 'required|min:8|max:20',
             'mpin'              => 'required|max:4',
-            'firstname'         => 'required|regex:/^[A-Za-z ]+$/u',
-            'middlename'        => 'required|regex:/^[A-Za-z ]+$/u',
-            'lastname'          => 'required|regex:/^[A-Za-z ]+$/u',
+            'firstname'         => ['required', 'regex:/^[A-Za-z ]+$/u', new UniqueUser()],
+            'middlename'        => ['required', 'regex:/^[A-Za-z ]+$/u', new UniqueUser()],
+            'lastname'          => ['required', 'regex:/^[A-Za-z ]+$/u', new UniqueUser()],
             'date_of_birth'     => 'required|date',
             'gender'            => 'required|in:' . implode(',', PersonnelRepository::GENDER),
             'temporary_address' => 'required',

@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use App\User;
 use Illuminate\Support\Facades\Cache;
 use DB;
+use App\Rules\UniqueUser;
 
 class PersonnelController extends Controller
 {
@@ -76,14 +77,15 @@ class PersonnelController extends Controller
     {
 
         $this->validate($request, [
+            'username'          => ['required', 'unique:users,username', new UniqueUser()],
+            'firstname'         => ['required', 'regex:/^[A-Za-z ]+$/u', new UniqueUser()],
+            'middlename'        => ['required', 'regex:/^[A-Za-z ]+$/u', new UniqueUser()],
+            'lastname'          => ['required', 'regex:/^[A-Za-z ]+$/u', new UniqueUser()],
             'username'          => 'required|unique:users,username',
             'password'          => 'required|min:8|max:20',
             'mpin'              => 'required|max:4|same:mpin_confirmation',
             'password'          => 'required|min:8|max:20|confirmed',
-            'firstname'         => 'required|regex:/^[A-Za-z ]+$/u',
-            'middlename'        => 'required|regex:/^[A-Za-z ]+$/u',
-            'lastname'          => 'required|regex:/^[A-Za-z ]+$/u',
-            'date_of_birth'     => 'required|date',
+            'date_of_birth'     => ['required', 'date', new UniqueUser()],
             'gender'            => 'required|in:' . implode(',', PersonnelRepository::GENDER),
             'temporary_address' => 'required',
             'address'           => 'required',
