@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 namespace App\Http\Controllers\Auth;
 
@@ -101,7 +101,7 @@ class RegisterController extends Controller
                 'username'  => $data['username'],
                 'password'  => Hash::make($data['password']),
                 'person_id' => $person->id,
-                'mpin'              => '*',
+                'mpin'      => '*',
             ]);
 
             DB::commit();

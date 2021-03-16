@@ -164,20 +164,20 @@
                         <span class="text-gray-700">Status of residence in Tandag City</span>
                         <div class="mt-2">
                             <label class="inline-flex items-center">
-                                <input type="radio" class="form-radio" id="residence" name="residence"
+                                <input type="radio" class="form-radio" id="residence" name="residence_type"
                                     value="residence">
                                 <span class="ml-2">Residence</span>
                             </label>
                             <label class="inline-flex items-center ml-6">
-                                <input type="radio" class="form-radio" id="non_residence" name="residence"
-                                    value="non_residence">
+                                <input type="radio" class="form-radio" id="non_residence" name="residence_type"
+                                    value="non_residence" checked>
                                 <span class="ml-2">Non-Residence</span>
                             </label>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-span-12">
+                <div class="col-span-12" id="province-container">
                     <label class="font-medium">
                         Province
                         <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
@@ -188,7 +188,7 @@
                                 class="select-province p-2 px-2 appearance-none outline-none w-full text-gray-800 border rounded"
                                 name="province"
                                 id="province">
-                                <option selected disabled>Please Select Province</option>
+                                <option> </option>
                                 @foreach($provinces as $province)
                                 <option
                                     {{ old('province') == $province->code ? 'selected' : '' }}
@@ -204,7 +204,7 @@
                         @endif
                 </div>
 
-                <div class="col-span-12">
+                <div class="col-span-12" id="city-container">
                         <label class="font-medium">
                             City
                             <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
@@ -214,7 +214,6 @@
                                 class=" select-city p-2 px-2 appearance-none outline-none w-full text-gray-800 border rounded"
                                 name="city"
                                 id="cities">
-                                <option selected disabled>Please Select City</option>
                             </select>
                         </div>
                         @if($errors->has('city'))
@@ -235,7 +234,10 @@
                                 class=" input border p-2 px-2 appearance-none outline-none w-full text-gray-800"
                                 name="barangay"
                                 id="barangay">
-                                <option selected disabled>Please Select Barangay</option>
+                                <option> </option>
+                                @foreach($residenceOfTandagBarangays as $barangay)
+                                    <option value="{{ $barangay->code }}">{{  $barangay->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                         @if($errors->has('barangay'))
@@ -382,29 +384,19 @@
 <script src="/dist/js/custom/wizard.js"></script>
 {{-- END: FORM WIZARD --}}
 <script>
-
-
     $('input[type="radio"]').change((e) => {
         let selectedRadioButton = e.target.value;
+
+            $('#province').val('');
+            $('#cities').val('');
+            $('#barangay').val('');
+
         if (selectedRadioButton.toLowerCase() === 'residence') {
-            // Bug
-            $('#province').val('166800000');
-            $('#province').trigger('change');
-
-
-            // Clear all data
-            $('#cities').children().remove();
-
-            $('#cities').append(`
-                <option selected value="166819000">CITY OF TANDAG (Capital)</option>
-            `);
-            $('#cities').trigger('change');
-
-            $('#province').attr('disabled', true);
-            $('#cities').attr('disabled', true);
+            $('#province-container').hide();
+            $('#city-container').hide();
         } else {
-            $('#province').prop('disabled', false);
-            $('#cities').prop('disabled', false);
+            $('#province-container').show();
+            $('#city-container').show();
         }
 
     });

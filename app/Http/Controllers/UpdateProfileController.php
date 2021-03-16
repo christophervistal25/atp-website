@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Province;
+use App\Barangay;
 use App\Person;
 use Carbon\Carbon;
 use App\Http\Controllers\Repositories\PersonnelRepository;
@@ -17,16 +18,19 @@ class UpdateProfileController extends Controller
     {
         $user = Auth::user();
 
-        $provinces = Cache::rememberForever('provinces', function () {
-            return Province::get();
-        });
+        $provinces = Province::get();
+
+        $residenceOfTandagBarangays = Barangay::where('city_code', '166819000')->get(['name', 'code']);
 
         $civil_status = PersonnelRepository::CIVIL_STATUS;
-        return view('user.update-profile', compact('user', 'provinces', 'civil_status'));
+
+        return view('user.update-profile', compact('user', 'provinces', 'civil_status', 'residenceOfTandagBarangays'));
     }
 
     public function update(Request $request)
     {
+        dd($request->all());
+
         $this->validate($request, [
             'mpin'              => 'required|max:4',
             'confirm_mpin'      => 'same:mpin',
@@ -40,6 +44,7 @@ class UpdateProfileController extends Controller
             'photo_of_face'     => 'required',
             'photo_of_id'       => 'required',
         ]);
+        // Check if Residence or non residence.
 
         if($request->has('photo_of_face')) {
             $photoOfFaceName = $request->file('photo_of_face')->getClientOriginalName();

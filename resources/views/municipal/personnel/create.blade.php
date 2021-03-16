@@ -44,14 +44,15 @@
                 data-target="login-information" id="wizard-1">2</button>
             <div class="lg:w-32 text-base lg:mt-3 ml-3 lg:mx-auto text-gray-700">Login Information</div>
         </div>
-        {{-- <div class="intro-x lg:text-center flex items-center mt-5 lg:mt-0 lg:block flex-1 z-10">
+        <div class="intro-x lg:text-center flex items-center mt-5 lg:mt-0 lg:block flex-1 z-10">
             <button class="w-10 h-10 rounded-full button text-gray-600 bg-gray-200 form-wizard-buttons"
                 data-target="other-information" id="wizard-2">3</button>
-            <div class="lg:w-32 text-base lg:mt-3 ml-3 lg:mx-auto text-gray-700">Other Information</div>
-        </div> --}}
+            <div class="lg:w-32 text-base lg:mt-3 ml-3 lg:mx-auto text-gray-700">Upload</div>
+        </div>
         <div class="wizard__line hidden lg:block w-full bg-gray-200 absolute mt-5"></div>
     </div>
-    <form id="formAddNewPersonnel" method="POST" enctype="multipart/form-data" action="{{ route('municipal-personnel.store') }}">
+    <form id="formAddNewPersonnel" method="POST" enctype="multipart/form-data"
+        action="{{ route('municipal-personnel.store') }}">
         @csrf
         <div class="px-5 sm:px-20 pt-5 mt-5 border-t border-gray-200">
             <div class="intro-x grid grid-cols-12 gap-4 row-gap-5 mt-5 section" id="person-information">
@@ -65,12 +66,12 @@
                         <input
                             class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('firstname') ? 'border-red-500' : '' }}"
                             type="text" placeholder="e.g. Christopher" aria-invalid="true" name="firstname"
-                            value="{{  old('firstname') }}">
+                            value="{{  old('firstname') }}" id="firstname">
                     </div>
                     @if($errors->has('firstname'))
-                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
-                            {{  $errors->first('firstname') }}
-                        </span>
+                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                        {{  $errors->first('firstname') }}
+                    </span>
                     @endif
                 </div>
 
@@ -81,12 +82,12 @@
                     <div class="p-1 bg-white flex">
                         <input
                             class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('lastname') ? 'border-red-500' : '' }}"
-                            type="text" placeholder="e.g. Vistal" name="lastname" value="{{  old('lastname') }}">
+                            type="text" placeholder="e.g. Vistal" name="lastname" value="{{  old('lastname') }}" id="lastname">
                     </div>
                     @if($errors->has('lastname'))
-                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
-                            {{  $errors->first('lastname') }}
-                        </span>
+                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                        {{  $errors->first('lastname') }}
+                    </span>
                     @endif
                 </div>
 
@@ -97,12 +98,12 @@
                     <div class="p-1 bg-white flex">
                         <input
                             class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('middlename') ? 'border-red-500' : '' }}"
-                            type="text" placeholder="e.g. Platino" name="middlename" value="{{  old('middlename') }}">
+                            type="text" placeholder="e.g. Platino" name="middlename" value="{{  old('middlename') }}" id="middlename">
                     </div>
                     @if($errors->has('middlename'))
-                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
-                            {{  $errors->first('middlename') }}
-                        </span>
+                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                        {{  $errors->first('middlename') }}
+                    </span>
                     @endif
                 </div>
 
@@ -113,7 +114,7 @@
                     <div class="p-1 bg-white flex">
                         <input placeholder="Enter Suffix"
                             class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('suffix') ? 'border-red-500' : '' }}"
-                            type="text" maxlength="3" placeholder="e.g. Jr" name="suffix" value="{{  old('suffix') }}">
+                            type="text" maxlength="3" placeholder="e.g. Jr" name="suffix" value="{{  old('suffix') }}" id="suffix">
                     </div>
                 </div>
                 <div class=" col-span-12 sm:col-span-12">
@@ -122,14 +123,18 @@
                     </label>
                     <div
                         class=" p-1 bg-white flex border {{ $errors->has('date_of_birth')  ? 'border-red-500' : 'border' }} rounded">
-                        <input name="date_of_birth" placeholder="Date of Birth"
-                            class="p-1 px-2 appearance-none outline-none w-full text-gray-800" type="date"
+                        <input
+                            name="date_of_birth"
+                            placeholder="Date of Birth"
+                            class="p-1 px-2 appearance-none outline-none w-full text-gray-800"
+                            type="date"
+                            id="date_of_birth"
                             value="{{ old('date_of_birth') }}">
                     </div>
                     @if($errors->has('date_of_birth'))
-                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
-                            {{  $errors->first('date_of_birth') }}
-                        </span>
+                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                        {{  $errors->first('date_of_birth') }}
+                    </span>
                     @endif
                 </div>
 
@@ -143,7 +148,8 @@
                             name="barangay" id="barangay">
                             <option selected disabled>Select Barangay</option>
                             @foreach($barangays as $barangay)
-                                <option {{ old('barangay') == $barangay->code ? 'selected' : '' }} value="{{ $barangay->code }}">{{ $barangay->name }}</option>
+                            <option {{ old('barangay') == $barangay->code ? 'selected' : '' }}
+                                value="{{ $barangay->code }}">{{ $barangay->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -163,9 +169,9 @@
                             name="temporary_address">{{  old('temporary_address') }}</textarea>
                     </div>
                     @if($errors->has('temporary_address'))
-                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
-                            {{  $errors->first('temporary_address') }}
-                        </span>
+                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                        {{  $errors->first('temporary_address') }}
+                    </span>
                     @endif
                 </div>
 
@@ -174,15 +180,16 @@
                         Permanent Address
                         <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">*</span>
                     </label>
-                    <div class="p-1 bg-white flex border {{  $errors->has('address') ? 'border-red-500' : '' }} rounded">
+                    <div
+                        class="p-1 bg-white flex border {{  $errors->has('address') ? 'border-red-500' : '' }} rounded">
                         <textarea placeholder="e.g. Purok Paradise 950"
                             class="p-1 px-2 appearance-none outline-none w-full text-gray-800" rows="5"
                             name="address">{{  old('address') }}</textarea>
                     </div>
                     @if($errors->has('address'))
-                        <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
-                            {{  $errors->first('address') }}
-                        </span>
+                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                        {{  $errors->first('address') }}
+                    </span>
                     @endif
                 </div>
 
@@ -221,9 +228,9 @@
                         </select>
                     </div>
                     @if($errors->has('status'))
-                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
-                                {{  $errors->first('status') }}
-                            </span>
+                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                        {{  $errors->first('status') }}
+                    </span>
                     @endif
                 </div>
 
@@ -232,8 +239,8 @@
                         Email
                     </label>
                     <div class=" p-1 bg-white flex">
-                        <input class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800" type="email"
-                            placeholder="e.g. user@gmail.com" name="email" value="{{  old('email') }}">
+                        <input class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800"
+                            type="email" placeholder="e.g. user@gmail.com" name="email" value="{{  old('email') }}">
                     </div>
                 </div>
 
@@ -252,10 +259,10 @@
                     </div>
 
                     @if($errors->has('phone_number'))
-                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
-                                {{  $errors->first('phone_number') }}
-                            </span>
-                        @endif
+                    <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
+                        {{  $errors->first('phone_number') }}
+                    </span>
+                    @endif
                 </div>
 
                 <div class=" col-span-12 sm:col-span-4">
@@ -263,32 +270,9 @@
                         Landline Number
                     </label>
                     <div class="p-1 bg-white">
-                        <input class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800" type="text"
-                            placeholder="e.g. 8123-4567" name="landline_number" value="{{  old('landline_number') }}">
-                    </div>
-                </div>
-
-                <div class="col-span-12 sm:col-span-12">
-                    <div class="w-full flex-1">
-                        <label>
-                            Image
-                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
-                                *
-                            </span>
-                        </label>
-
-
-                        <div class="p-1 bg-white flex  rounded">
-                            <input
-                                class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 border {{  $errors->has('image') ? 'border-red-500' : '' }}"
-                                type="file" name="image">
-                        </div>
-
-                        @if($errors->has('image'))
-                            <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
-                                {{  $errors->first('image') }}
-                            </span>
-                        @endif
+                        <input class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800"
+                            type="text" placeholder="e.g. 8123-4567" name="landline_number"
+                            value="{{  old('landline_number') }}">
                     </div>
                 </div>
 
@@ -361,7 +345,8 @@
                     <div class="p-1 bg-white">
                         <input
                             class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('mpin') ? 'border-red-500' : '' }}"
-                            placeholder="Enter MPIN" name="mpin" value="{{ old('mpin') }}" maxlength="4" type="password">
+                            placeholder="Enter MPIN" name="mpin" value="{{ old('mpin') }}" maxlength="4"
+                            type="password">
                     </div>
                     <span class="sm:ml-auto mt-1 sm:mt-0 text-xs text-red-600">
                         {{ $errors->first('mpin') }}
@@ -379,28 +364,129 @@
                     <div class="p-1 bg-white">
                         <input
                             class="input border p-2 px-2 appearance-none outline-none w-full text-gray-800 {{  $errors->has('mpin') ? 'border-red-500' : '' }}"
-                            placeholder="Enter MPIN" name="mpin_confirmation" value="{{ old('mpin') }}" maxlength="4" type="password">
+                            placeholder="Enter MPIN" name="mpin_confirmation" value="{{ old('mpin') }}" maxlength="4"
+                            type="password">
                     </div>
                 </div>
 
             </div>
 
             <div class="intro-x grid grid-cols-12 gap-4 row-gap-5 mt-5 section hidden" id="other-information">
-                Other information
+                <div class="preview">
+
+                    <div class="modal" id="take-photo-modal">
+                        <div class="modal__content modal__content--xl p-10 text-center">
+                            <div class="grid grid-cols-12 gap-4 row-gap-5">
+                                <div class="col-span-6">
+                                    <h6 class="font-bold">Webcam</h6>
+                                    <div id="camera" class="mx-auto border border-gray-300"></div>
+                                </div>
+                                <div class="col-span-6">
+                                    <h6 class="font-bold">Photo Taken</h6>
+                                    <div id="snapshot" class="border border-gray-300"></div>
+                                </div>
+                            </div>
+                            <button id="takeSnapShot" class="button bg-theme-1 w-full text-white mt-5">Take
+                                Snapshot</button>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="col-span-12 sm:col-span-12">
+                    <div class="w-full flex-1">
+                        <div class="box">
+                            <div class="p-5 border-b border-gray-200">
+                                <h2 class="font-medium text-base mr-auto">
+                                    TAKE PHOTO
+                                    <input type="text" name="image" id="image" class="outline-none" value="{{ old('image') }}">
+
+                                </h2>
+                            </div>
+                            <div class="p-5">
+                                <div class="w-40 mx-auto relative mt-5">
+                                    <div class="w-40 h-40 relative image-fit zoom-in mx-auto mb-5">
+                                        <img id="photo_of_face">
+                                    </div>
+                                    <input type="file" accept="image/*" name="image" id="photoOfFace" disabled
+                                        class="w-full h-full top-0 left-0 absolute opacity-0">
+                                </div>
+                                <div class="text-center">
+                                    <a class="button bg-theme-3 text-white" data-toggle="modal"
+                                        data-target="#take-photo-modal">
+                                        USE WEBCAM
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
             <div class="col-span-12 flex items-center justify-center sm:justify-end mt-5">
                 <button type="button" class="button w-24 justify-center block bg-gray-200 text-gray-600 hidden"
                     id="btn-previous">Previous</button>
-                <button type="button" class="button w-24 justify-center block bg-theme-1 text-white ml-2" id="btn-next" data-submit="false">Next</button>
+                <button type="button" class="button w-24 justify-center block bg-theme-1 text-white ml-2" id="btn-next"
+                    data-submit="false">Next</button>
             </div>
         </div>
     </form>
 </div>
 @push('page-scripts')
+<script>
+   $.ajaxSetup({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+    });
+</script>
 <script src="/dist/js/custom/select/select-province-city.js"></script>
 {{-- BEGIN: FORM WIZARD --}}
 <script src="/dist/js/custom/wizard.js"></script>
 {{-- END: FORM WIZARD --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js"
+    integrity="sha512-dQIiHSl2hr3NWKKLycPndtpbh5iaHLo6MwrXm7F0FM5e+kL2U16oE9uIwPHUl6fQBeCthiEuV/rzP3MiAB8Vfw=="
+    crossorigin="anonymous"></script>
+<script>
+    Webcam.set({
+        width: 240,
+        height: 200,
+        image_format: 'jpeg',
+        jpeg_quality: 100
+    });
+
+    Webcam.attach('#camera');
+
+
+    $('#takeSnapShot').click((e) => {
+        Webcam.snap((imageUri) => {
+            document.querySelector('#snapshot')
+                    .innerHTML = `<img class="mx-auto my-auto image-fit" src="${imageUri}"/>`
+            $('#photo_of_face').attr('src', imageUri);
+
+            let formData = new FormData();
+            formData.append('image', imageUri);
+
+            // Ajax request to upload image.
+            $.ajax({
+                url : '/api/from/webcam/upload/image',
+                method : 'POST',
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                data : formData,
+                success : (response) => {
+                    if(response.success) {
+                        $('#take-photo-modal').modal('toggle');
+                        $('#image').val(response.filename);
+                    }
+                },
+                error : (response) => alert('Please contact the contact support to fix some issues.')
+            });
+        });
+    });
+
+</script>
 @endpush
 @endsection

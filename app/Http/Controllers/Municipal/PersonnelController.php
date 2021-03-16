@@ -63,6 +63,7 @@ class PersonnelController extends Controller
     }
 
 
+
     /**
      * Store a newly created resource in storage.
      *
@@ -88,12 +89,6 @@ class PersonnelController extends Controller
             'phone_number'      => 'required|unique:people',
         ]);
 
-        if($request->has('image')) {
-            $imageName = $request->file('image')->getClientOriginalName();
-            // Process of storing image.
-            $request->file('image')->storeAs('/public/images', $imageName);
-        }
-
         // Province Code
         $barangay = Barangay::where('code', $request->barangay)->first();
 
@@ -108,7 +103,7 @@ class PersonnelController extends Controller
                 'address'           => $request->address,
                 'suffix'            => $request->suffix,
                 'date_of_birth'     => Carbon::parse($request->date_of_birth)->format('Y-m-d'),
-                'image'             => $imageName ?? 'default.png',
+                'image'             => $request->image ?? 'default.png',
                 'gender'            => $request->gender,
                 'email'             => $request->email,
                 'province_code'     => $barangay->province_code,
