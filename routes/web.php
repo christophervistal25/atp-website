@@ -66,6 +66,7 @@ Route::group(['prefix' => 'admin'] , function () {
 		Route::put('/accounts/administrator/{admin}/edit', 'Admin\AccountController@update')->name('administrator.update');
 
 		Route::resource('user', 'Admin\UserController');
+        Route::resource('request', 'Admin\RequestUpdateController');
 
 	});
 
@@ -80,9 +81,14 @@ Route::group(['prefix' => 'municipal'] , function () {
     Route::post('logout', 'Auth\MunicipalLoginController@logout')->name('municipal.auth.logout');
 
 		Route::group(['middleware' => 'auth:municipal'], function () {
+
             Route::get('update/profile', 'Municipal\UpdateProfileController@edit')->name('account.edit');
             Route::post('update/profile', 'Municipal\UpdateProfileController@update')->name('account.update');
 			Route::get('people/list/{filter}', 'Municipal\PersonnelController@list')->name('municipal-people-list');
+
+            Route::get('/modification/request/{person}', 'Municipal\PersonnelController@request')->name('modification.request');
+            Route::put('/modification/request/{person}/update', 'Municipal\PersonnelController@submitToAdmin')->name('request.to.admin');
+
             Route::resource('municipal-personnel', 'Municipal\PersonnelController');
 
             Route::get('person/logs/{id}', 'Municipal\PersonLogController@show')->name('municipal.personnel.logs');

@@ -209,6 +209,14 @@
                         </li>
                     </ul>
                 </li>
+                <li>
+                    <a href="{{ route('request.index') }}" class="side-menu">
+                        <div class="side-menu__icon"> <i data-feather="file-text"></i> </div>
+                        <div class="side-menu__title"> Requests - <span
+                                class="w-6 bg-theme-6 text-white font-medium text-center rounded-full">{{ $requestUpdate->count() }}</span>
+                        </div>
+                    </a>
+                </li>
                 {{-- <li>
                     <a href="{{ route('setting.index') }}" class="side-menu">
                 <div class="side-menu__icon"> <i data-feather="settings"></i> </div>
@@ -373,30 +381,37 @@
                 <!-- END: Breadcrumb -->
                 <!-- BEGIN: Notifications -->
                 <div class="intro-x dropdown relative mr-auto sm:mr-6">
-                    <div class="dropdown-toggle notification notification--bullet cursor-pointer"> <i
-                            data-feather="bell" class="notification__icon"></i> </div>
+                    <div
+                        class="dropdown-toggle notification {{ $requestUpdate->count() != 0 ? 'notification--bullet' : '' }} cursor-pointer">
+                        <i data-feather="bell" class="notification__icon"></i>
+                    </div>
                     <div
                         class="notification-content dropdown-box mt-8 absolute top-0 left-0 sm:left-auto sm:right-0 z-20 -ml-10 sm:ml-0">
                         <div class="notification-content__box dropdown-box__content box">
                             <div class="notification-content__title">Notifications</div>
-                            <div class="cursor-pointer relative flex items-center ">
+                            @foreach($requestUpdate as $request)
+                            <div class="cursor-pointer relative flex items-center hover:bg-gray-300 p-3 rounded request__item">
                                 <div class="w-12 h-12 flex-none image-fit mr-1">
-                                    <img alt="Midone Tailwind HTML Admin Template" class="rounded-full"
-                                        src="/dist/images/profile-3.jpg">
+                                    <img alt="Notification Icon" class="rounded-full"
+                                        src="/dist/images/map-marker-region.png">
                                     <div
                                         class="w-3 h-3 bg-theme-9 absolute right-0 bottom-0 rounded-full border-2 border-white">
                                     </div>
                                 </div>
                                 <div class="ml-2 overflow-hidden">
                                     <div class="flex items-center">
-                                        <a href="javascript:;" class="font-medium truncate mr-5">Edward Norton</a>
-                                        <div class="text-xs text-gray-500 ml-auto whitespace-no-wrap">03:20 PM</div>
+                                        <a href="{{ route('request.index') }}" class="font-medium text-xs truncate mr-5">Request
+                                            Update
+                                            {{ $request->person->lastname . ' ' . $request->person->firstname . ' ' . $request->person->middlename . ' ' . $request->person->suffix }}
+                                        </a>
+                                        <div class="text-xs text-gray-500 ml-auto whitespace-no-wrap">
+                                            {{ $request->created_at->diffForHumans() }}</div>
                                     </div>
-                                    <div class="w-full truncate text-gray-600">Lorem Ipsum is simply dummy text of the
-                                        printing and typesetting industry. Lorem Ipsum has been the industry&#039;s
-                                        standard dummy text ever since the 1500</div>
+                                    <div class="w-full truncate text-gray-600 text-xs">Please check this request
+                                        from {{ $request->from }}</div>
                                 </div>
                             </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -454,7 +469,8 @@
                                 <div class="font-medium capitalize">{{  Auth::user()->city->name }}</div>
                                 <div class="text-xs text-theme-41">{{ '@' . Auth::user()->username }} -
                                     {{ Auth::user()->city->code }}</div>
-                                    <div class="d-none" id="auth-city-code" data-source="{{ Auth::user()->city->code }}"></div>
+                                <div class="d-none" id="auth-city-code" data-source="{{ Auth::user()->city->code }}">
+                                </div>
                             </div>
                             <div class="p-2">
                                 <a href="{{ route('account.edit') }}"
@@ -487,6 +503,9 @@
     <!-- BEGIN: JS Assets-->
     <script src="{{ asset('/dist/js/app.js') }}"></script>
     @stack('page-scripts')
+    <script>
+        $('.request__item').click((e) => window.location.href = "{{ route('request.index') }}")
+    </script>
     <!-- END: JS Assets-->
 </body>
 

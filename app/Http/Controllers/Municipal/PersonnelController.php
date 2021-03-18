@@ -6,6 +6,8 @@ use DB;
 use Auth;
 use App\User;
 use App\Person;
+use App\UpdateuserRequest;
+use App\Province;
 use App\Barangay;
 use Carbon\Carbon;
 use App\Rules\UniqueUser;
@@ -39,6 +41,57 @@ class PersonnelController extends Controller
             });
         }
     }
+    public function request(Person $person)
+    {
+        $personnel    = $person;
+        $provinces    = Province::get();
+        $civil_status = PersonnelRepository::CIVIL_STATUS;
+        return view('municipal.personnel.request-modification', compact('personnel', 'provinces', 'civil_status') );
+    }
+
+    public function submitToAdmin(Request $request, Person $person)
+    {
+        $this->validate($request, [
+            'user.username'     => 'required|unique:users,username,' . $person->id,
+            'firstname'         => 'required|regex:/^[A-Za-z ]+$/u',
+            'middlename'        => 'required|regex:/^[A-Za-z ]+$/u',
+            'lastname'          => 'required|regex:/^[A-Za-z ]+$/u',
+            'date_of_birth'     => 'required|date',
+            'gender'            => 'required|in:' . implode(',', PersonnelRepository::GENDER),
+            'temporary_address' => 'required',
+            'address'           => 'required',
+            'city'              => 'required|exists:cities,code',
+            'barangay'          => 'required|exists:barangays,code',
+            'province'          => 'required|exists:provinces,code',
+            'status'            => 'required|in:' . implode(',', PersonnelRepository::CIVIL_STATUS),
+            'phone_number'      => 'required|unique:people,phone_number,' . $person->id,
+        ]);
+
+        if($request->has('image')) {
+            $imageName = $request->file('image')->getClientOriginalName();
+
+            // Process of storing image.
+            $request->file('image')->storeAs('/public/images', $imageName);
+
+        }
+
+        $fields = $request->except(['_token', '_method', 'image']);
+        $fields['image'] = $imageName ?? $person->image;
+
+        UpdateUserRequest::updateOrCreate(
+            [
+                'person_id' => $person->id
+            ],
+            [
+                'person_id' => $person->id,
+                'fields'    => json_encode($fields),
+                'from'      => '@' . Auth::user()->username . ' - ' . Auth::user()->city_code,
+            ]
+        );
+
+        return back()->with('success', 'Successfully sent an request modification for ' . $person->lastname . "'s" . ' information');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -127,7 +180,6 @@ class PersonnelController extends Controller
             DB::commit();
             return back()->with('success', $person->id);
         } catch(\Exception $e) {
-            dd($e->getMessage());
             abort(404);
             DB::rollback();
         }

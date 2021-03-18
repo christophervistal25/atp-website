@@ -13,6 +13,7 @@ use App\Municipal;
 use App\Establishment;
 use App\QuickStat;
 use Auth;
+use App\UpdateUserRequest;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -44,12 +45,12 @@ class AppServiceProvider extends ServiceProvider
 
             View::composer(['admin.dashboard', 'municipal.dashboard'], function ($view) {
                 $surigaoDelSurStats     = QuickStat::get();
-                
+
                 $surigaoDelSurStatsChartLabels    = $surigaoDelSurStats->pluck('name')->implode('|');
                 $surigaoDelSurStatsChartConfirmed = $surigaoDelSurStats->pluck('confirmed')->implode('|');
                 $surigaoDelSurStatsChartRecovered = $surigaoDelSurStats->pluck('recovered')->implode('|');
                 $surigaoDelSurStatsChartDeaths    = $surigaoDelSurStats->pluck('deaths')->implode('|');
-                
+
 
                 $surigaoDelSurConfirmed = $surigaoDelSurStats->sum('confirmed');
                 $surigaoDelSurRecovered = $surigaoDelSurStats->sum('recovered');
@@ -69,6 +70,10 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('horizontal_chart_confirmed', $surigaoDelSurStatsChartConfirmed);
                 $view->with('horizontal_chart_recovered', $surigaoDelSurStatsChartRecovered);
                 $view->with('horizontal_chart_deaths', $surigaoDelSurStatsChartDeaths);
+            });
+
+            View::composer(['templates-2.app'], function ($view) {
+                $view->with('requestUpdate', UpdateUserRequest::with('person:person_id,id,firstname,middlename,lastname,suffix')->get());
             });
 
         }

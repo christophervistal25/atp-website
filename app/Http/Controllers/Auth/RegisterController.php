@@ -1,4 +1,4 @@
-    <?php
+<?php
 
 namespace App\Http\Controllers\Auth;
 
@@ -81,6 +81,7 @@ class RegisterController extends Controller
     {
         DB::beginTransaction();
         try {
+
             $person = Person::create([
                 'firstname'         => $data['firstname'],
                 'middlename'        => $data['middlename'],

@@ -180,7 +180,7 @@
                                     <div class="text-gray-700 font-medium mr-auto">Username</div>
                                 </div>
                                 <div class="w-full h-1">
-                                    {{  $person->uesrname }}
+                                    {{  $person->account->username }}
                                 </div>
                             </div>
                             <div class="mt-10">
