@@ -29,65 +29,70 @@ class UpdateProfileController extends Controller
 
     public function update(Request $request)
     {
-        dd($request->all());
+        $rules = [];
 
-        $this->validate($request, [
+        $rules = [
             'mpin'              => 'required|max:4',
             'confirm_mpin'      => 'same:mpin',
             'gender'            => 'required|in:' . implode(',', PersonnelRepository::GENDER),
             'temporary_address' => 'required',
             'address'           => 'required',
-            'city'              => 'required|exists:cities,code',
             'barangay'          => 'required|exists:barangays,code',
-            'province'          => 'required|exists:provinces,code',
             'status'            => 'required|in:' . implode(',', PersonnelRepository::CIVIL_STATUS),
             'photo_of_face'     => 'required',
             'photo_of_id'       => 'required',
+        ];
+
+        if($request->has('province') && $request->has('city')) {
+            // User select the residence.
+            $rules['city']     = 'required|exists:cities,code';
+            $rules['province'] = 'required|exists:provinces,code';
+        } 
+
+        $this->validate($request, $rules, [
+            'photo_of_face.required' => 'Please attach a photo of your face',
+            'photo_of_id.required'   => 'Please attach a photo of your I.D'
         ]);
-        // Check if Residence or non residence.
+        
+        // Upload user photo of face and photo of id.
+        $photoOfFaceName = $request->file('photo_of_face')->getClientOriginalName();
+        $request->file('photo_of_face')->storeAs('/public/images', $photoOfFaceName);
 
-        if($request->has('photo_of_face')) {
-            $photoOfFaceName = $request->file('photo_of_face')->getClientOriginalName();
-            $request->file('photo_of_face')->storeAs('/public/images', $photoOfFaceName);
-        }
-
-        if($request->has('photo_of_id')) {
-            $photoOfIdName = $request->file('photo_of_id')->getClientOriginalName();
-            $request->file('photo_of_id')->storeAs('/public/photo_id', $photoOfIdName);
-        }
+        $photoOfIdName = $request->file('photo_of_id')->getClientOriginalName();
+        $request->file('photo_of_id')->storeAs('/public/photo_id', $photoOfIdName);
 
 
-        DB::beginTransaction();
-        try {
+        // DB::beginTransaction();
+        // try {
 
-            $person = Person::find(Auth::user()->person_id);
+        //     $person = Person::find(Auth::user()->person_id);
 
-            $person->temporary_address = $request->temporary_address;
-            $person->address           = $request->address;
-            $person->image             = $photoOfFaceName ?? $person->image;
-            $person->photo_of_id       = $photoOfIdName;
-            $person->gender            = $request->gender;
-            $person->province_code     = $request->province;
-            $person->city_code         = $request->city;
-            $person->barangay_code     = $request->barangay;
-            $person->civil_status      = $request->status;
-            $person->email             = $request->email;
-            $person->landline_number   = $request->landline_number;
+        //     $person->temporary_address = $request->temporary_address;
+        //     $person->address           = $request->address;
+        //     $person->image             = $photoOfFaceName ?? $person->image;
+        //     $person->photo_of_id       = $photoOfIdName;
+        //     $person->gender            = $request->gender;
+        //     $person->province_code     = $request->province;
+        //     $person->city_code         = $request->city;
+        //     $person->barangay_code     = $request->barangay;
+        //     $person->civil_status      = $request->status;
+        //     $person->email             = $request->email;
+        //     $person->landline_number   = $request->landline_number;
 
 
-            $account                   = $person->account;
-            $account->mpin             = bcrypt($request->mpin);
+        //     $account = $person->account;
+        //     $account->mpin = bcrypt($request->mpin);
 
-            $account->save();
-            $account->info()->save($person);
+        //     $account->save();
+        //     $account->info()->save($person);
 
-            DB::commit();
+        //     DB::commit();
 
-            return redirect()->route('home')->with('success', 'Successfully update your profile.');
-        } catch(\Exception $e) {
-            abort(404);
-            DB::rollback();
-        }
+        //     return redirect()->route('home')->with('success', 'Successfully update your profile.');
+        // } catch(\Exception $e) {
+        //     abort(404);
+        //     DB::rollback();
+        // }
 
 
     }
