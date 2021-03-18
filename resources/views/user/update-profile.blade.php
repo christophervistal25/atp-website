@@ -37,7 +37,7 @@
         <div class="intro-x lg:text-center flex items-center lg:block flex-1 z-10">
             <button class="w-10 h-10 rounded-full button text-white bg-theme-1 form-wizard-buttons"
                 data-target="person-information" id="wizard-0">1</button>
-            <div class="lg:w-32 text-base lg:mt-3 ml-3 lg:mx-auto">Your information</div>
+            <div class="lg:w-32 text-base lg:mt-3 ml-3 lg:mx-auto">Personal</div>
         </div>
         <div class="intro-x lg:text-center flex items-center mt-5 lg:mt-0 lg:block flex-1 z-10">
             <button class="w-10 h-10 rounded-full button text-gray-600 bg-gray-200 form-wizard-buttons"
@@ -162,7 +162,10 @@
             <div class="intro-x grid grid-cols-12 gap-4 row-gap-5 mt-5 section hidden" id="address-section">
                 <div class="col-span-12 sm:col-span-12">
                     <div class="mt-4">
-                        <span class="text-gray-700">Status of residence in Tandag City</span>
+                        <span class="text-gray-700">
+                            Status of residence in Tandag City
+                            <span class='text-xs text-theme-6'> * </span>
+                        </span>
                         <div class="mt-2">
                             <label class="inline-flex items-center">
                                 <input type="radio" class="form-radio" id="residence" name="residence_type"
@@ -170,12 +173,15 @@
                                 <span class="ml-2">Residence</span>
                             </label>
                             <label class="inline-flex items-center ml-6">
-                                <input type="radio" class="form-radio" id="non_residence"       name="residence_type"
-                                value="non_residence" 
-                                {{ old('residence_type') == 'non_residence' ? 'checked' : '' }}>
+                                <input type="radio" class="form-radio" id="non_residence" name="residence_type"
+                                    value="non_residence"
+                                    {{ old('residence_type') == 'non_residence' ? 'checked' : '' }}>
                                 <span class="ml-2">Non-Residence</span>
                             </label>
                         </div>
+                        <span class='text-theme-6'>
+                            {{ $errors->first('residence_type') }}
+                        </span>
                     </div>
                 </div>
 
@@ -386,12 +392,11 @@
 @push('page-scripts')
 <script src="/dist/js/custom/select/select-province-city.js"></script>
 <script src="/dist/js/custom/wizard.js"></script>
+<script src="/dist/js/custom/select/barangays.js"></script>
 <script>
 
-    
 
     $('input[type="radio"]').change((e) => {
-        console.log('triggered');
         let selectedRadioButton = e.target.value;
 
         $('#province').val('');
@@ -401,10 +406,14 @@
         if (selectedRadioButton.toLowerCase() === 'residence') {
             $('#province-container').hide();
             $('#city-container').hide();
-            
+
             // Removing the name attribute to exclude in back-end validation.
             $('#cities').removeAttr('name');
             $('#province').removeAttr('name');
+
+            // Re-initialize values of barangay select element.
+            $('#barangay').empty();
+            tandagBarangays.map((barangay) => $('#barangay').append(`<option value='${barangay.code}'>${barangay.name}</option>`));
         } else {
             $('#province-container').show();
             $('#city-container').show();
@@ -416,16 +425,16 @@
 
     // Check if there's a old value that being selected in form before hitting the submit button
     let oldResidenceSelect = "{{ old('residence_type') }}";
-    if(oldResidenceSelect) {
-        if(oldResidenceSelect.includes('non_')) {
+    if (oldResidenceSelect) {
+        if (oldResidenceSelect.includes('non_')) {
             $('#non_residence').val(oldResidenceSelect)
-                                .trigger('change');
+                .trigger('change');
         } else {
             $('#residence').val(oldResidenceSelect)
-                            .trigger('change');
+                .trigger('change');
         }
     }
-    
+
 
 
     $('#photoOfFace').change(function () {

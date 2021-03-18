@@ -41,13 +41,16 @@ class UpdateProfileController extends Controller
             'status'            => 'required|in:' . implode(',', PersonnelRepository::CIVIL_STATUS),
             'photo_of_face'     => 'required',
             'photo_of_id'       => 'required',
+            'residence_type'    => 'required|in:residence,non_residence',
         ];
 
         if($request->has('province') && $request->has('city')) {
             // User select the residence.
             $rules['city']     = 'required|exists:cities,code';
             $rules['province'] = 'required|exists:provinces,code';
-        } 
+        } else {
+            $barangay = Barangay::find($request->barangay);
+        }
 
         $this->validate($request, $rules, [
             'photo_of_face.required' => 'Please attach a photo of your face',
@@ -62,37 +65,38 @@ class UpdateProfileController extends Controller
         $request->file('photo_of_id')->storeAs('/public/photo_id', $photoOfIdName);
 
 
-        // DB::beginTransaction();
-        // try {
+        DB::beginTransaction();
+        try {
 
-        //     $person = Person::find(Auth::user()->person_id);
+            $person = Person::find(Auth::user()->person_id);
+            
+            $person->temporary_address = $request->temporary_address;
+            $person->address           = $request->address;
+            $person->image             = $photoOfFaceName ?? $person->image;
+            $person->photo_of_id       = $photoOfIdName;
+            $person->gender            = $request->gender;
+            $person->province_code     = $request->province ?? $barangay->province_code;
+            $person->city_code         = $request->city ?? $barangay->city_code;
+            $person->barangay_code     = $request->barangay;
+            $person->civil_status      = $request->status;
+            $person->email             = $request->email;
+            $person->landline_number   = $request->landline_number;
 
-        //     $person->temporary_address = $request->temporary_address;
-        //     $person->address           = $request->address;
-        //     $person->image             = $photoOfFaceName ?? $person->image;
-        //     $person->photo_of_id       = $photoOfIdName;
-        //     $person->gender            = $request->gender;
-        //     $person->province_code     = $request->province;
-        //     $person->city_code         = $request->city;
-        //     $person->barangay_code     = $request->barangay;
-        //     $person->civil_status      = $request->status;
-        //     $person->email             = $request->email;
-        //     $person->landline_number   = $request->landline_number;
 
+            $account = $person->account;
+            $account->mpin = bcrypt($request->mpin);
 
-        //     $account = $person->account;
-        //     $account->mpin = bcrypt($request->mpin);
+            $account->save();
+            $account->info()->save($person);
 
-        //     $account->save();
-        //     $account->info()->save($person);
+            DB::commit();
 
-        //     DB::commit();
-
-        //     return redirect()->route('home')->with('success', 'Successfully update your profile.');
-        // } catch(\Exception $e) {
-        //     abort(404);
-        //     DB::rollback();
-        // }
+            return redirect()->route('home')->with('success', 'Successfully update your profile.');
+        } catch(\Exception $e) {
+            dd($e->getMessage());
+            abort(404);
+            DB::rollback();
+        }
 
 
     }
